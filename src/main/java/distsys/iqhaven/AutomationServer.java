@@ -22,12 +22,15 @@ public class AutomationServer {
             .build()
             .start();
         
-        System.out.println("Servidor de Automação iniciado na porta " + port);
+        // Log que mostra qual serviço foi registrado
+        System.out.println("Serviço registrado: " + AutomationServiceImpl.class.getSimpleName());
+        System.out.println("Automation Server started on port " + port);
+               
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.err.println("Desligando servidor...");
+            System.err.println("Switching off the server...");
             AutomationServer.this.stop();
-            System.err.println("Servidor desligado.");
+            System.err.println("Server switched off.");
         }));
     }
 

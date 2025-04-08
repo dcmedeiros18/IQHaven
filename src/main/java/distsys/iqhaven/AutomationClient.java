@@ -8,9 +8,11 @@ package distsys.iqhaven;
  *
  * @author dcmed
  */
+import automation.Automation.ToggleDeviceRequest;
+import automation.Automation.ToggleDeviceResponse;
+import automation.AutomationServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import distsys.iqhaven.service.*;
 
 public class AutomationClient {
     private final AutomationServiceGrpc.AutomationServiceBlockingStub blockingStub;

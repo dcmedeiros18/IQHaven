@@ -4,9 +4,11 @@
  */
 package distsys.iqhaven;
 
+import automation.Automation.ToggleDeviceRequest;
+import automation.Automation.ToggleDeviceResponse;
+import automation.AutomationServiceGrpc;
 import io.grpc.ServerServiceDefinition;
 import io.grpc.stub.StreamObserver;
-import distsys.iqhaven.service.*;
 
 /**
  *

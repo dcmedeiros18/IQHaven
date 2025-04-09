@@ -8,89 +8,85 @@ import automation.Automation.*;
 import automation.AutomationServiceGrpc;
 import io.grpc.stub.StreamObserver;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Implementação do serviço gRPC definido no .proto
- *@author dcmed
+ * Implementation of the Automation gRPC service.
+ * Handles smart device operations: toggle, scheduling, streaming status,
+ * receiving commands and real-time messaging.
+ * @author dcmed 
  */
 public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
-    
-    // 1. Toggle Device - Unary
+
+    // Simulated device state storage
+    private final Map<String, Boolean> devices = new HashMap<>();
+    private final Map<String, Integer> blindsPosition = new HashMap<>();
+    private final Map<String, Integer> airConditionerTemperature = new HashMap<>();
+
+    // Unary Method - Turn a device ON or OFF
     @Override
     public void toggleDevice(ToggleDeviceRequest request, StreamObserver<ToggleDeviceResponse> responseObserver) {
-        System.out.println("[LOG] toggleDevice chamado para dispositivo: " + request.getDeviceId() + ", ação: " + (request.getTurnOn() ? "LIGAR" : "DESLIGAR"));
-        
         boolean success = controlDevice(request.getDeviceId(), request.getTurnOn());
 
         ToggleDeviceResponse response = ToggleDeviceResponse.newBuilder()
             .setSuccess(success)
-            .setMessage(success ? "Dispositivo controlado" : "Falha")
+            .setMessage(success ? "Device turned ON" : "Failed to control device")
             .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
-    // 2. Set Schedule - Unary
+    // Unary Method - Schedule a device to turn ON or OFF at a given time
     @Override
     public void setSchedule(SetScheduleRequest request, StreamObserver<SetScheduleResponse> responseObserver) {
-        System.out.println("[LOG] setSchedule chamado para " + request.getDeviceId() + " em " + request.getScheduleTime());
-        
-        // Lógica fictícia de agendamento
-        boolean success = true; // Aqui você implementaria lógica real de agendamento
+        String deviceId = request.getDeviceId();
+        String time = request.getScheduleTime();
+        boolean turnOn = request.getTurnOn();
+
+        String action = turnOn ? "turn ON" : "turn OFF";
+        String msg = "Routine scheduled: Set " + deviceId + " to " + action + " at " + time;
+
+        System.out.println("[SCHEDULE] " + msg);
 
         SetScheduleResponse response = SetScheduleResponse.newBuilder()
-            .setSuccess(success)
-            .setMessage("Agendamento definido para " + request.getScheduleTime())
+            .setSuccess(true)
+            .setMessage(msg)
             .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
-    // 3. Stream Device Status - Server Streaming
+    // Server Streaming Method - Send a series of status updates
     @Override
     public void streamDeviceStatus(StreamDeviceStatusRequest request, StreamObserver<DeviceStatusResponse> responseObserver) {
-        System.out.println("[LOG] streamDeviceStatus iniciado para " + request.getDeviceId());
-        
-        try {
-            for (int i = 0; i < 5; i++) {
-                DeviceStatusResponse response = DeviceStatusResponse.newBuilder()
-                    .setStatus("Status #" + (i + 1) + " para " + request.getDeviceId())
-                    .setTimestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-                    .build();
+        DeviceStatusResponse response = DeviceStatusResponse.newBuilder()
+            .setStatus("ON")
+            .setTimestamp(Instant.now().toString())
+            .build();
 
-                responseObserver.onNext(response);
-                Thread.sleep(1000); // Simula tempo real
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            responseObserver.onCompleted();
-            System.out.println("[LOG] streamDeviceStatus finalizado para " + request.getDeviceId());
-        }
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
-    // 4. Send Device Commands - Client Streaming
+    // Client Streaming Method - Accept multiple device commands from client
     @Override
-    public StreamObserver<DeviceCommand> sendDeviceCommands(StreamObserver<CommandSummaryResponse> responseObserver) {
-        System.out.println("[LOG] sendDeviceCommands iniciado");
-        
+    public StreamObserver<DeviceCommand> sendDeviceCommands(final StreamObserver<CommandSummaryResponse> responseObserver) {
         return new StreamObserver<DeviceCommand>() {
             int count = 0;
 
             @Override
             public void onNext(DeviceCommand command) {
-                System.out.println("Comando recebido: " + command.getCommand() + " para " + command.getDeviceId());
                 count++;
+                System.out.println("[COMMAND] " + command.getDeviceId() + " -> " + command.getCommand());
             }
 
             @Override
             public void onError(Throwable t) {
-                System.err.println("[ERRO] sendDeviceCommands: " + t.getMessage());
-                t.printStackTrace();
+                System.err.println("[ERROR] Command processing failed: " + t.getMessage());
             }
 
             @Override
@@ -102,47 +98,91 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
 
                 responseObserver.onNext(response);
                 responseObserver.onCompleted();
-                System.out.println("[LOG] sendDeviceCommands finalizado com " + count + " comandos");
             }
         };
     }
 
-    // 5. Communicate With Device - Bidirectional Streaming
+    // Bidirectional Streaming Method - Interactive communication with devices
     @Override
-    public StreamObserver<DeviceMessage> communicateWithDevice(StreamObserver<DeviceMessage> responseObserver) {
-        System.out.println("[LOG] communicateWithDevice iniciado");
-        
+    public StreamObserver<DeviceMessage> communicateWithDevice(final StreamObserver<DeviceMessage> responseObserver) {
         return new StreamObserver<DeviceMessage>() {
             @Override
             public void onNext(DeviceMessage message) {
-                System.out.println("[LOG] Mensagem recebida de " + message.getDeviceId() + ": " + message.getMessage());
+                String replyMessage;
 
-                // Simula uma resposta automática do dispositivo
-                DeviceMessage response = DeviceMessage.newBuilder()
+                switch (message.getMessage().toLowerCase()) {
+                    case "status?":
+                        replyMessage = "Current status: ON";
+                        break;
+                    case "temperature?":
+                        replyMessage = "Current temperature: 21.5 Degree Celsius";
+                        break;
+                    case "position?":
+                    case "position ?":
+                         // Default 50%
+                        int position = blindsPosition.getOrDefault(message.getDeviceId(), 50);
+                        replyMessage = "Blinds are " + position + "% closed";
+                        break;
+                    case "restart":
+                        replyMessage = "Restarting device...";
+                        break;
+                    case "set position":
+                        int newPosition = Integer.parseInt(message.getMessage().split(" ")[2]);
+                        blindsPosition.put(message.getDeviceId(), newPosition);
+                        replyMessage = "Blinds position set to " + newPosition + "%";
+                        break;
+                    case "set temperature":
+                        int newTemperature = Integer.parseInt(message.getMessage().split(" ")[2]);
+                        airConditionerTemperature.put(message.getDeviceId(), newTemperature);
+                        replyMessage = "Air conditioner temperature set to " + newTemperature + "°C";
+                        break;
+                    default:
+                        replyMessage = "Command '" + message.getMessage() + "' received";
+                }
+
+                DeviceMessage reply = DeviceMessage.newBuilder()
                     .setDeviceId(message.getDeviceId())
-                    .setMessage("Resposta para: " + message.getMessage())
+                    .setMessage(" " + replyMessage)
                     .build();
 
-                responseObserver.onNext(response);
+                System.out.println("[MESSAGE] Device " + message.getDeviceId() + " replied: " + replyMessage);
+                responseObserver.onNext(reply);
             }
 
             @Override
             public void onError(Throwable t) {
-                t.printStackTrace();
-                System.err.println("[ERRO] communicateWithDevice: " + t.getMessage());
+                System.err.println("[ERROR] Bidirectional communication failed: " + t.getMessage());
             }
 
             @Override
             public void onCompleted() {
                 responseObserver.onCompleted();
-                System.out.println("[LOG] communicateWithDevice finalizado");
             }
         };
     }
 
-    // Simula controle de dispositivo
+    /**
+     * Internal logic to simulate turning devices ON/OFF.
+     * Prints the simulated result based on device type.
+     */
     private boolean controlDevice(String deviceId, boolean turnOn) {
-        System.out.println("Controlando " + deviceId + " para " + (turnOn ? "ligar" : "desligar"));
+        devices.put(deviceId, turnOn);
+
+        String action = turnOn ? "ON" : "OFF";
+        String type;
+
+        if (deviceId.toLowerCase().contains("air")) {
+            type = "Air Conditioner";
+        } else if (deviceId.toLowerCase().contains("blinds")) {
+            type = "Blinds";
+            action = turnOn ? "opened" : "closed";
+        } else if (deviceId.toLowerCase().contains("light")) {
+            type = "Light";
+        } else {
+            type = "Device";
+        }
+
+        System.out.println("[ACTION] " + type + " '" + deviceId + "' has been " + action);
         return true;
     }
 }

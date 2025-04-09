@@ -4,6 +4,7 @@
 <groupId>DistSys</groupId>
 <artifactId>IQHaven</artifactId>
 <version>0.0.1-SNAPSHOT</version>
+
 <!--   COPY_START  -->
 <!--   Copy all the lines from here to the COPY END comment  -->
 <!--                                                         -->
@@ -38,6 +39,7 @@
 <artifactId>guava</artifactId>
 <version>28.2-jre</version>
 </dependency>
+
 <!--   added this to resolve issue with javax.annotation not found  -->
 <dependency>
 <groupId>javax.annotation</groupId>
@@ -51,6 +53,7 @@
 <build>
 <defaultGoal>clean generate-sources compile install</defaultGoal>
 <plugins>
+    
 <!--  compile proto file into java files.  -->
 <plugin>
 <groupId>com.github.os72</groupId>
@@ -95,3 +98,4 @@
 </build>
 <!--  COPY_END  -->
 </project>
+

@@ -1883,14 +1883,29 @@ public final class Energy {
     double getUsage();
 
     /**
-     * <code>string timestamp = 2;</code>
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
-    java.lang.String getTimestamp();
+    boolean hasTimestamp();
     /**
-     * <code>string timestamp = 2;</code>
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getTimestampBytes();
+    com.google.protobuf.Timestamp getTimestamp();
+    /**
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder();
   }
   /**
    * Protobuf type {@code energy.EnergyUsageResponse}
@@ -1906,7 +1921,6 @@ public final class Energy {
     }
     private EnergyUsageResponse() {
       usage_ = 0D;
-      timestamp_ = "";
     }
 
     @java.lang.Override
@@ -1939,9 +1953,16 @@ public final class Energy {
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (timestamp_ != null) {
+                subBuilder = timestamp_.toBuilder();
+              }
+              timestamp_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timestamp_);
+                timestamp_ = subBuilder.buildPartial();
+              }
 
-              timestamp_ = s;
               break;
             }
             default: {
@@ -1986,37 +2007,36 @@ public final class Energy {
     }
 
     public static final int TIMESTAMP_FIELD_NUMBER = 2;
-    private volatile java.lang.Object timestamp_;
+    private com.google.protobuf.Timestamp timestamp_;
     /**
-     * <code>string timestamp = 2;</code>
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
-    public java.lang.String getTimestamp() {
-      java.lang.Object ref = timestamp_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        timestamp_ = s;
-        return s;
-      }
+    public boolean hasTimestamp() {
+      return timestamp_ != null;
     }
     /**
-     * <code>string timestamp = 2;</code>
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getTimestampBytes() {
-      java.lang.Object ref = timestamp_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        timestamp_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.Timestamp getTimestamp() {
+      return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+    }
+    /**
+     * <pre>
+     * Use google.protobuf.Timestamp instead of string
+     * </pre>
+     *
+     * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+      return getTimestamp();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2036,8 +2056,8 @@ public final class Energy {
       if (usage_ != 0D) {
         output.writeDouble(1, usage_);
       }
-      if (!getTimestampBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, timestamp_);
+      if (timestamp_ != null) {
+        output.writeMessage(2, getTimestamp());
       }
       unknownFields.writeTo(output);
     }
@@ -2052,8 +2072,9 @@ public final class Energy {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(1, usage_);
       }
-      if (!getTimestampBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, timestamp_);
+      if (timestamp_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTimestamp());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2075,8 +2096,11 @@ public final class Energy {
           java.lang.Double.doubleToLongBits(getUsage())
           == java.lang.Double.doubleToLongBits(
               other.getUsage()));
-      result = result && getTimestamp()
-          .equals(other.getTimestamp());
+      result = result && (hasTimestamp() == other.hasTimestamp());
+      if (hasTimestamp()) {
+        result = result && getTimestamp()
+            .equals(other.getTimestamp());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2091,8 +2115,10 @@ public final class Energy {
       hash = (37 * hash) + USAGE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getUsage()));
-      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-      hash = (53 * hash) + getTimestamp().hashCode();
+      if (hasTimestamp()) {
+        hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+        hash = (53 * hash) + getTimestamp().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2228,8 +2254,12 @@ public final class Energy {
         super.clear();
         usage_ = 0D;
 
-        timestamp_ = "";
-
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
         return this;
       }
 
@@ -2257,7 +2287,11 @@ public final class Energy {
       public energy.Energy.EnergyUsageResponse buildPartial() {
         energy.Energy.EnergyUsageResponse result = new energy.Energy.EnergyUsageResponse(this);
         result.usage_ = usage_;
-        result.timestamp_ = timestamp_;
+        if (timestampBuilder_ == null) {
+          result.timestamp_ = timestamp_;
+        } else {
+          result.timestamp_ = timestampBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -2309,9 +2343,8 @@ public final class Energy {
         if (other.getUsage() != 0D) {
           setUsage(other.getUsage());
         }
-        if (!other.getTimestamp().isEmpty()) {
-          timestamp_ = other.timestamp_;
-          onChanged();
+        if (other.hasTimestamp()) {
+          mergeTimestamp(other.getTimestamp());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2368,73 +2401,157 @@ public final class Energy {
         return this;
       }
 
-      private java.lang.Object timestamp_ = "";
+      private com.google.protobuf.Timestamp timestamp_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timestampBuilder_;
       /**
-       * <code>string timestamp = 2;</code>
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
        */
-      public java.lang.String getTimestamp() {
-        java.lang.Object ref = timestamp_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          timestamp_ = s;
-          return s;
+      public boolean hasTimestamp() {
+        return timestampBuilder_ != null || timestamp_ != null;
+      }
+      /**
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.Timestamp getTimestamp() {
+        if (timestampBuilder_ == null) {
+          return timestamp_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
         } else {
-          return (java.lang.String) ref;
+          return timestampBuilder_.getMessage();
         }
       }
       /**
-       * <code>string timestamp = 2;</code>
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getTimestampBytes() {
-        java.lang.Object ref = timestamp_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          timestamp_ = b;
-          return b;
+      public Builder setTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          timestamp_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          timestampBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string timestamp = 2;</code>
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
        */
       public Builder setTimestamp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        timestamp_ = value;
-        onChanged();
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (timestampBuilder_ == null) {
+          timestamp_ = builderForValue.build();
+          onChanged();
+        } else {
+          timestampBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string timestamp = 2;</code>
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public Builder mergeTimestamp(com.google.protobuf.Timestamp value) {
+        if (timestampBuilder_ == null) {
+          if (timestamp_ != null) {
+            timestamp_ =
+              com.google.protobuf.Timestamp.newBuilder(timestamp_).mergeFrom(value).buildPartial();
+          } else {
+            timestamp_ = value;
+          }
+          onChanged();
+        } else {
+          timestampBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
        */
       public Builder clearTimestamp() {
-        
-        timestamp_ = getDefaultInstance().getTimestamp();
-        onChanged();
+        if (timestampBuilder_ == null) {
+          timestamp_ = null;
+          onChanged();
+        } else {
+          timestamp_ = null;
+          timestampBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>string timestamp = 2;</code>
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
        */
-      public Builder setTimestampBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public com.google.protobuf.Timestamp.Builder getTimestampBuilder() {
         
-        timestamp_ = value;
         onChanged();
-        return this;
+        return getTimestampFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getTimestampOrBuilder() {
+        if (timestampBuilder_ != null) {
+          return timestampBuilder_.getMessageOrBuilder();
+        } else {
+          return timestamp_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : timestamp_;
+        }
+      }
+      /**
+       * <pre>
+       * Use google.protobuf.Timestamp instead of string
+       * </pre>
+       *
+       * <code>.google.protobuf.Timestamp timestamp = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getTimestampFieldBuilder() {
+        if (timestampBuilder_ == null) {
+          timestampBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getTimestamp(),
+                  getParentForChildren(),
+                  isClean());
+          timestamp_ = null;
+        }
+        return timestampBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -5084,28 +5201,29 @@ public final class Energy {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014energy.proto\022\006energy\">\n\025OptimizeEnergy" +
-      "Request\022\021\n\tdevice_id\030\001 \001(\t\022\022\n\nsuggestion" +
-      "\030\002 \001(\t\":\n\026OptimizeEnergyResponse\022\017\n\007succ" +
-      "ess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"-\n\030StreamEner" +
-      "gyUsageRequest\022\021\n\tdevice_id\030\001 \001(\t\"7\n\023Ene" +
-      "rgyUsageResponse\022\r\n\005usage\030\001 \001(\001\022\021\n\ttimes" +
-      "tamp\030\002 \001(\t\";\n\nEnergyData\022\021\n\tdevice_id\030\001 " +
-      "\001(\t\022\032\n\022energy_consumption\030\002 \001(\001\"J\n\031Energ" +
-      "yDataSummaryResponse\022\017\n\007success\030\001 \001(\010\022\034\n" +
-      "\024data_points_received\030\002 \001(\005\"8\n\023EnergyUpd" +
-      "ateRequest\022\021\n\tdevice_id\030\001 \001(\t\022\016\n\006action\030" +
-      "\002 \001(\t\"9\n\024EnergyUpdateResponse\022\021\n\tdevice_" +
-      "id\030\001 \001(\t\022\016\n\006status\030\002 \001(\t2\321\002\n\rEnergyServi" +
-      "ce\022O\n\016OptimizeEnergy\022\035.energy.OptimizeEn" +
-      "ergyRequest\032\036.energy.OptimizeEnergyRespo" +
-      "nse\022T\n\021StreamEnergyUsage\022 .energy.Stream" +
-      "EnergyUsageRequest\032\033.energy.EnergyUsageR" +
-      "esponse0\001\022I\n\016SendEnergyData\022\022.energy.Ene" +
-      "rgyData\032!.energy.EnergyDataSummaryRespon" +
-      "se(\001\022N\n\rMonitorEnergy\022\033.energy.EnergyUpd" +
-      "ateRequest\032\034.energy.EnergyUpdateResponse" +
-      "(\0010\001b\006proto3"
+      "\n\014energy.proto\022\006energy\032\037google/protobuf/" +
+      "timestamp.proto\">\n\025OptimizeEnergyRequest" +
+      "\022\021\n\tdevice_id\030\001 \001(\t\022\022\n\nsuggestion\030\002 \001(\t\"" +
+      ":\n\026OptimizeEnergyResponse\022\017\n\007success\030\001 \001" +
+      "(\010\022\017\n\007message\030\002 \001(\t\"-\n\030StreamEnergyUsage" +
+      "Request\022\021\n\tdevice_id\030\001 \001(\t\"S\n\023EnergyUsag" +
+      "eResponse\022\r\n\005usage\030\001 \001(\001\022-\n\ttimestamp\030\002 " +
+      "\001(\0132\032.google.protobuf.Timestamp\";\n\nEnerg" +
+      "yData\022\021\n\tdevice_id\030\001 \001(\t\022\032\n\022energy_consu" +
+      "mption\030\002 \001(\001\"J\n\031EnergyDataSummaryRespons" +
+      "e\022\017\n\007success\030\001 \001(\010\022\034\n\024data_points_receiv" +
+      "ed\030\002 \001(\005\"8\n\023EnergyUpdateRequest\022\021\n\tdevic" +
+      "e_id\030\001 \001(\t\022\016\n\006action\030\002 \001(\t\"9\n\024EnergyUpda" +
+      "teResponse\022\021\n\tdevice_id\030\001 \001(\t\022\016\n\006status\030" +
+      "\002 \001(\t2\321\002\n\rEnergyService\022O\n\016OptimizeEnerg" +
+      "y\022\035.energy.OptimizeEnergyRequest\032\036.energ" +
+      "y.OptimizeEnergyResponse\022T\n\021StreamEnergy" +
+      "Usage\022 .energy.StreamEnergyUsageRequest\032" +
+      "\033.energy.EnergyUsageResponse0\001\022I\n\016SendEn" +
+      "ergyData\022\022.energy.EnergyData\032!.energy.En" +
+      "ergyDataSummaryResponse(\001\022N\n\rMonitorEner" +
+      "gy\022\033.energy.EnergyUpdateRequest\032\034.energy" +
+      ".EnergyUpdateResponse(\0010\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -5118,6 +5236,7 @@ public final class Energy {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.TimestampProto.getDescriptor(),
         }, assigner);
     internal_static_energy_OptimizeEnergyRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -5167,6 +5286,7 @@ public final class Energy {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_energy_EnergyUpdateResponse_descriptor,
         new java.lang.String[] { "DeviceId", "Status", });
+    com.google.protobuf.TimestampProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

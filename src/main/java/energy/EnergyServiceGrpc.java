@@ -194,7 +194,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Server Streaming RPC:The server sends continuous energy optimisation suggestions.
+     * Server Streaming RPC: The server sends continuous energy optimisation suggestions.
      * </pre>
      */
     public void streamEnergyUsage(energy.Energy.StreamEnergyUsageRequest request,
@@ -204,7 +204,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Client Streaming RPC:The customer sends multiple consumption data and receives a summary.
+     * Client Streaming RPC: The customer sends multiple consumption data and receives a summary.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<energy.Energy.EnergyData> sendEnergyData(
@@ -214,7 +214,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Bidirectional Streaming RPC:Continuous communication between client and server for energy optimisation.
+     * Bidirectional Streaming RPC: Continuous communication between client and server for energy optimisation.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<energy.Energy.EnergyUpdateRequest> monitorEnergy(
@@ -287,7 +287,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Server Streaming RPC:The server sends continuous energy optimisation suggestions.
+     * Server Streaming RPC: The server sends continuous energy optimisation suggestions.
      * </pre>
      */
     public void streamEnergyUsage(energy.Energy.StreamEnergyUsageRequest request,
@@ -298,7 +298,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Client Streaming RPC:The customer sends multiple consumption data and receives a summary.
+     * Client Streaming RPC: The customer sends multiple consumption data and receives a summary.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<energy.Energy.EnergyData> sendEnergyData(
@@ -309,7 +309,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Bidirectional Streaming RPC:Continuous communication between client and server for energy optimisation.
+     * Bidirectional Streaming RPC: Continuous communication between client and server for energy optimisation.
      * </pre>
      */
     public io.grpc.stub.StreamObserver<energy.Energy.EnergyUpdateRequest> monitorEnergy(
@@ -349,7 +349,7 @@ public final class EnergyServiceGrpc {
 
     /**
      * <pre>
-     * Server Streaming RPC:The server sends continuous energy optimisation suggestions.
+     * Server Streaming RPC: The server sends continuous energy optimisation suggestions.
      * </pre>
      */
     public java.util.Iterator<energy.Energy.EnergyUsageResponse> streamEnergyUsage(

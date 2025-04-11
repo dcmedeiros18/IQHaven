@@ -2,17 +2,19 @@ syntax = "proto3";
 
 package energy;
 
+import "google/protobuf/timestamp.proto"; // Import Timestamp type
+
 service EnergyService {
     // Unary RPC
     rpc OptimizeEnergy(OptimizeEnergyRequest) returns (OptimizeEnergyResponse);
 
-    // Server Streaming RPC:The server sends continuous energy optimisation suggestions.
+    // Server Streaming RPC: The server sends continuous energy optimisation suggestions.
     rpc StreamEnergyUsage(StreamEnergyUsageRequest) returns (stream EnergyUsageResponse);
 
-    // Client Streaming RPC:The customer sends multiple consumption data and receives a summary.
+    // Client Streaming RPC: The customer sends multiple consumption data and receives a summary.
     rpc SendEnergyData(stream EnergyData) returns (EnergyDataSummaryResponse);
 
-    // Bidirectional Streaming RPC:Continuous communication between client and server for energy optimisation.
+    // Bidirectional Streaming RPC: Continuous communication between client and server for energy optimisation.
     rpc MonitorEnergy(stream EnergyUpdateRequest) returns (stream EnergyUpdateResponse);
 }
 
@@ -33,7 +35,7 @@ message StreamEnergyUsageRequest {
 
 message EnergyUsageResponse {
     double usage = 1;
-    string timestamp = 2;
+    google.protobuf.Timestamp timestamp = 2;  // Use google.protobuf.Timestamp instead of string
 }
 
 // Client streaming

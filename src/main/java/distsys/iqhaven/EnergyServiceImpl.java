@@ -5,144 +5,63 @@
 
 package distsys.iqhaven;
 
-import energy.Energy.EnergyData;
-import energy.Energy.EnergyDataSummaryResponse;
-import energy.Energy.EnergyUpdateRequest;
-import energy.Energy.EnergyUpdateResponse;
+
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
+import com.google.protobuf.Timestamp;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import energy.Energy.EnergyUsageResponse;
-import energy.Energy.OptimizeEnergyRequest;
-import energy.Energy.OptimizeEnergyResponse;
 import energy.Energy.StreamEnergyUsageRequest;
 import energy.EnergyServiceGrpc;
-import io.grpc.stub.StreamObserver;
-
-/*
- * 
- *@author dcmed
- */
 
 public class EnergyServiceImpl extends EnergyServiceGrpc.EnergyServiceImplBase {
 
-    // Unary RPC - Simple energy optimization request
-    // This method is called when the client requests energy optimization advice.
-    public void optimizeEnergy(OptimizeEnergyRequest request, StreamObserver<OptimizeEnergyResponse> responseObserver) {
-        // Example logic to provide energy optimization advice
-        String suggestion = "Consider using the washing machine or dryer during off-peak hours to save money.";
-        
-        // Creating the response to send back to the client with the optimization message
-        OptimizeEnergyResponse response = OptimizeEnergyResponse.newBuilder()
-                .setSuccess(true)  // Indicating that the optimization was successful
-                .setMessage(suggestion)  // The energy-saving suggestion
-                .build();
-        
-        // Sending the response back to the client
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();  // Completing the response
-    }
+    private static final Logger logger = Logger.getLogger(EnergyServiceImpl.class.getName());
 
-    // Server Streaming RPC - Continuously sends energy usage data
-    // This method streams energy usage information back to the client over multiple messages.
     @Override
     public void streamEnergyUsage(StreamEnergyUsageRequest request, StreamObserver<EnergyUsageResponse> responseObserver) {
-        // Simulating the continuous sending of energy usage data
-        for (int i = 0; i < 5; i++) {
-            // Creating a response with simulated energy usage data and a timestamp
-            EnergyUsageResponse response = EnergyUsageResponse.newBuilder()
-                    // Simulated energy usage
-                    .setUsage(20.0 + i * 2)  
-                    // Simulated timestamp
-                    .setTimestamp("2025-04-09T12:00:0" + i + "Z")  
-                    .build();
-            // Sending the energy usage data to the client
-            responseObserver.onNext(response);
+        String deviceId = request.getDeviceId();
+        logger.info("Started streaming energy usage for device: " + deviceId);
 
-            try {
-                // Introducing a delay to simulate the continuous streaming of data
-                // Sleep for 2 second
-                Thread.sleep(2000);  
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Completing the streaming process after all responses have been sent
-        responseObserver.onCompleted();
-    }
-
-    // Client Streaming RPC - Receives energy data from the client and sends back a summary
-    // This method receives a stream of energy data from the client, processes it, and sends a summary response.
-    @Override
-    public StreamObserver<EnergyData> sendEnergyData(StreamObserver<EnergyDataSummaryResponse> responseObserver) {
-        // Returning a StreamObserver to handle the incoming energy data
-        return new StreamObserver<EnergyData>() {
-            // Variable to keep track of the number of data points received
-            int dataPoints = 0;
-
-            @Override
-            public void onNext(EnergyData value) {
-                // Processing each energy data point received from the client
-                dataPoints++;
-                // Logging the received energy data (for debugging purposes)
-                System.out.println("Received energy data: Device ID - " + value.getDeviceId() + " Consumption - " + value.getEnergyConsumption());
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                // Handling errors that may occur during the data stream
-                t.printStackTrace();
-            }
-
-            @Override
-            public void onCompleted() {
-                // Creating and sending a summary response with the count of received data points
-                EnergyDataSummaryResponse summaryResponse = EnergyDataSummaryResponse.newBuilder()
-                        // Indicating that the operation was successful
-                        .setSuccess(true)
-                        // Sending the number of data points received
-                        .setDataPointsReceived(dataPoints)  
+        // Simulating continuous data stream (Server Streaming)
+        try {
+            // Stream energy usage data for a period of time or until the client cancels
+            for (int i = 0; i < 5; i++) {
+                // Convert current time to Timestamp
+                long currentMillis = System.currentTimeMillis();
+                Timestamp timestamp = Timestamp.newBuilder()
+                        .setSeconds(TimeUnit.MILLISECONDS.toSeconds(currentMillis))
+                        .setNanos((int)(currentMillis % 1000) * 1000000)  // Milliseconds to nanos
                         .build();
-                // Sending the summary response back to the client
-                responseObserver.onNext(summaryResponse);
-                // Completing the stream
-                responseObserver.onCompleted();  
-            }
-        };
-    }
 
-    // Bidirectional Streaming RPC - Continuous two-way communication
-    // This method allows bidirectional streaming, where both the client and server can send and receive messages.
-    @Override
-    public StreamObserver<EnergyUpdateRequest> monitorEnergy(StreamObserver<EnergyUpdateResponse> responseObserver) {
-        // Returning a StreamObserver to handle incoming energy updates
-        return new StreamObserver<EnergyUpdateRequest>() {
-            @Override
-            public void onNext(EnergyUpdateRequest value) {
-                // Logic to handle energy updates
-                String status = "Energy optimized for device " + value.getDeviceId();
-                
-                // Creating a response indicating the status of the energy update
-                EnergyUpdateResponse response = EnergyUpdateResponse.newBuilder()
-                        // Sending back the device ID
-                        .setDeviceId(value.getDeviceId())
-                        // The optimization status message
-                        .setStatus(status)  
+                // Create the EnergyUsageResponse with simulated data and the timestamp
+                EnergyUsageResponse response = EnergyUsageResponse.newBuilder()
+                        .setUsage(i * 10)  // Example: simulated usage data
+                        .setTimestamp(timestamp)  // Set the Timestamp object
                         .build();
-                
-                // Sending the response back to the client
+
+                // Send the response to the client
                 responseObserver.onNext(response);
+
+                // Simulate a small delay before sending the next data point
+                Thread.sleep(1000);
             }
 
-            @Override
-            public void onError(Throwable t) {
-                // Handling errors that may occur during the bidirectional stream
-                t.printStackTrace();
-            }
+            // Complete the streaming response
+            responseObserver.onCompleted();
+            logger.info("Energy usage streaming completed successfully.");
 
-            @Override
-            public void onCompleted() {
-                // Completing the bidirectional communication
-                responseObserver.onCompleted();
-            }
-        };
+        } catch (InterruptedException e) {
+            // Handle thread interruption (client canceled the streaming)
+            logger.log(Level.SEVERE, "Energy usage streaming interrupted", e);
+            responseObserver.onError(new StatusRuntimeException(Status.CANCELLED.withDescription("Streaming canceled by client").withCause(e)));
+        } catch (Exception e) {
+            // Handle any error that occurred during streaming
+            logger.log(Level.SEVERE, "Error during energy usage streaming", e);
+            responseObserver.onError(new StatusRuntimeException(Status.INTERNAL.withDescription("Error during streaming").withCause(e)));
+        }
     }
 }

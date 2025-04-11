@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package distsys.iqhaven;
 
 import automation.Automation.*;
 import automation.AutomationServiceGrpc;
+import io.grpc.Context;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 import java.time.Instant;
@@ -16,7 +14,9 @@ import java.util.Map;
  * Implementation of the Automation gRPC service.
  * Handles smart device operations: toggle, scheduling, streaming status,
  * receiving commands and real-time messaging.
- * @author dcmed 
+ * Now includes proper error handling and cancellation support.
+ * 
+ * @author dcmed
  */
 public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
 
@@ -25,23 +25,44 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
     private final Map<String, Integer> blindsPosition = new HashMap<>();
     private final Map<String, Integer> airConditionerTemperature = new HashMap<>();
 
-    // Unary Method - Turn a device ON or OFF
+    // Unary Method - Turn a device ON or OFF - with error handling
     @Override
     public void toggleDevice(ToggleDeviceRequest request, StreamObserver<ToggleDeviceResponse> responseObserver) {
-        boolean success = controlDevice(request.getDeviceId(), request.getTurnOn());
+        if (request.getDeviceId() == null || request.getDeviceId().isEmpty()) {
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                .withDescription("Device ID cannot be empty.")
+                .asRuntimeException());
+            return;
+        }
 
-        ToggleDeviceResponse response = ToggleDeviceResponse.newBuilder()
-            .setSuccess(success)
-            .setMessage(success ? "Device turned ON" : "Failed to control device")
-            .build();
+        try {
+            boolean success = controlDevice(request.getDeviceId(), request.getTurnOn());
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+            ToggleDeviceResponse response = ToggleDeviceResponse.newBuilder()
+                .setSuccess(success)
+                .setMessage(success ? (request.getTurnOn() ? "Device turned ON" : "Device turned OFF") : "Failed")
+                .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL
+                .withDescription("Unexpected error: " + e.getMessage())
+                .withCause(e)
+                .asRuntimeException());
+        }
     }
 
     // Unary Method - Schedule a device to turn ON or OFF at a given time
     @Override
     public void setSchedule(SetScheduleRequest request, StreamObserver<SetScheduleResponse> responseObserver) {
+        if (request.getDeviceId().isEmpty() || request.getScheduleTime().isEmpty()) {
+            responseObserver.onError(Status.INVALID_ARGUMENT
+                .withDescription("Device ID and schedule time are required.")
+                .asRuntimeException());
+            return;
+        }
+
         String deviceId = request.getDeviceId();
         String time = request.getScheduleTime();
         boolean turnOn = request.getTurnOn();
@@ -63,13 +84,30 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
     // Server Streaming Method - Send a series of status updates
     @Override
     public void streamDeviceStatus(StreamDeviceStatusRequest request, StreamObserver<DeviceStatusResponse> responseObserver) {
-        DeviceStatusResponse response = DeviceStatusResponse.newBuilder()
-            .setStatus("ON")
-            .setTimestamp(Instant.now().toString())
-            .build();
+        try {
+            for (int i = 0; i < 5; i++) {
+                // Verifica se o cliente cancelou a requisição
+                if (Context.current().isCancelled()) {
+                    System.out.println("[CANCELLED] streamDeviceStatus was cancelled by client.");
+                    return;
+                }
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+                DeviceStatusResponse response = DeviceStatusResponse.newBuilder()
+                    .setStatus("ON")
+                    .setTimestamp(Instant.now().toString())
+                    .build();
+
+                responseObserver.onNext(response);
+                Thread.sleep(1000); // 1 segundo
+            }
+        } catch (InterruptedException e) {
+            responseObserver.onError(Status.INTERNAL
+                .withDescription("Streaming interrupted.")
+                .withCause(e)
+                .asRuntimeException());
+        } finally {
+            responseObserver.onCompleted();
+        }
     }
 
     // Client Streaming Method - Accept multiple device commands from client
@@ -80,6 +118,11 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
 
             @Override
             public void onNext(DeviceCommand command) {
+                if (Context.current().isCancelled()) {
+                    System.out.println("[CANCELLED] sendDeviceCommands was cancelled by client.");
+                    return;
+                }
+
                 count++;
                 System.out.println("[COMMAND] " + command.getDeviceId() + " -> " + command.getCommand());
             }
@@ -108,45 +151,65 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         return new StreamObserver<DeviceMessage>() {
             @Override
             public void onNext(DeviceMessage message) {
-                String replyMessage;
-
-                switch (message.getMessage().toLowerCase()) {
-                    case "status?":
-                        replyMessage = "Current status: ON";
-                        break;
-                    case "temperature?":
-                        replyMessage = "Current temperature: 21.5 Degree Celsius";
-                        break;
-                    case "position?":
-                    case "position ?":
-                         // Default 50%
-                        int position = blindsPosition.getOrDefault(message.getDeviceId(), 50);
-                        replyMessage = "Blinds are " + position + "% closed";
-                        break;
-                    case "restart":
-                        replyMessage = "Restarting device...";
-                        break;
-                    case "set position":
-                        int newPosition = Integer.parseInt(message.getMessage().split(" ")[2]);
-                        blindsPosition.put(message.getDeviceId(), newPosition);
-                        replyMessage = "Blinds position set to " + newPosition + "%";
-                        break;
-                    case "set temperature":
-                        int newTemperature = Integer.parseInt(message.getMessage().split(" ")[2]);
-                        airConditionerTemperature.put(message.getDeviceId(), newTemperature);
-                        replyMessage = "Air conditioner temperature set to " + newTemperature + "°C";
-                        break;
-                    default:
-                        replyMessage = "Command '" + message.getMessage() + "' received";
+                if (Context.current().isCancelled()) {
+                    System.out.println("[CANCELLED] communicateWithDevice was cancelled by client.");
+                    return;
                 }
 
-                DeviceMessage reply = DeviceMessage.newBuilder()
-                    .setDeviceId(message.getDeviceId())
-                    .setMessage(" " + replyMessage)
-                    .build();
+                String replyMessage;
 
-                System.out.println("[MESSAGE] Device " + message.getDeviceId() + " replied: " + replyMessage);
-                responseObserver.onNext(reply);
+                try {
+                    String msg = message.getMessage().toLowerCase();
+
+                    switch (msg) {
+                        case "status?":
+                            replyMessage = "Current status: ON";
+                            break;
+                        case "temperature?":
+                            replyMessage = "Current temperature: 21.5 Degree Celsius";
+                            break;
+                        case "position?":
+                        case "position ?":
+                            int position = blindsPosition.getOrDefault(message.getDeviceId(), 50);
+                            replyMessage = "Blinds are " + position + "% closed";
+                            break;
+                        case "restart":
+                            replyMessage = "Restarting device...";
+                            break;
+                        default:
+                            // Tratamento de comandos setados (ex: set position 40)
+                            if (msg.startsWith("set position")) {
+                                int newPosition = Integer.parseInt(msg.split(" ")[2]);
+                                blindsPosition.put(message.getDeviceId(), newPosition);
+                                replyMessage = "Blinds position set to " + newPosition + "%";
+                            } else if (msg.startsWith("set temperature")) {
+                                int newTemp = Integer.parseInt(msg.split(" ")[2]);
+                                if (newTemp < 16 || newTemp > 30) {
+                                    replyMessage = "Temperature out of range (16–30°C)";
+                                } else {
+                                    airConditionerTemperature.put(message.getDeviceId(), newTemp);
+                                    replyMessage = "Air conditioner temperature set to " + newTemp + "°C";
+                                }
+                            } else {
+                                replyMessage = "Command '" + message.getMessage() + "' received";
+                            }
+                            break;
+                    }
+
+                    DeviceMessage reply = DeviceMessage.newBuilder()
+                        .setDeviceId(message.getDeviceId())
+                        .setMessage(" " + replyMessage)
+                        .build();
+
+                    System.out.println("[MESSAGE] Device " + message.getDeviceId() + " replied: " + replyMessage);
+                    responseObserver.onNext(reply);
+
+                } catch (Exception e) {
+                    responseObserver.onError(Status.INVALID_ARGUMENT
+                        .withDescription("Invalid command or parameters: " + e.getMessage())
+                        .withCause(e)
+                        .asRuntimeException());
+                }
             }
 
             @Override

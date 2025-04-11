@@ -13,54 +13,67 @@ import java.io.IOException;
  * and processes them using the AutomationServiceImpl class. It handles the lifecycle of
  * the server, including starting, stopping, and waiting for shutdown.
  * The server listens on a specified port and provides services related to device automation.
- * @author dcmed
+ * Includes logging and graceful shutdown with diagnostics.
+ * 
+ * Updated for improved logging and safe shutdown handling.
+ * 
+ * Author: dcmed
  */
 public class AutomationServer {
     private Server server;
 
     /**
      * Starts the gRPC server on a specified port.
-     * 
+     *
      * @param port the port on which the server should listen for incoming requests
      * @throws IOException if an error occurs while starting the server
      */
     public void start(int port) throws IOException {
         // Create a new server and add the AutomationServiceImpl service to handle requests
         server = ServerBuilder.forPort(port)
-            .addService(new AutomationServiceImpl())  // Adding the service to handle automation-related requests
+            .addService(new AutomationServiceImpl()) // Registering the service implementation
             .build()
             .start();
-        
-        // Log the service registration details and the port the server is running on
-        System.out.println("Service registered: " + AutomationServiceImpl.class.getSimpleName());
-        System.out.println("Automation Server started on port " + port);
-        
-        // Add a shutdown hook to gracefully stop the server when the application is terminated
+
+        // Log service registration and confirmation of server startup
+        System.out.println("[SERVER] Service registered: " + AutomationServiceImpl.class.getSimpleName());
+        System.out.println("[SERVER] Automation Server started on port " + port);
+
+        // Add shutdown hook for graceful termination
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.err.println("Shutting down the server...");
+            System.err.println("[SERVER] JVM shutdown detected, initiating server shutdown...");
             AutomationServer.this.stop();
-            System.err.println("Server shut down.");
+            System.err.println("[SERVER] Server shutdown completed.");
         }));
     }
 
     /**
      * Stops the server if it is running.
+     * Ensures a clean shutdown by terminating ongoing calls and releasing resources.
      */
     private void stop() {
-        // Check if the server is initialized and then shutdown the server
         if (server != null) {
-            server.shutdown();
+            System.out.println("[SERVER] Attempting to shut down...");
+            server.shutdown(); // Graceful shutdown
+            try {
+                if (!server.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
+                    System.out.println("[SERVER] Forcing shutdown...");
+                    server.shutdownNow(); // Force shutdown if not completed
+                }
+            } catch (InterruptedException e) {
+                System.err.println("[SERVER ERROR] Shutdown interrupted: " + e.getMessage());
+                server.shutdownNow();
+            }
         }
     }
 
     /**
      * Blocks the current thread and waits until the server shuts down.
-     * This method ensures that the server keeps running until it is manually stopped.
-     * 
+     * Keeps the server running until manually stopped or system is terminated.
+     *
      * @throws InterruptedException if the thread is interrupted while waiting
      */
     public void blockUntilShutdown() throws InterruptedException {
-        // Block the main thread and keep it running until the server terminates
         if (server != null) {
             server.awaitTermination();
         }
@@ -68,17 +81,15 @@ public class AutomationServer {
 
     /**
      * Main method to start the server.
-     * 
-     * @param args command-line arguments (not used in this case)
+     *
+     * @param args command-line arguments (not used)
      * @throws IOException if an error occurs while starting the server
      * @throws InterruptedException if the thread is interrupted while waiting for the server to shut down
      */
     public static void main(String[] args) throws IOException, InterruptedException {
-        // Instantiate the server and start it on port 50051
         final AutomationServer server = new AutomationServer();
-        server.start(50051);
-        
-        // Block until the server shuts down
-        server.blockUntilShutdown();
+        System.out.println("[SERVER] Initializing...");
+        server.start(50051); // Start the server on the designated port
+        server.blockUntilShutdown(); // Keep running until shutdown is requested
     }
 }

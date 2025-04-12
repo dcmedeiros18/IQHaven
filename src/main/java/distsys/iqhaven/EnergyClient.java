@@ -103,13 +103,13 @@ public class EnergyClient {
         // Simulate cancellation after a timeout
         new Thread(() -> {
             try {
-                Thread.sleep(3000); // Simulate waiting for some time before cancellation
-                logger.info("[Streaming] Cancelling the streaming...");
-                responseObserver.onCompleted(); // Cancel the streaming by completing the observer
+                Thread.sleep(4000);  // Simulate waiting for the timeout period
+                logger.info("[Streaming] Timeout reached, cancelling the streaming...");
+                responseObserver.onCompleted();  // Cancels the streaming
             } catch (InterruptedException e) {
-                logger.log(Level.SEVERE, "[Streaming] Error in cancellation", e);
-            }
-        }).start();
+                logger.log(Level.SEVERE, "[Streaming] Timeout error", e);
+        }
+    }).start();
 
         // Perform the streaming RPC call
         stub.streamEnergyUsage(usageRequest, responseObserver);

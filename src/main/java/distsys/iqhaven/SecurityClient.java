@@ -1,20 +1,14 @@
-/*
- * This is a client-side implementation of a gRPC security service.
- * It communicates with the SecurityServer to perform various actions like toggling the alarm, monitoring its status,
- * and receiving a live feed of security events.
- * 
- * Author: dcmed
- */
-
 package distsys.iqhaven;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 import security.Security.AlarmStatusRequest;
 import security.Security.AlarmStatusResponse;
 import security.Security.SecurityAlert;
@@ -24,81 +18,100 @@ import security.Security.ToggleAlarmResponse;
 import security.SecurityServiceGrpc;
 
 /**
- * This class demonstrates a gRPC client that interacts with the SecurityServer service.
- * It includes examples of Simple RPC, Server Streaming, and Bidirectional Streaming.
+ * This class is a gRPC client that talks to the SecurityServer.
+ * It sends requests to toggle the alarm, receive alarm status updates,
+ * and stream security events like motion detection.
+ *
+ * Author: dcmed (edited)
  */
 public class SecurityClient {
+
     public static void main(String[] args) throws Exception {
-        // Create a managed channel for communication with the server at localhost:50051
+        // Create a communication channel to the server
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
-                .usePlaintext()  // Use plaintext communication (no encryption)
+                .usePlaintext() // We are not using encryption here
                 .build();
 
-        // Create blocking and asynchronous stubs to communicate with the server
+        // Blocking stub for unary and server streaming calls
         SecurityServiceGrpc.SecurityServiceBlockingStub blockingStub = SecurityServiceGrpc.newBlockingStub(channel);
+
+        // Async stub for bidirectional streaming
         SecurityServiceGrpc.SecurityServiceStub asyncStub = SecurityServiceGrpc.newStub(channel);
 
-        // 1. Simple RPC
-        // Create a request to toggle the alarm (set to true to activate it)
-        ToggleAlarmRequest toggleRequest = ToggleAlarmRequest.newBuilder().setActivate(true).build();
-        // Make the RPC call to toggle the alarm and get the response
-        ToggleAlarmResponse toggleResponse = blockingStub.toggleAlarm(toggleRequest);
-        System.out.println("Toggle Response: " + toggleResponse.getMessage());
+        // === 1. UNARY CALL - Toggle Alarm ===
+        try {
+            ToggleAlarmRequest toggleRequest = ToggleAlarmRequest.newBuilder().setActivate(true).build();
+            ToggleAlarmResponse toggleResponse = blockingStub.toggleAlarm(toggleRequest);
+            System.out.println("Toggle Response: " + toggleResponse.getMessage());
+        } catch (StatusRuntimeException e) {
+            System.err.println("Error toggling alarm: " + e.getStatus().getDescription());
+        }
 
-        // 2. Server Streaming
-        // Create a request to monitor the alarm status
-        AlarmStatusRequest statusRequest = AlarmStatusRequest.newBuilder().build();
-        // Make the RPC call and get an iterator for the server's responses (streaming)
-        Iterator<AlarmStatusResponse> responses = blockingStub.monitorAlarmStatus(statusRequest);
+        // === 2. SERVER STREAMING - Monitor Alarm Status ===
+        try {
+            AlarmStatusRequest statusRequest = AlarmStatusRequest.newBuilder().build();
+            Iterator<AlarmStatusResponse> responses = blockingStub.monitorAlarmStatus(statusRequest);
 
-        // Start a new thread to handle the server's streaming responses
-        new Thread(() -> {
-            int count = 0;
-            // Receive and print up to 3 responses from the server
-            while (responses.hasNext() && count++ < 3) {
-                AlarmStatusResponse res = responses.next();
-                System.out.println("Alarm Status: " + res.getTimestamp() + " - " + res.getStatus());
-            }
-        }).start();
+            // We'll only listen to 3 updates, then "simulate" a cancel
+            new Thread(() -> {
+                int count = 0;
+                try {
+                    while (responses.hasNext() && count++ < 3) {
+                        AlarmStatusResponse res = responses.next();
+                        System.out.println("Alarm Status: " + res.getTimestamp() + " - " + res.getStatus());
+                    }
+                    // Simulate canceling by breaking out after a few messages
+                    System.out.println("Stopping alarm monitoring stream...");
+                } catch (StatusRuntimeException e) {
+                    System.err.println("Error receiving alarm status: " + e.getStatus().getDescription());
+                }
+            }).start();
+        } catch (Exception e) {
+            System.err.println("Streaming failed: " + e.getMessage());
+        }
 
-        // 3. Bidirectional Streaming
-        // CountDownLatch is used to wait for the streaming to complete
+        // === 3. BIDIRECTIONAL STREAMING - Live Security Feed ===
         CountDownLatch latch = new CountDownLatch(1);
 
-        // Create a stream observer for the live security feed
-        StreamObserver<SecurityEvent> eventStream = asyncStub.liveSecurityFeed(new StreamObserver<SecurityAlert>() {
+        // This observer handles the incoming security alerts from the server
+        StreamObserver<SecurityAlert> alertObserver = new StreamObserver<SecurityAlert>() {
             @Override
-            public void onNext(SecurityAlert value) {
-                // Handle each incoming security alert
-                System.out.println("Received Alert: " + value.getAlertLevel() + " - " + value.getMessage());
+            public void onNext(SecurityAlert alert) {
+                System.out.println("Received Alert: " + alert.getAlertLevel() + " - " + alert.getMessage());
             }
 
             @Override
             public void onError(Throwable t) {
-                // Handle errors in the stream
-                latch.countDown();
+                System.err.println("Error in security feed: " + t.getMessage());
+                latch.countDown(); // Signal that we're done
             }
 
             @Override
             public void onCompleted() {
-                // Indicate that the stream has ended
                 System.out.println("Security feed ended.");
-                latch.countDown();
+                latch.countDown(); // Signal that we're done
             }
-        });
+        };
 
-        // Simulate sending security events to the server
-        eventStream.onNext(SecurityEvent.newBuilder().setEventType("movement").setDetails("Living Room").build());
-        eventStream.onNext(SecurityEvent.newBuilder().setEventType("door").setDetails("Front Door Opened").build());
+        // Create a stream to send events to the server
+        StreamObserver<SecurityEvent> eventStream = asyncStub.liveSecurityFeed(alertObserver);
 
-        // Wait for 2 seconds before completing the stream
-        Thread.sleep(2000);
-        eventStream.onCompleted();  // Close the stream
+        try {
+            // Send some test security events to the server
+            eventStream.onNext(SecurityEvent.newBuilder().setEventType("movement").setDetails("Living Room").build());
+            eventStream.onNext(SecurityEvent.newBuilder().setEventType("door").setDetails("Front Door Opened").build());
 
-        // Wait for the latch to count down, ensuring all responses are received
+            // Wait a bit and finish
+            Thread.sleep(2000);
+            eventStream.onCompleted(); // Tell the server we're done sending
+        } catch (Exception e) {
+            eventStream.onError(e); // Send error if something went wrong
+        }
+
+        // Wait for the response from the server to complete
         latch.await(5, TimeUnit.SECONDS);
 
-        // Shut down the channel to clean up resources
+        // Close the communication channel
         channel.shutdown();
     }
 }

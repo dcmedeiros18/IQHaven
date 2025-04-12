@@ -1,8 +1,3 @@
-/*
- * This class implements a gRPC service for a security system. It provides methods for toggling the alarm state,
- * monitoring the alarm status, and streaming security events in real-time.
- */
-
 package distsys.iqhaven;
 
 import io.grpc.stub.StreamObserver;
@@ -17,109 +12,123 @@ import security.Security.ToggleAlarmResponse;
 import security.SecurityServiceGrpc;
 
 /**
- * Implementation of the SecurityServiceGrpc.SecurityServiceImplBase class. This class provides methods to control
- * and monitor the security alarm system, including toggling the alarm, monitoring its status, and providing a live
- * feed of security event alerts.
- * 
+ * This class is the implementation of the gRPC Security Service.
+ * It lets the client turn the alarm on or off, check the alarm status,
+ * and send live security events like movement detection.
+ *
  * Author: dcmed
  */
 public class SecurityServiceImpl extends SecurityServiceGrpc.SecurityServiceImplBase {
 
-    // AtomicBoolean to safely manage the alarm state in a multi-threaded environment
+    // This variable keeps track of whether the alarm is ON (true) or OFF (false)
     private final AtomicBoolean alarmActive = new AtomicBoolean(false);
 
-    /**
-     * Toggles the alarm state based on the request.
-     * If the request is to activate the alarm, it sets the state to true, otherwise false.
-     * It sends a response back to the client indicating the success and current state of the alarm.
-     * 
-     * @param request The request containing the desired state of the alarm.
-     * @param responseObserver The StreamObserver used to send the response back to the client.
-     */
+    // This method lets the client turn the alarm on or off
     @Override
     public void toggleAlarm(ToggleAlarmRequest request, StreamObserver<ToggleAlarmResponse> responseObserver) {
-        // Get the requested alarm state (true for activation, false for deactivation)
-        boolean activate = request.getActivate();
-        alarmActive.set(activate);  // Set the alarm state to the requested value
+        try {
+            boolean activate = request.getActivate(); // true = activate, false = deactivate
 
-        // Create the response to be sent back to the client
-        ToggleAlarmResponse response = ToggleAlarmResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage("Alarm " + (activate ? "activated" : "deactivated"))  // Success message with current state
-                .build();
+            // If the alarm is already in the requested state, we tell the client
+            if (alarmActive.get() == activate) {
+                ToggleAlarmResponse response = ToggleAlarmResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Alarm is already " + (activate ? "activated" : "deactivated"))
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
 
-        // Send the response to the client
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();  // Mark the RPC as completed
+            // Set the alarm to the requested state
+            alarmActive.set(activate);
+
+            // Create a message to let the client know it worked
+            ToggleAlarmResponse response = ToggleAlarmResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Alarm " + (activate ? "activated" : "deactivated"))
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            // If there is an error, we tell the client
+            responseObserver.onError(new RuntimeException("Error toggling alarm: " + e.getMessage()));
+        }
     }
 
-    /**
-     * Monitors the status of the alarm system, sending updates every 3 seconds.
-     * The status of the alarm is either "ACTIVE" or "INACTIVE", and it also includes a timestamp.
-     * 
-     * @param request The request (unused here, but required by gRPC service method signature).
-     * @param responseObserver The StreamObserver used to send alarm status updates to the client.
-     */
+    // This method sends updates about the alarm status every 3 seconds
     @Override
     public void monitorAlarmStatus(AlarmStatusRequest request, StreamObserver<AlarmStatusResponse> responseObserver) {
-        // Start a new thread to periodically monitor and send the alarm status
-        new Thread(() -> {
+        // We use a new thread to keep sending updates without blocking
+        Thread thread = new Thread(() -> {
             try {
-                while (true) {
-                    // Check the current alarm status (either ACTIVE or INACTIVE)
+                while (!Thread.currentThread().isInterrupted()) {
                     String status = alarmActive.get() ? "ACTIVE" : "INACTIVE";
 
-                    // Build the response with the current status and a timestamp
                     AlarmStatusResponse response = AlarmStatusResponse.newBuilder()
-                            .setTimestamp(Instant.now().toString())  // Add current timestamp
-                            .setStatus(status)  // Add the current alarm status
+                            .setTimestamp(Instant.now().toString()) // add current time
+                            .setStatus(status)
                             .build();
 
-                    // Send the status update to the client
-                    responseObserver.onNext(response);
-                    Thread.sleep(3000);  // Wait for 3 seconds before sending the next update
+                    responseObserver.onNext(response); // send status to client
+                    Thread.sleep(3000); // wait 3 seconds before sending again
                 }
             } catch (InterruptedException e) {
-                responseObserver.onError(e);  // Handle any interruption errors
+                // If the thread is interrupted (for example, client cancels), we stop
+                Thread.currentThread().interrupt();
+                System.err.println("Monitoring was cancelled by client.");
+                responseObserver.onCompleted(); // end the stream
+            } catch (Exception ex) {
+                // If something else goes wrong, we tell the client
+                System.err.println("Unexpected error in monitoring: " + ex.getMessage());
+                responseObserver.onError(ex);
             }
-        }).start();  // Start the monitoring thread
+        });
+
+        thread.start(); // Start the thread to send updates
     }
 
-    /**
-     * Provides a live feed of security events, sending an alert based on the event details.
-     * The alert's level is determined by the type of event (e.g., "movement" triggers a HIGH alert).
-     * 
-     * @param responseObserver The StreamObserver used to send SecurityAlert messages to the client.
-     * @return A StreamObserver to handle incoming SecurityEvent messages from the client.
-     */
+    // This method lets the client send security events (like "movement")
+    // and the server will respond with alerts
     @Override
     public StreamObserver<SecurityEvent> liveSecurityFeed(StreamObserver<SecurityAlert> responseObserver) {
-        // Return a new StreamObserver to handle incoming security events
         return new StreamObserver<SecurityEvent>() {
             @Override
             public void onNext(SecurityEvent event) {
-                // Determine the alert level based on the event type (movement is HIGH, others are LOW)
-                String alertLevel = event.getEventType().equalsIgnoreCase("movement") ? "HIGH" : "LOW";
-                
-                // Build the security alert message with event details and alert level
-                SecurityAlert alert = SecurityAlert.newBuilder()
-                        .setAlertLevel(alertLevel)  // Set the alert level
-                        .setMessage("Detected: " + event.getDetails())  // Add event details to the message
-                        .build();
+                try {
+                    // Check if the event is missing required information
+                    if (event.getDetails().isEmpty() || event.getEventType().isEmpty()) {
+                        throw new IllegalArgumentException("Missing event details or type.");
+                    }
 
-                // Send the alert to the client
-                responseObserver.onNext(alert);
+                    // Decide alert level: HIGH if movement, LOW otherwise
+                    String alertLevel = event.getEventType().equalsIgnoreCase("movement") ? "HIGH" : "LOW";
+
+                    // Create a security alert message
+                    SecurityAlert alert = SecurityAlert.newBuilder()
+                            .setAlertLevel(alertLevel)
+                            .setMessage("Detected: " + event.getDetails())
+                            .build();
+
+                    responseObserver.onNext(alert); // Send alert to client
+                } catch (Exception e) {
+                    // If something goes wrong, send an error
+                    System.err.println("Error while processing security event: " + e.getMessage());
+                    responseObserver.onError(e);
+                }
             }
 
             @Override
             public void onError(Throwable t) {
-                // Log any errors that occur during the stream
-                System.err.println("Error in stream: " + t.getMessage());
+                // If the stream has an error, print it
+                System.err.println("Stream error from client: " + t.getMessage());
             }
 
             @Override
             public void onCompleted() {
-                // Indicate that the stream has completed
+                // If the client finishes, we also complete
+                System.out.println("Live security feed completed.");
                 responseObserver.onCompleted();
             }
         };

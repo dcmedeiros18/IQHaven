@@ -3396,6 +3396,8 @@ public final class Energy {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+
     /**
      * Protobuf type {@code automation.EnergyDataSummaryResponse}
      */
@@ -3610,6 +3612,10 @@ public final class Energy {
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
+      }
+
+      public void setAverageConsumption(double average) {
+
       }
 
 

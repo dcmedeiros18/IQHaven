@@ -2,7 +2,6 @@ package automation;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.stub.StreamObserver;
 
 
 import java.io.IOException;
@@ -14,7 +13,9 @@ public class IQHavenServer {
     public void start() throws IOException {
         int port = 50051;
         server = ServerBuilder.forPort(port)
-                .addService(new IQHavenServiceImpl())
+                .addService(new AutomationServiceImpl())   //Automation impl
+                .addService(new EnergyServiceImpl())     // Energy impl
+                .addService(new SecurityServiceImpl())   // Security impl
                 .build()
                 .start();
 

@@ -2,10 +2,8 @@ package automation;
 
 import io.grpc.stub.StreamObserver;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-public class IQHavenServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
+public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
 
     // 1. Unary RPC
     @Override

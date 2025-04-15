@@ -45,6 +45,7 @@ message EnergyData {
 message EnergyDataSummaryResponse {
     bool success = 1;
     int32 data_points_received = 2;
+
 }
 
 // Bi-directional streaming

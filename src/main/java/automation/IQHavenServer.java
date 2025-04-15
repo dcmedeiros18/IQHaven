@@ -1,31 +1,30 @@
 package automation;
 
-
-
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.stub.StreamObserver;
+
+
 import java.io.IOException;
 
 public class IQHavenServer {
-    private Server server;
-    private final int port;
 
-    public IQHavenServer(int port) {
-        this.port = port;
-    }
+    private Server server;
 
     public void start() throws IOException {
+        int port = 50051;
         server = ServerBuilder.forPort(port)
                 .addService(new IQHavenServiceImpl())
                 .build()
                 .start();
 
-        System.out.println("Server started, listening on " + port);
+        System.out.println("IQHavenServer started. Listening on port " + port);
 
+        // Adiciona shutdown hook para encerrar o servidor corretamente
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.err.println("*** shutting down gRPC server since JVM is shutting down");
+            System.err.println("Shutting down gRPC server...");
             IQHavenServer.this.stop();
-            System.err.println("*** server shut down");
+            System.err.println("Server shut down.");
         }));
     }
 
@@ -35,14 +34,16 @@ public class IQHavenServer {
         }
     }
 
-    public void blockUntilShutdown() throws InterruptedException {
+    // Espera até que o servidor seja encerrado manualmente
+    private void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }
     }
 
+    // Método main para rodar o servidor
     public static void main(String[] args) throws IOException, InterruptedException {
-        IQHavenServer server = new IQHavenServer(50051);
+        final IQHavenServer server = new IQHavenServer();
         server.start();
         server.blockUntilShutdown();
     }

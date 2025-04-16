@@ -327,7 +327,12 @@ public final class Automation {
       Builder builder = new Builder(parent);
       return builder;
     }
-    /**
+
+      public boolean hasTurnOn() {
+        return false;
+      }
+
+      /**
      * Protobuf type {@code automation.ToggleDeviceRequest}
      */
     public static final class Builder extends

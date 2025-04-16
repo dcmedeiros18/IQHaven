@@ -2808,6 +2808,11 @@ public final class Energy {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+    public double getConsumption() {
+        return 0;
+    }
+
     /**
      * <pre>
      * Client streaming
@@ -3395,6 +3400,10 @@ public final class Energy {
         com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
+    }
+
+    public Object getAverageConsumption() {
+        return null;
     }
 
 
@@ -5176,5 +5185,8 @@ public final class Energy {
         new java.lang.String[] { "DeviceId", "Status", });
   }
 
-  // @@protoc_insertion_point(outer_class_scope)
+    public static class EnergyDataSummary {
+    }
+
+    // @@protoc_insertion_point(outer_class_scope)
 }

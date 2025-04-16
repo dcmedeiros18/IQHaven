@@ -1,296 +1,391 @@
 package automation;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import automation.Automation.*;
+import automation.Energy.*;
+import automation.Security.*;
+import io.grpc.*;
 import io.grpc.stub.StreamObserver;
+
+import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * Unified gRPC client for IQHaven services (Automation, Energy, Security).
+ * Supports all RPC types (Unary, Server Streaming, Client Streaming, Bidirectional).
+ */
 public class IQHavenClient {
+    private static final Logger logger = Logger.getLogger(IQHavenClient.class.getName());
+
     private final ManagedChannel channel;
 
-    // Stubs para AutomationService
+    {
+        channel = null;
+    }
+
+    // Automation service stubs
     private final AutomationServiceGrpc.AutomationServiceBlockingStub automationBlockingStub;
     private final AutomationServiceGrpc.AutomationServiceStub automationAsyncStub;
 
-    // Stubs para EnergyService
+    // Energy service stubs
     private final EnergyServiceGrpc.EnergyServiceBlockingStub energyBlockingStub;
     private final EnergyServiceGrpc.EnergyServiceStub energyAsyncStub;
 
-    // Stubs para SecurityService
+    // Security service stubs
     private final SecurityServiceGrpc.SecurityServiceBlockingStub securityBlockingStub;
     private final SecurityServiceGrpc.SecurityServiceStub securityAsyncStub;
 
+    /**
+     * Constructor to create a client connecting to the given host and port.
+     */
     public IQHavenClient(String host, int port) {
-        this.channel = ManagedChannelBuilder.forAddress(host, port)
-                .usePlaintext()
-                .build();
+        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port)
+                // Configuração de compressão (adicionado)
+                .compressorRegistry(CompressorRegistry.getDefaultInstance())
+                .decompressorRegistry(DecompressorRegistry.getDefaultInstance());
 
-        // Inicializa stubs para todos os serviços
-        this.automationBlockingStub = AutomationServiceGrpc.newBlockingStub(channel);
-        this.automationAsyncStub = AutomationServiceGrpc.newStub(channel);
+        boolean useTls = false;
+        if (useTls) {
+            channelBuilder.useTransportSecurity();  // Removido o .clone()
+        } else {
+            channelBuilder.usePlaintext();
+        }
 
-        this.energyBlockingStub = EnergyServiceGrpc.newBlockingStub(channel);
-        this.energyAsyncStub = EnergyServiceGrpc.newStub(channel);
 
-        this.securityBlockingStub = SecurityServiceGrpc.newBlockingStub(channel);
-        this.securityAsyncStub = SecurityServiceGrpc.newStub(channel);
+        // Configuração de interceptors para autenticação (se necessário)
+        String authToken = "";
+        if (authToken != null && !authToken.isEmpty()) {
+            // Cria um ClientInterceptor para adicionar o token no header
+            ClientInterceptor authInterceptor = new ClientInterceptor() {
+                @Override
+                public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
+                        MethodDescriptor<ReqT, RespT> method,
+                        CallOptions callOptions,
+                        Channel next
+                ) {
+                    return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(next.newCall(method, callOptions)) {
+                        @Override
+                        public void start(Listener<RespT> responseListener, Metadata headers) {
+                            // Adiciona o token no header (ex: "Bearer <token>")
+                            headers.put(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER),
+                                    "Bearer " + authToken);
+                            super.start(responseListener, headers);
+                        }
+                    };
+                }
+            };
+            channelBuilder.intercept(authInterceptor); // Aplica o interceptor
+        }
+
+        // Constrói o canal gRPC
+        ManagedChannel channel = channelBuilder.build();
+        // ... (cria stubs gRPC, como newStub ou blockingStub)
+
+
+        channel = channelBuilder.build();
+
+        // Inicialização dos stubs
+        automationBlockingStub = AutomationServiceGrpc.newBlockingStub(channel);
+        automationAsyncStub = AutomationServiceGrpc.newStub(channel);
+        energyBlockingStub = EnergyServiceGrpc.newBlockingStub(channel);
+        energyAsyncStub = EnergyServiceGrpc.newStub(channel);
+        securityBlockingStub = SecurityServiceGrpc.newBlockingStub(channel);
+        securityAsyncStub = SecurityServiceGrpc.newStub(channel);
     }
-
-    // ==================== AUTOMATION SERVICE ====================
+    // ==================== Automation Service Methods ====================
 
     public void toggleDevice(String deviceId, boolean turnOn) {
-        Automation.ToggleDeviceRequest request = Automation.ToggleDeviceRequest.newBuilder()
+        ToggleDeviceRequest request = ToggleDeviceRequest.newBuilder()
                 .setDeviceId(deviceId)
                 .setTurnOn(turnOn)
                 .build();
 
-        Automation.ToggleDeviceResponse response = automationBlockingStub.toggleDevice(request);
-        System.out.println("[Automation] " + response.getMessage());
+        try {
+            ToggleDeviceResponse response = automationBlockingStub.toggleDevice(request);
+            logger.info("[Automation] ToggleDevice: " + response.getMessage());
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.SEVERE, "[Automation Error] ToggleDevice failed: " + e.getStatus().getDescription());
+        }
+    }
+
+    public void setSchedule(String deviceId, String time, boolean turnOn) {
+        SetScheduleRequest request = SetScheduleRequest.newBuilder()
+                .setDeviceId(deviceId)
+                .setScheduleTime(time)
+                .setTurnOn(turnOn)
+                .build();
+
+        try {
+            SetScheduleResponse response = automationBlockingStub.setSchedule(request);
+            logger.info("[Automation] SetSchedule: " + response.getMessage());
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.SEVERE, "[Automation Error] SetSchedule failed: " + e.getStatus().getDescription());
+        }
     }
 
     public void streamDeviceStatus(String deviceId) {
-        Automation.StreamDeviceStatusRequest request = Automation.StreamDeviceStatusRequest.newBuilder()
+        StreamDeviceStatusRequest request = StreamDeviceStatusRequest.newBuilder()
                 .setDeviceId(deviceId)
                 .build();
 
-        System.out.println("[Automation] Recebendo status do dispositivo:");
-        automationBlockingStub.streamDeviceStatus(request)
-                .forEachRemaining(status -> {
-                    System.out.println("  → " + status.getStatus() + " | " + status.getTimestamp());
-                });
+        try {
+            Iterator<DeviceStatusResponse> responses = automationBlockingStub.streamDeviceStatus(request);
+            while (responses.hasNext()) {
+                DeviceStatusResponse response = responses.next();
+                logger.info("[Automation Status] " + response.getStatus() + " | Time: " + response.getTimestamp());
+            }
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.SEVERE, "[Automation Error] StreamDeviceStatus failed: " + e.getStatus().getDescription());
+        }
     }
 
-    public void sendDeviceCommands() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
+    public void sendDeviceCommands(DeviceCommand[] commands) throws InterruptedException {
+        CountDownLatch finishLatch = new CountDownLatch(1);
 
-        StreamObserver<Automation.CommandSummaryResponse> responseObserver =
-                new StreamObserver<Automation.CommandSummaryResponse>() {
-                    @Override
-                    public void onNext(Automation.CommandSummaryResponse summary) {
-                        System.out.println("[Automation] Total de comandos processados: " +
-                                summary.getCommandsReceived());
-                    }
+        StreamObserver<CommandSummaryResponse> responseObserver = new StreamObserver<CommandSummaryResponse>() {
+            @Override
+            public void onNext(CommandSummaryResponse response) {
+                logger.info("[Automation] Commands received: " + response.getCommandsReceived() + ", Success: " + response.getSuccess());
+            }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        System.err.println("Erro: " + t.getMessage());
-                        latch.countDown();
-                    }
+            @Override
+            public void onError(Throwable t) {
+                logger.log(Level.SEVERE, "[Automation Error] sendDeviceCommands failed: " + t.getMessage());
+                finishLatch.countDown();
+            }
 
-                    @Override
-                    public void onCompleted() {
-                        latch.countDown();
-                    }
-                };
+            @Override
+            public void onCompleted() {
+                finishLatch.countDown();
+            }
+        };
 
-        StreamObserver<Automation.DeviceCommand> requestObserver =
-                automationAsyncStub.sendDeviceCommands(responseObserver);
+        StreamObserver<DeviceCommand> requestObserver = automationAsyncStub.sendDeviceCommands(responseObserver);
 
-        // Envia comandos de exemplo
-        String[] commands = {"LIGAR", "AJUSTAR_TEMPERATURA_22", "MODO_AUTOMATICO", "DESLIGAR"};
-        for (String cmd : commands) {
-            requestObserver.onNext(
-                    Automation.DeviceCommand.newBuilder()
-                            .setDeviceId("TERMOSTATO_01")
-                            .setCommand(cmd)
-                            .build()
-            );
-            Thread.sleep(800);
+        try {
+            for (DeviceCommand command : commands) {
+                requestObserver.onNext(command);
+            }
+            requestObserver.onCompleted();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "[Automation Error] Exception while sending commands: " + e.getMessage());
+            requestObserver.onError(e);
         }
 
-        requestObserver.onCompleted();
-        latch.await(5, TimeUnit.SECONDS);
+        finishLatch.await(5, TimeUnit.SECONDS);
     }
 
-    // ==================== ENERGY SERVICE ====================
+    public void communicateWithDevice(DeviceMessage[] messages) throws InterruptedException {
+        CountDownLatch finishLatch = new CountDownLatch(1);
 
-    public void optimizeEnergy(String deviceId) {
-        Energy.OptimizeEnergyRequest request = Energy.OptimizeEnergyRequest.newBuilder()
+        StreamObserver<DeviceMessage> responseObserver = new StreamObserver<DeviceMessage>() {
+            @Override
+            public void onNext(DeviceMessage response) {
+                logger.info("[Automation] Device responded: " + response.getMessage());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                logger.log(Level.SEVERE, "[Automation Error] Bidirectional stream failed: " + t.getMessage());
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                finishLatch.countDown();
+            }
+        };
+
+        StreamObserver<DeviceMessage> requestObserver = automationAsyncStub.communicateWithDevice(responseObserver);
+
+        try {
+            for (DeviceMessage message : messages) {
+                requestObserver.onNext(message);
+            }
+            requestObserver.onCompleted();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "[Automation Error] Exception during bidirectional stream: " + e.getMessage());
+            requestObserver.onError(e);
+        }
+
+        finishLatch.await(10, TimeUnit.SECONDS);
+    }
+
+    // ==================== Energy Service Methods ====================
+
+    public void optimizeEnergy(String deviceId, String suggestion) {
+        OptimizeEnergyRequest request = OptimizeEnergyRequest.newBuilder()
                 .setDeviceId(deviceId)
+                .setSuggestion(suggestion)
                 .build();
 
-        Energy.OptimizeEnergyResponse response = energyBlockingStub.optimizeEnergy(request);
-        System.out.println("[Energy] " + response.getMessage());
+        energyAsyncStub.optimizeEnergy(request, new StreamObserver<OptimizeEnergyResponse>() {
+            @Override
+            public void onNext(OptimizeEnergyResponse response) {
+                logger.info("[Energy] Optimization result: " + response.getMessage());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                if (t instanceof StatusRuntimeException) {
+                    logger.log(Level.SEVERE, "[Energy Error] gRPC Error: " + ((StatusRuntimeException) t).getStatus().getDescription());
+                } else {
+                    logger.log(Level.SEVERE, "[Energy Error] Error in energy optimization", t);
+                }
+            }
+
+            @Override
+            public void onCompleted() {
+                logger.info("[Energy] Energy optimization completed.");
+            }
+        });
     }
 
     public void streamEnergyUsage(String deviceId) {
-        Energy.StreamEnergyUsageRequest request = Energy.StreamEnergyUsageRequest.newBuilder()
+        StreamEnergyUsageRequest request = StreamEnergyUsageRequest.newBuilder()
                 .setDeviceId(deviceId)
                 .build();
 
-        System.out.println("[Energy] Monitorando consumo de energia:");
-        energyBlockingStub.streamEnergyUsage(request)
-                .forEachRemaining(usage -> {
-                    System.out.printf("  → %.2f kWh às %s%n",
-                            usage.getUsage(),
-                            usage.getTimestamp());
-                });
+        StreamObserver<EnergyUsageResponse> responseObserver = new StreamObserver<EnergyUsageResponse>() {
+            @Override
+            public void onNext(EnergyUsageResponse response) {
+                logger.info("[Energy] Energy usage: " + response.getUsage() + " at " + response.getTimestamp());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                if (t instanceof StatusRuntimeException) {
+                    logger.log(Level.SEVERE, "[Energy Error] gRPC Error: " + ((StatusRuntimeException) t).getStatus().getDescription());
+                } else {
+                    logger.log(Level.SEVERE, "[Energy Error] Error in energy usage streaming", t);
+                }
+            }
+
+            @Override
+            public void onCompleted() {
+                logger.info("[Energy] Energy streaming completed.");
+            }
+        };
+
+        energyAsyncStub.streamEnergyUsage(request, responseObserver);
     }
 
-    public void sendEnergyData() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-
-        StreamObserver<Energy.EnergyDataSummaryResponse> responseObserver =
-                new StreamObserver<Energy.EnergyDataSummaryResponse>() {
-                    @Override
-                    public void onNext(Energy.EnergyDataSummaryResponse summary) {
-//                        System.out.printf("[Energy] Dados recebidos: %d leituras | Média: %.2f kWh%n",
-//                                summary.getDataPointsReceived(),
-//                                summary.getAverageConsumption());
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        System.err.println("Erro: " + t.getMessage());
-                        latch.countDown();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                        latch.countDown();
-                    }
-                };
-
-        StreamObserver<Energy.EnergyData> requestObserver =
-                energyAsyncStub.sendEnergyData(responseObserver);
-
-        // Envia dados de exemplo
-        for (int i = 0; i < 10; i++) {
-            double consumption = 1.5 + (Math.random() * 3.5);
-            requestObserver.onNext(
-                    Energy.EnergyData.newBuilder()
-                            .setDeviceId("MEDIDOR_01")
-                            .setEnergyConsumption(consumption)
-                            .build()
-            );
-            Thread.sleep(500);
-        }
-
-        requestObserver.onCompleted();
-        latch.await(5, TimeUnit.SECONDS);
-    }
-
-    // ==================== SECURITY SERVICE ====================
+    // ==================== Security Service Methods ====================
 
     public void toggleAlarm(boolean activate) {
-        Security.ToggleAlarmRequest request = Security.ToggleAlarmRequest.newBuilder()
-                .setActivate(activate)
-                .build();
-
-        Security.ToggleAlarmResponse response = securityBlockingStub.toggleAlarm(request);
-        System.out.println("[Security] " + response.getMessage());
+        try {
+            ToggleAlarmRequest request = ToggleAlarmRequest.newBuilder().setActivate(activate).build();
+            ToggleAlarmResponse response = securityBlockingStub.toggleAlarm(request);
+            logger.info("[Security] Toggle Response: " + response.getMessage());
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.SEVERE, "[Security Error] Error toggling alarm: " + e.getStatus().getDescription());
+        }
     }
 
     public void monitorAlarmStatus() {
-        Security.AlarmStatusRequest request = Security.AlarmStatusRequest.newBuilder().build();
+        try {
+            AlarmStatusRequest request = AlarmStatusRequest.newBuilder().build();
+            Iterator<AlarmStatusResponse> responses = securityBlockingStub.monitorAlarmStatus(request);
 
-        System.out.println("[Security] Status do alarme:");
-        securityBlockingStub.monitorAlarmStatus(request)
-                .forEachRemaining(status -> {
-                    System.out.println("  → " + status.getStatus() + " | " + status.getTimestamp());
-                });
+            new Thread(() -> {
+                int count = 0;
+                try {
+                    while (responses.hasNext() && count++ < 3) {
+                        AlarmStatusResponse res = responses.next();
+                        logger.info("[Security] Alarm Status: " + res.getTimestamp() + " - " + res.getStatus());
+                    }
+                    logger.info("[Security] Stopping alarm monitoring stream...");
+                } catch (StatusRuntimeException e) {
+                    logger.log(Level.SEVERE, "[Security Error] Error receiving alarm status: " + e.getStatus().getDescription());
+                }
+            }).start();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "[Security Error] Streaming failed: " + e.getMessage());
+        }
     }
 
-    public void liveSecurityFeed() throws InterruptedException {
+    public void liveSecurityFeed(SecurityEvent[] events) throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
 
-        StreamObserver<Security.SecurityAlert> responseObserver =
-                new StreamObserver<Security.SecurityAlert>() {
-                    @Override
-                    public void onNext(Security.SecurityAlert alert) {
-                        System.out.printf("[Security] Alerta: %s - %s%n",
-                                alert.getAlertLevel(),
-                                alert.getMessage());
-                    }
+        StreamObserver<SecurityAlert> alertObserver = new StreamObserver<SecurityAlert>() {
+            @Override
+            public void onNext(SecurityAlert alert) {
+                logger.info("[Security] Received Alert: " + alert.getAlertLevel() + " - " + alert.getMessage());
+            }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        System.err.println("Erro: " + t.getMessage());
-                        latch.countDown();
-                    }
+            @Override
+            public void onError(Throwable t) {
+                logger.log(Level.SEVERE, "[Security Error] Error in security feed: " + t.getMessage());
+                latch.countDown();
+            }
 
-                    @Override
-                    public void onCompleted() {
-                        System.out.println("[Security] Feed encerrado");
-                        latch.countDown();
-                    }
-                };
-
-        StreamObserver<Security.SecurityEvent> requestObserver =
-                securityAsyncStub.liveSecurityFeed(responseObserver);
-
-        // Envia eventos de exemplo
-        String[] events = {
-                "MOVIMENTO: Área externa",
-                "PORTA_ABERTA: Entrada principal",
-                "VIDRO_QUEBRADO: Janela sala",
-                "MOVIMENTO: Corredor"
+            @Override
+            public void onCompleted() {
+                logger.info("[Security] Security feed ended.");
+                latch.countDown();
+            }
         };
 
-        for (String event : events) {
-            String[] parts = event.split(":");
-            requestObserver.onNext(
-                    Security.SecurityEvent.newBuilder()
-                            .setEventType(parts[0].trim())
-                            .setDetails(parts[1].trim())
-                            .build()
-            );
-            Thread.sleep(1500);
+        StreamObserver<SecurityEvent> eventStream = securityAsyncStub.liveSecurityFeed(alertObserver);
+
+        try {
+            for (SecurityEvent event : events) {
+                eventStream.onNext(event);
+            }
+            eventStream.onCompleted();
+        } catch (Exception e) {
+            eventStream.onError(e);
         }
 
-        requestObserver.onCompleted();
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(5, TimeUnit.SECONDS);
     }
 
-    // ==================== TEST METHODS ====================
-
-    public void testAllServices() throws InterruptedException {
-        System.out.println("\n=== TESTANDO TODOS OS SERVIÇOS ===");
-
-        // Testa AutomationService
-        System.out.println("\n[AutomationService]");
-        toggleDevice("LUZ_01", true);
-        streamDeviceStatus("TERMOSTATO_01");
-        sendDeviceCommands();
-
-        // Testa EnergyService
-        System.out.println("\n[EnergyService]");
-        optimizeEnergy("PAINEL_SOLAR_01");
-        streamEnergyUsage("CASA_01");
-        sendEnergyData();
-
-        // Testa SecurityService
-        System.out.println("\n[SecurityService]");
-        toggleAlarm(true);
-        monitorAlarmStatus();
-        liveSecurityFeed();
-    }
-
+    /**
+     * Shuts down the channel gracefully.
+     */
     public void shutdown() throws InterruptedException {
-        channel.shutdown().awaitTermination(3, TimeUnit.SECONDS);
-        System.out.println("\nConexão encerrada");
+        if (channel != null && !channel.isShutdown()) {
+            logger.info("Shutting down channel...");
+            channel.shutdown().awaitTermination(3, TimeUnit.SECONDS);
+        }
     }
 
-    public static void main(String[] args) {
-        System.out.println("Iniciando cliente IQHaven...");
-
+    /**
+     * Example usage of the unified client.
+     */
+    public static void main(String[] args) throws InterruptedException {
         IQHavenClient client = new IQHavenClient("localhost", 50051);
 
         try {
-            client.testAllServices();
-        } catch (InterruptedException e) {
-            System.err.println("Teste interrompido: " + e.getMessage());
-            Thread.currentThread().interrupt();
-        } catch (Exception e) {
-            System.err.println("Erro inesperado: " + e.getMessage());
+            // Test Automation service
+            client.toggleDevice("room light", true);
+            client.setSchedule("room light", "10:00 pm", false);
+            client.streamDeviceStatus("room light");
+
+            DeviceCommand[] commands = {
+                    DeviceCommand.newBuilder().setDeviceId("room light").setCommand("turn_on").build(),
+                    DeviceCommand.newBuilder().setDeviceId("kitchen light").setCommand("turn_off").build()
+            };
+            client.sendDeviceCommands(commands);
+
+            // Test Energy service
+            client.optimizeEnergy("device123", "Turn off lights when not in use");
+            client.streamEnergyUsage("device123");
+
+            // Test Security service
+            client.toggleAlarm(true);
+            client.monitorAlarmStatus();
+
+            SecurityEvent[] events = {
+                    SecurityEvent.newBuilder().setEventType("movement").setDetails("Living Room").build(),
+                    SecurityEvent.newBuilder().setEventType("door").setDetails("Front Door Opened").build()
+            };
+            client.liveSecurityFeed(events);
+
         } finally {
-            try {
-                client.shutdown();
-            } catch (InterruptedException e) {
-                System.err.println("Erro ao encerrar: " + e.getMessage());
-            }
+            client.shutdown();
         }
     }
 }

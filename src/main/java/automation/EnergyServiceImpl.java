@@ -1,136 +1,67 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package automation;
 
+
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
-import automation.Energy.*;
-import java.time.Instant;
-import java.util.concurrent.atomic.AtomicInteger;
+import com.google.protobuf.Timestamp;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import automation.Energy.EnergyUsageResponse;
+import automation.Energy.StreamEnergyUsageRequest;
+import automation.EnergyServiceGrpc;
 
 public class EnergyServiceImpl extends EnergyServiceGrpc.EnergyServiceImplBase {
 
-    @Override
-    public void optimizeEnergy(OptimizeEnergyRequest request,
-                               StreamObserver<OptimizeEnergyResponse> responseObserver) {
-        String deviceId = request.getDeviceId();
-        String suggestion = request.getSuggestion();
-
-        // Lógica de otimização simulada
-        String optimizationResult = "Optimized " + deviceId + " using " + suggestion;
-
-        OptimizeEnergyResponse response = OptimizeEnergyResponse.newBuilder()
-                .setSuccess(true)
-                .setMessage(optimizationResult)
-                .build();
-
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
-    }
+    private static final Logger logger = Logger.getLogger(EnergyServiceImpl.class.getName());
 
     @Override
-    public void streamEnergyUsage(StreamEnergyUsageRequest request,
-                                  StreamObserver<EnergyUsageResponse> responseObserver) {
+    public void streamEnergyUsage(StreamEnergyUsageRequest request, StreamObserver<EnergyUsageResponse> responseObserver) {
         String deviceId = request.getDeviceId();
+        logger.info("Started streaming energy usage for device: " + deviceId);
 
+        // Simulating continuous data stream (Server Streaming)
         try {
-            // Simula o envio de 5 leituras com intervalo de 1 segundo
-            for (int i = 1; i <= 5; i++) {
-                double usage = 1.0 + (Math.random() * 5.0); // Valores entre 1.0 e 6.0 kWh
-
-                EnergyUsageResponse response = EnergyUsageResponse.newBuilder()
-                        .setUsage(usage)
-                        .setTimestamp(Instant.now().toString())
+            // Stream energy usage data for a period of time or until the client cancels
+            for (int i = 0; i < 5; i++) {
+                // Convert current time to Timestamp
+                long currentMillis = System.currentTimeMillis();
+                Timestamp timestamp = Timestamp.newBuilder()
+                        .setSeconds(TimeUnit.MILLISECONDS.toSeconds(currentMillis))
+                        .setNanos((int)(currentMillis % 1000) * 1000000)  // Milliseconds to nanos
                         .build();
 
+                // Create the EnergyUsageResponse with simulated data and the timestamp
+                EnergyUsageResponse response = EnergyUsageResponse.newBuilder()
+                        .setUsage(i * 10)  // Example: simulated usage data
+                        .setTimestamp(String.valueOf(timestamp))  // Set the Timestamp object
+                        .build();
+
+                // Send the response to the client
                 responseObserver.onNext(response);
+
+                // Simulate a small delay before sending the next data point
                 Thread.sleep(1000);
             }
+
+            // Complete the streaming response
+            responseObserver.onCompleted();
+            logger.info("Energy usage streaming completed successfully.");
+
         } catch (InterruptedException e) {
-            System.err.println("Stream interrupted: " + e.getMessage());
-            responseObserver.onError(e);
-            return;
+            // Handle thread interruption (client canceled the streaming)
+            logger.log(Level.SEVERE, "Energy usage streaming interrupted", e);
+            responseObserver.onError(new StatusRuntimeException(Status.CANCELLED.withDescription("Streaming canceled by client").withCause(e)));
+        } catch (Exception e) {
+            // Handle any error that occurred during streaming
+            logger.log(Level.SEVERE, "Error during energy usage streaming", e);
+            responseObserver.onError(new StatusRuntimeException(Status.INTERNAL.withDescription("Error during streaming").withCause(e)));
         }
-
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    public StreamObserver<EnergyData> sendEnergyData(
-            StreamObserver<EnergyDataSummaryResponse> responseObserver) {
-
-        AtomicInteger dataPoints = new AtomicInteger(0);
-        double[] totalConsumption = new double[1]; // Array para simular referência mutável
-
-        return new StreamObserver<EnergyData>() {
-            @Override
-            public void onNext(EnergyData data) {
-                int count = dataPoints.incrementAndGet();
-                double consumption = data.getEnergyConsumption();
-                totalConsumption[0] += consumption;
-
-                System.out.printf("Received data point #%d: %.2f kWh from %s%n",
-                        count, consumption, data.getDeviceId());
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                System.err.println("Error in energy data stream: " + t.getMessage());
-            }
-
-            @Override
-            public void onCompleted() {
-                int points = dataPoints.get();
-                double average = points > 0 ? totalConsumption[0] / points : 0.0;
-
-                EnergyDataSummaryResponse.Builder builder = EnergyDataSummaryResponse.newBuilder()
-                        .setSuccess(true)
-                        .setDataPointsReceived(points);
-
-                // Verifica se o campo average_consumption existe no protobuf
-                try {
-                    builder.getClass().getMethod("setAverageConsumption", double.class);
-                    builder.setAverageConsumption(average);
-                } catch (NoSuchMethodException e) {
-                    System.out.println("Average consumption field not available in proto");
-                }
-
-                responseObserver.onNext(builder.build());
-                responseObserver.onCompleted();
-
-                System.out.printf("Completed. Total points: %d, Avg: %.2f kWh%n", points, average);
-            }
-        };
-    }
-
-    @Override
-    public StreamObserver<EnergyUpdateRequest> monitorEnergy(
-            StreamObserver<EnergyUpdateResponse> responseObserver) {
-
-        return new StreamObserver<EnergyUpdateRequest>() {
-            @Override
-            public void onNext(EnergyUpdateRequest request) {
-                String deviceId = request.getDeviceId();
-                String action = request.getAction();
-
-                // Simula processamento e retorna confirmação
-                String status = "Processed " + action + " for " + deviceId;
-
-                EnergyUpdateResponse response = EnergyUpdateResponse.newBuilder()
-                        .setDeviceId(deviceId)
-                        .setStatus(status)
-                        .build();
-
-                responseObserver.onNext(response);
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                System.err.println("Error in monitorEnergy: " + t.getMessage());
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println("MonitorEnergy stream completed by client");
-                responseObserver.onCompleted();
-            }
-        };
     }
 }

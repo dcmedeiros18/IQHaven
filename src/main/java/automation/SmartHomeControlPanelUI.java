@@ -48,20 +48,33 @@ public class SmartHomeControlPanelUI extends JFrame {
         JPanel panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createTitledBorder("1. Agendar Fechamento da Cortina"));
 
-        JTextField timeField = new JTextField(10);
+        JTextField timeField = new JTextField(5);
+        JComboBox<String> amPmBox = new JComboBox<>(new String[]{"AM", "PM"});
         JButton scheduleBtn = new JButton("Agendar");
 
         scheduleBtn.addActionListener(e -> {
+            String inputTime = timeField.getText().trim();
+            String selectedAmPm = (String) amPmBox.getSelectedItem();
+
+            // Validação de horário no formato HH:MM (24h)
+            if (!inputTime.matches("([01]\\d|2[0-3]):[0-5]\\d")) {
+                JOptionPane.showMessageDialog(null, "Horário inválido, entre com um horário válido");
+                return;
+            }
+
+            // Apenas exibe AM/PM selecionado, sem alterar o formato do horário
+            String scheduledTime = inputTime + " " + selectedAmPm;
+
             SetScheduleRequest request = SetScheduleRequest.newBuilder()
                     .setDeviceId("blinds_sala")
-                    .setScheduleTime(timeField.getText())
+                    .setScheduleTime(inputTime) // aqui permanece no formato HH:mm puro
                     .setTurnOn(false) // fechar
                     .build();
 
             automationStub.setSchedule(request, new StreamObserver<SetScheduleResponse>() {
                 @Override
                 public void onNext(SetScheduleResponse value) {
-                    JOptionPane.showMessageDialog(null, value.getMessage());
+                    JOptionPane.showMessageDialog(null, "Fechamento de cortinas agendado.");
                 }
 
                 @Override
@@ -76,22 +89,44 @@ public class SmartHomeControlPanelUI extends JFrame {
 
         panel.add(new JLabel("Horário (HH:MM):"));
         panel.add(timeField);
+        panel.add(amPmBox);
         panel.add(scheduleBtn);
         return panel;
     }
+
 
     private JPanel deviceCommandPanel() {
         JPanel panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createTitledBorder("2. Enviar Comandos para Dispositivos"));
 
+        // ComboBox para lâmpada da sala
+        JLabel lightLabel = new JLabel("Lâmpada da Sala:");
+        String[] lightOptions = {"Ligar", "Desligar"};
+        JComboBox<String> lightCombo = new JComboBox<>(lightOptions);
+
+        // ComboBox para cortinas
+        JLabel blindsLabel = new JLabel("Cortinas:");
+        String[] blindsOptions = {"Abrir", "Fechar"};
+        JComboBox<String> blindsCombo = new JComboBox<>(blindsOptions);
+
         JButton sendCommandsBtn = new JButton("Executar Comandos");
 
         sendCommandsBtn.addActionListener(e -> {
+            // Pega os valores selecionados
+            String lightCommand = lightCombo.getSelectedItem().equals("Ligar") ? "ON" : "OFF";
+            String blindsCommand = blindsCombo.getSelectedItem().equals("Abrir") ? "OPEN" : "CLOSE";
+
+            // Para exibir na mensagem depois
+            String lightStatus = lightCommand.equals("ON") ? "Ligada" : "Desligada";
+            String blindsStatus = blindsCommand.equals("OPEN") ? "Aberta" : "Fechada";
+
             StreamObserver<DeviceCommand> requestObserver = automationStub.sendDeviceCommands(
                     new StreamObserver<CommandSummaryResponse>() {
                         @Override
                         public void onNext(CommandSummaryResponse value) {
-                            JOptionPane.showMessageDialog(null, "Comandos enviados: " + value.getCommandsReceived());
+                            JOptionPane.showMessageDialog(null,
+                                    "Lâmpada da Sala: " + lightStatus + "\n" +
+                                            "Cortinas: " + blindsStatus);
                         }
 
                         @Override
@@ -103,21 +138,28 @@ public class SmartHomeControlPanelUI extends JFrame {
                         public void onCompleted() {}
                     });
 
-            // Exemplos de comandos
+            // Envia os comandos para o servidor
             requestObserver.onNext(DeviceCommand.newBuilder()
                     .setDeviceId("light_sala")
-                    .setCommand("ON").build());
+                    .setCommand(lightCommand).build());
 
             requestObserver.onNext(DeviceCommand.newBuilder()
                     .setDeviceId("blinds_sala")
-                    .setCommand("CLOSE").build());
+                    .setCommand(blindsCommand).build());
 
             requestObserver.onCompleted();
         });
 
+        // Adiciona componentes ao painel
+        panel.add(lightLabel);
+        panel.add(lightCombo);
+        panel.add(blindsLabel);
+        panel.add(blindsCombo);
         panel.add(sendCommandsBtn);
+
         return panel;
     }
+
 
     private JPanel energyStreamPanel() {
         JPanel panel = new JPanel(new BorderLayout());

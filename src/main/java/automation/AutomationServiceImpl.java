@@ -11,24 +11,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Implementation of the Automation gRPC service.
- * Handles smart device operations: toggle, scheduling, streaming status,
- * receiving commands and real-time messaging.
- * Now includes proper error handling and cancellation support.
- *
- * @author dcmed
- */
 public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
-
-    // Simulated device state storage
     private final Map<String, Boolean> devices = new HashMap<>();
     private final Map<String, Integer> blindsPosition = new HashMap<>();
     private final Map<String, Integer> airConditionerTemperature = new HashMap<>();
 
-    // Unary Method - Turn a device ON or OFF - with error handling
+    private final String API_KEY = "A7xL9mB2YzW0pTqE5vN6CdJsRuKfHgXoPiM1Q4ZlDbtV3nScAy";
+
     @Override
     public void toggleDevice(ToggleDeviceRequest request, StreamObserver<ToggleDeviceResponse> responseObserver) {
+
         if (request.getDeviceId() == null || request.getDeviceId().isEmpty()) {
             responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription("Device ID cannot be empty.")
@@ -39,9 +31,10 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         try {
             boolean success = controlDevice(request.getDeviceId(), request.getTurnOn());
 
-            ToggleDeviceResponse response = ToggleDeviceResponse.newBuilder()
+            ToggleDeviceResponse response = (ToggleDeviceResponse) (ToggleDeviceResponse) ToggleDeviceResponse.newBuilder()
                     .setSuccess(success)
                     .setMessage(success ? (request.getTurnOn() ? "Device turned ON" : "Device turned OFF") : "Failed")
+                //    .setApiKey(API_KEY)
                     .build();
 
             responseObserver.onNext(response);
@@ -54,9 +47,16 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         }
     }
 
-    // Unary Method - Schedule a device to turn ON or OFF at a given time
     @Override
     public void setSchedule(SetScheduleRequest request, StreamObserver<SetScheduleResponse> responseObserver) {
+
+        if (request.getApiKey().isEmpty() || !request.getApiKey().equals(API_KEY)) {
+            responseObserver.onError(Status.PERMISSION_DENIED
+                    .withDescription("API KEY is not valid.")
+                    .asRuntimeException());
+            return;
+        }
+
         if (request.getDeviceId().isEmpty() || request.getScheduleTime().isEmpty()) {
             responseObserver.onError(Status.INVALID_ARGUMENT
                     .withDescription("Device ID and schedule time are required.")
@@ -73,7 +73,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
 
         System.out.println("[SCHEDULE] " + msg);
 
-        SetScheduleResponse response = SetScheduleResponse.newBuilder()
+        SetScheduleResponse response = (SetScheduleResponse) SetScheduleResponse.newBuilder()
                 .setSuccess(true)
                 .setMessage(msg)
                 .build();
@@ -82,24 +82,24 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         responseObserver.onCompleted();
     }
 
-    // Server Streaming Method - Send a series of status updates
     @Override
     public void streamDeviceStatus(StreamDeviceStatusRequest request, StreamObserver<DeviceStatusResponse> responseObserver) {
+
         try {
             for (int i = 0; i < 2; i++) {
-                // Verifica se o cliente cancelou a requisição
                 if (Context.current().isCancelled()) {
                     System.out.println("[CANCELLED] streamDeviceStatus was cancelled by client.");
                     return;
                 }
 
-                DeviceStatusResponse response = DeviceStatusResponse.newBuilder()
+                DeviceStatusResponse response = (DeviceStatusResponse) DeviceStatusResponse.newBuilder()
                         .setStatus("ON")
                         .setTimestamp(Instant.now().toString())
+                        //.setApiKey(API_KEY)
                         .build();
 
                 responseObserver.onNext(response);
-                Thread.sleep(1000); // 1 segundo
+                Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
             responseObserver.onError(Status.INTERNAL
@@ -111,9 +111,9 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         }
     }
 
-    // Client Streaming Method - Accept multiple device commands from client
     @Override
     public StreamObserver<DeviceCommand> sendDeviceCommands(final StreamObserver<CommandSummaryResponse> responseObserver) {
+
         return new StreamObserver<DeviceCommand>() {
             int count = 0;
 
@@ -135,7 +135,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
 
             @Override
             public void onCompleted() {
-                CommandSummaryResponse response = CommandSummaryResponse.newBuilder()
+                CommandSummaryResponse response = (CommandSummaryResponse) CommandSummaryResponse.newBuilder()
                         .setSuccess(true)
                         .setCommandsReceived(count)
                         .build();
@@ -146,9 +146,9 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         };
     }
 
-    // Bidirectional Streaming Method - Interactive communication with devices
     @Override
     public StreamObserver<DeviceMessage> communicateWithDevice(final StreamObserver<DeviceMessage> responseObserver) {
+
         return new StreamObserver<DeviceMessage>() {
             @Override
             public void onNext(DeviceMessage message) {
@@ -178,7 +178,6 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
                             replyMessage = "Restarting device...";
                             break;
                         default:
-                            // Tratamento de comandos setados (ex: set position 40)
                             if (msg.startsWith("set position")) {
                                 int newPosition = Integer.parseInt(msg.split(" ")[2]);
                                 blindsPosition.put(message.getDeviceId(), newPosition);
@@ -197,9 +196,10 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
                             break;
                     }
 
-                    DeviceMessage reply = DeviceMessage.newBuilder()
+                    DeviceMessage reply = (DeviceMessage) DeviceMessage.newBuilder()
                             .setDeviceId(message.getDeviceId())
                             .setMessage(" " + replyMessage)
+                            //.setApiKey(API_KEY)
                             .build();
 
                     System.out.println("[MESSAGE] Device " + message.getDeviceId() + " replied: " + replyMessage);
@@ -225,13 +225,8 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         };
     }
 
-    /**
-     * Internal logic to simulate turning devices ON/OFF.
-     * Prints the simulated result based on device type.
-     */
     private boolean controlDevice(String deviceId, boolean turnOn) {
         devices.put(deviceId, turnOn);
-
         String action = turnOn ? "ON" : "OFF";
         String type;
 
@@ -249,24 +244,4 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         System.out.println("[ACTION] " + type + " '" + deviceId + "' has been " + action);
         return true;
     }
-
-    /*public ToggleDeviceResponse toggleDevice(ToggleDeviceRequest roomLight) {
-        return null;
-    }
-
-    public SetScheduleResponse setSchedule(SetScheduleRequest roomLight) {
-        return null;
-    }
-
-    public Iterator<DeviceStatusResponse> streamDeviceStatus(StreamDeviceStatusRequest roomLight) {
-        return null;
-    }
-
-    public Energy.OptimizeEnergyResponse optimizeEnergy(Energy.OptimizeEnergyRequest build) {
-        return null;
-    }
-
-    public Security.ToggleAlarmResponse toggleAlarm(Security.ToggleAlarmRequest build) {
-        return null;
-    }*/
 }

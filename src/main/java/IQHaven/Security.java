@@ -2303,6 +2303,18 @@ public final class Security {
      */
     com.google.protobuf.ByteString
         getDetailsBytes();
+
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The apiKey.
+     */
+    java.lang.String getApiKey();
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The bytes for apiKey.
+     */
+    com.google.protobuf.ByteString
+        getApiKeyBytes();
   }
   /**
    * <pre>
@@ -2323,6 +2335,7 @@ public final class Security {
     private SecurityEvent() {
       eventType_ = "";
       details_ = "";
+      apiKey_ = "";
     }
 
     @java.lang.Override
@@ -2365,6 +2378,12 @@ public final class Security {
               java.lang.String s = input.readStringRequireUtf8();
 
               details_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              apiKey_ = s;
               break;
             }
             default: {
@@ -2471,6 +2490,42 @@ public final class Security {
       }
     }
 
+    public static final int API_KEY_FIELD_NUMBER = 3;
+    private volatile java.lang.Object apiKey_;
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The apiKey.
+     */
+    public java.lang.String getApiKey() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        apiKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The bytes for apiKey.
+     */
+    public com.google.protobuf.ByteString
+        getApiKeyBytes() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        apiKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2491,6 +2546,9 @@ public final class Security {
       if (!getDetailsBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, details_);
       }
+      if (!getApiKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, apiKey_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2505,6 +2563,9 @@ public final class Security {
       }
       if (!getDetailsBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, details_);
+      }
+      if (!getApiKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, apiKey_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2525,6 +2586,8 @@ public final class Security {
           .equals(other.getEventType())) return false;
       if (!getDetails()
           .equals(other.getDetails())) return false;
+      if (!getApiKey()
+          .equals(other.getApiKey())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2540,6 +2603,8 @@ public final class Security {
       hash = (53 * hash) + getEventType().hashCode();
       hash = (37 * hash) + DETAILS_FIELD_NUMBER;
       hash = (53 * hash) + getDetails().hashCode();
+      hash = (37 * hash) + API_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getApiKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2681,6 +2746,8 @@ public final class Security {
 
         details_ = "";
 
+        apiKey_ = "";
+
         return this;
       }
 
@@ -2709,6 +2776,7 @@ public final class Security {
         IQHaven.Security.SecurityEvent result = new IQHaven.Security.SecurityEvent(this);
         result.eventType_ = eventType_;
         result.details_ = details_;
+        result.apiKey_ = apiKey_;
         onBuilt();
         return result;
       }
@@ -2763,6 +2831,10 @@ public final class Security {
         }
         if (!other.getDetails().isEmpty()) {
           details_ = other.details_;
+          onChanged();
+        }
+        if (!other.getApiKey().isEmpty()) {
+          apiKey_ = other.apiKey_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -2942,6 +3014,82 @@ public final class Security {
   checkByteStringIsUtf8(value);
         
         details_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object apiKey_ = "";
+      /**
+       * <code>string api_key = 3;</code>
+       * @return The apiKey.
+       */
+      public java.lang.String getApiKey() {
+        java.lang.Object ref = apiKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          apiKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @return The bytes for apiKey.
+       */
+      public com.google.protobuf.ByteString
+          getApiKeyBytes() {
+        java.lang.Object ref = apiKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          apiKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @param value The apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        apiKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearApiKey() {
+        
+        apiKey_ = getDefaultInstance().getApiKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @param value The bytes for apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        apiKey_ = value;
         onChanged();
         return this;
       }
@@ -3756,16 +3904,16 @@ public final class Security {
       "Response\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001" +
       "(\t\"\024\n\022AlarmStatusRequest\"8\n\023AlarmStatusR" +
       "esponse\022\021\n\ttimestamp\030\001 \001(\t\022\016\n\006status\030\002 \001" +
-      "(\t\"4\n\rSecurityEvent\022\022\n\nevent_type\030\001 \001(\t\022" +
-      "\017\n\007details\030\002 \001(\t\"5\n\rSecurityAlert\022\023\n\013ale" +
-      "rt_level\030\001 \001(\t\022\017\n\007message\030\002 \001(\t2\366\001\n\017Secu" +
-      "rityService\022H\n\013ToggleAlarm\022\033.IQHaven.Tog" +
-      "gleAlarmRequest\032\034.IQHaven.ToggleAlarmRes" +
-      "ponse\022Q\n\022MonitorAlarmStatus\022\033.IQHaven.Al" +
-      "armStatusRequest\032\034.IQHaven.AlarmStatusRe" +
-      "sponse0\001\022F\n\020LiveSecurityFeed\022\026.IQHaven.S" +
-      "ecurityEvent\032\026.IQHaven.SecurityAlert(\0010\001" +
-      "b\006proto3"
+      "(\t\"E\n\rSecurityEvent\022\022\n\nevent_type\030\001 \001(\t\022" +
+      "\017\n\007details\030\002 \001(\t\022\017\n\007api_key\030\003 \001(\t\"5\n\rSec" +
+      "urityAlert\022\023\n\013alert_level\030\001 \001(\t\022\017\n\007messa" +
+      "ge\030\002 \001(\t2\366\001\n\017SecurityService\022H\n\013ToggleAl" +
+      "arm\022\033.IQHaven.ToggleAlarmRequest\032\034.IQHav" +
+      "en.ToggleAlarmResponse\022Q\n\022MonitorAlarmSt" +
+      "atus\022\033.IQHaven.AlarmStatusRequest\032\034.IQHa" +
+      "ven.AlarmStatusResponse0\001\022F\n\020LiveSecurit" +
+      "yFeed\022\026.IQHaven.SecurityEvent\032\026.IQHaven." +
+      "SecurityAlert(\0010\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3800,7 +3948,7 @@ public final class Security {
     internal_static_IQHaven_SecurityEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_IQHaven_SecurityEvent_descriptor,
-        new java.lang.String[] { "EventType", "Details", });
+        new java.lang.String[] { "EventType", "Details", "ApiKey", });
     internal_static_IQHaven_SecurityAlert_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_IQHaven_SecurityAlert_fieldAccessorTable = new

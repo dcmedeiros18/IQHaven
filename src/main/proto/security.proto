@@ -33,6 +33,7 @@ message AlarmStatusResponse {
 message SecurityEvent {
     string event_type = 1;
     string details = 2;
+    string api_key = 3;
 }
 
 message SecurityAlert {

@@ -1317,6 +1317,18 @@ public final class Automation {
      * @return The turnOn.
      */
     boolean getTurnOn();
+
+    /**
+     * <code>string api_key = 4;</code>
+     * @return The apiKey.
+     */
+    java.lang.String getApiKey();
+    /**
+     * <code>string api_key = 4;</code>
+     * @return The bytes for apiKey.
+     */
+    com.google.protobuf.ByteString
+        getApiKeyBytes();
   }
   /**
    * Protobuf type {@code automation.SetScheduleRequest}
@@ -1333,6 +1345,7 @@ public final class Automation {
     private SetScheduleRequest() {
       deviceId_ = "";
       scheduleTime_ = "";
+      apiKey_ = "";
     }
 
     @java.lang.Override
@@ -1380,6 +1393,12 @@ public final class Automation {
             case 24: {
 
               turnOn_ = input.readBool();
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              apiKey_ = s;
               break;
             }
             default: {
@@ -1496,6 +1515,42 @@ public final class Automation {
       return turnOn_;
     }
 
+    public static final int API_KEY_FIELD_NUMBER = 4;
+    private volatile java.lang.Object apiKey_;
+    /**
+     * <code>string api_key = 4;</code>
+     * @return The apiKey.
+     */
+    public java.lang.String getApiKey() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        apiKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string api_key = 4;</code>
+     * @return The bytes for apiKey.
+     */
+    public com.google.protobuf.ByteString
+        getApiKeyBytes() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        apiKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1519,6 +1574,9 @@ public final class Automation {
       if (turnOn_ != false) {
         output.writeBool(3, turnOn_);
       }
+      if (!getApiKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, apiKey_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1537,6 +1595,9 @@ public final class Automation {
       if (turnOn_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, turnOn_);
+      }
+      if (!getApiKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, apiKey_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1559,6 +1620,8 @@ public final class Automation {
           .equals(other.getScheduleTime())) return false;
       if (getTurnOn()
           != other.getTurnOn()) return false;
+      if (!getApiKey()
+          .equals(other.getApiKey())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1577,6 +1640,8 @@ public final class Automation {
       hash = (37 * hash) + TURN_ON_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getTurnOn());
+      hash = (37 * hash) + API_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getApiKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1716,6 +1781,8 @@ public final class Automation {
 
         turnOn_ = false;
 
+        apiKey_ = "";
+
         return this;
       }
 
@@ -1745,6 +1812,7 @@ public final class Automation {
         result.deviceId_ = deviceId_;
         result.scheduleTime_ = scheduleTime_;
         result.turnOn_ = turnOn_;
+        result.apiKey_ = apiKey_;
         onBuilt();
         return result;
       }
@@ -1803,6 +1871,10 @@ public final class Automation {
         }
         if (other.getTurnOn() != false) {
           setTurnOn(other.getTurnOn());
+        }
+        if (!other.getApiKey().isEmpty()) {
+          apiKey_ = other.apiKey_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2011,6 +2083,82 @@ public final class Automation {
       public Builder clearTurnOn() {
         
         turnOn_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object apiKey_ = "";
+      /**
+       * <code>string api_key = 4;</code>
+       * @return The apiKey.
+       */
+      public java.lang.String getApiKey() {
+        java.lang.Object ref = apiKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          apiKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 4;</code>
+       * @return The bytes for apiKey.
+       */
+      public com.google.protobuf.ByteString
+          getApiKeyBytes() {
+        java.lang.Object ref = apiKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          apiKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 4;</code>
+       * @param value The apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        apiKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearApiKey() {
+        
+        apiKey_ = getDefaultInstance().getApiKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 4;</code>
+       * @param value The bytes for apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        apiKey_ = value;
         onChanged();
         return this;
       }
@@ -4017,6 +4165,18 @@ public final class Automation {
      */
     com.google.protobuf.ByteString
         getCommandBytes();
+
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The apiKey.
+     */
+    java.lang.String getApiKey();
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The bytes for apiKey.
+     */
+    com.google.protobuf.ByteString
+        getApiKeyBytes();
   }
   /**
    * Protobuf type {@code automation.DeviceCommand}
@@ -4033,6 +4193,7 @@ public final class Automation {
     private DeviceCommand() {
       deviceId_ = "";
       command_ = "";
+      apiKey_ = "";
     }
 
     @java.lang.Override
@@ -4075,6 +4236,12 @@ public final class Automation {
               java.lang.String s = input.readStringRequireUtf8();
 
               command_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              apiKey_ = s;
               break;
             }
             default: {
@@ -4181,6 +4348,42 @@ public final class Automation {
       }
     }
 
+    public static final int API_KEY_FIELD_NUMBER = 3;
+    private volatile java.lang.Object apiKey_;
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The apiKey.
+     */
+    public java.lang.String getApiKey() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        apiKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string api_key = 3;</code>
+     * @return The bytes for apiKey.
+     */
+    public com.google.protobuf.ByteString
+        getApiKeyBytes() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        apiKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4201,6 +4404,9 @@ public final class Automation {
       if (!getCommandBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, command_);
       }
+      if (!getApiKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, apiKey_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4215,6 +4421,9 @@ public final class Automation {
       }
       if (!getCommandBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, command_);
+      }
+      if (!getApiKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, apiKey_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4235,6 +4444,8 @@ public final class Automation {
           .equals(other.getDeviceId())) return false;
       if (!getCommand()
           .equals(other.getCommand())) return false;
+      if (!getApiKey()
+          .equals(other.getApiKey())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4250,6 +4461,8 @@ public final class Automation {
       hash = (53 * hash) + getDeviceId().hashCode();
       hash = (37 * hash) + COMMAND_FIELD_NUMBER;
       hash = (53 * hash) + getCommand().hashCode();
+      hash = (37 * hash) + API_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getApiKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4387,6 +4600,8 @@ public final class Automation {
 
         command_ = "";
 
+        apiKey_ = "";
+
         return this;
       }
 
@@ -4415,6 +4630,7 @@ public final class Automation {
         automation.Automation.DeviceCommand result = new automation.Automation.DeviceCommand(this);
         result.deviceId_ = deviceId_;
         result.command_ = command_;
+        result.apiKey_ = apiKey_;
         onBuilt();
         return result;
       }
@@ -4469,6 +4685,10 @@ public final class Automation {
         }
         if (!other.getCommand().isEmpty()) {
           command_ = other.command_;
+          onChanged();
+        }
+        if (!other.getApiKey().isEmpty()) {
+          apiKey_ = other.apiKey_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -4648,6 +4868,82 @@ public final class Automation {
   checkByteStringIsUtf8(value);
         
         command_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object apiKey_ = "";
+      /**
+       * <code>string api_key = 3;</code>
+       * @return The apiKey.
+       */
+      public java.lang.String getApiKey() {
+        java.lang.Object ref = apiKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          apiKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @return The bytes for apiKey.
+       */
+      public com.google.protobuf.ByteString
+          getApiKeyBytes() {
+        java.lang.Object ref = apiKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          apiKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @param value The apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        apiKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearApiKey() {
+        
+        apiKey_ = getDefaultInstance().getApiKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 3;</code>
+       * @param value The bytes for apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        apiKey_ = value;
         onChanged();
         return this;
       }
@@ -6030,29 +6326,30 @@ public final class Automation {
       "\n\020automation.proto\022\nautomation\"9\n\023Toggle" +
       "DeviceRequest\022\021\n\tdevice_id\030\001 \001(\t\022\017\n\007turn" +
       "_on\030\002 \001(\010\"8\n\024ToggleDeviceResponse\022\017\n\007suc" +
-      "cess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"O\n\022SetSchedu" +
+      "cess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"`\n\022SetSchedu" +
       "leRequest\022\021\n\tdevice_id\030\001 \001(\t\022\025\n\rschedule" +
-      "_time\030\002 \001(\t\022\017\n\007turn_on\030\003 \001(\010\"7\n\023SetSched" +
-      "uleResponse\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030" +
-      "\002 \001(\t\".\n\031StreamDeviceStatusRequest\022\021\n\tde" +
-      "vice_id\030\001 \001(\t\"9\n\024DeviceStatusResponse\022\016\n" +
-      "\006status\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(\t\"3\n\rDevi" +
-      "ceCommand\022\021\n\tdevice_id\030\001 \001(\t\022\017\n\007command\030" +
-      "\002 \001(\t\"D\n\026CommandSummaryResponse\022\017\n\007succe" +
-      "ss\030\001 \001(\010\022\031\n\021commands_received\030\002 \001(\005\"3\n\rD" +
-      "eviceMessage\022\021\n\tdevice_id\030\001 \001(\t\022\017\n\007messa" +
-      "ge\030\002 \001(\t2\301\003\n\021AutomationService\022Q\n\014Toggle" +
-      "Device\022\037.automation.ToggleDeviceRequest\032" +
-      " .automation.ToggleDeviceResponse\022N\n\013Set" +
-      "Schedule\022\036.automation.SetScheduleRequest" +
-      "\032\037.automation.SetScheduleResponse\022_\n\022Str" +
-      "eamDeviceStatus\022%.automation.StreamDevic" +
-      "eStatusRequest\032 .automation.DeviceStatus" +
-      "Response0\001\022U\n\022SendDeviceCommands\022\031.autom" +
-      "ation.DeviceCommand\032\".automation.Command" +
-      "SummaryResponse(\001\022Q\n\025CommunicateWithDevi" +
-      "ce\022\031.automation.DeviceMessage\032\031.automati" +
-      "on.DeviceMessage(\0010\001b\006proto3"
+      "_time\030\002 \001(\t\022\017\n\007turn_on\030\003 \001(\010\022\017\n\007api_key\030" +
+      "\004 \001(\t\"7\n\023SetScheduleResponse\022\017\n\007success\030" +
+      "\001 \001(\010\022\017\n\007message\030\002 \001(\t\".\n\031StreamDeviceSt" +
+      "atusRequest\022\021\n\tdevice_id\030\001 \001(\t\"9\n\024Device" +
+      "StatusResponse\022\016\n\006status\030\001 \001(\t\022\021\n\ttimest" +
+      "amp\030\002 \001(\t\"D\n\rDeviceCommand\022\021\n\tdevice_id\030" +
+      "\001 \001(\t\022\017\n\007command\030\002 \001(\t\022\017\n\007api_key\030\003 \001(\t\"" +
+      "D\n\026CommandSummaryResponse\022\017\n\007success\030\001 \001" +
+      "(\010\022\031\n\021commands_received\030\002 \001(\005\"3\n\rDeviceM" +
+      "essage\022\021\n\tdevice_id\030\001 \001(\t\022\017\n\007message\030\002 \001" +
+      "(\t2\301\003\n\021AutomationService\022Q\n\014ToggleDevice" +
+      "\022\037.automation.ToggleDeviceRequest\032 .auto" +
+      "mation.ToggleDeviceResponse\022N\n\013SetSchedu" +
+      "le\022\036.automation.SetScheduleRequest\032\037.aut" +
+      "omation.SetScheduleResponse\022_\n\022StreamDev" +
+      "iceStatus\022%.automation.StreamDeviceStatu" +
+      "sRequest\032 .automation.DeviceStatusRespon" +
+      "se0\001\022U\n\022SendDeviceCommands\022\031.automation." +
+      "DeviceCommand\032\".automation.CommandSummar" +
+      "yResponse(\001\022Q\n\025CommunicateWithDevice\022\031.a" +
+      "utomation.DeviceMessage\032\031.automation.Dev" +
+      "iceMessage(\0010\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6075,7 +6372,7 @@ public final class Automation {
     internal_static_automation_SetScheduleRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_automation_SetScheduleRequest_descriptor,
-        new java.lang.String[] { "DeviceId", "ScheduleTime", "TurnOn", });
+        new java.lang.String[] { "DeviceId", "ScheduleTime", "TurnOn", "ApiKey", });
     internal_static_automation_SetScheduleResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_automation_SetScheduleResponse_fieldAccessorTable = new
@@ -6099,7 +6396,7 @@ public final class Automation {
     internal_static_automation_DeviceCommand_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_automation_DeviceCommand_descriptor,
-        new java.lang.String[] { "DeviceId", "Command", });
+        new java.lang.String[] { "DeviceId", "Command", "ApiKey", });
     internal_static_automation_CommandSummaryResponse_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_automation_CommandSummaryResponse_fieldAccessorTable = new

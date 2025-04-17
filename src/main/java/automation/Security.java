@@ -3,6 +3,8 @@
 
 package automation;
 
+import com.google.protobuf.MessageLite;
+
 public final class Security {
   private Security() {}
   public static void registerAllExtensions(
@@ -1062,6 +1064,14 @@ public final class Security {
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
+      }
+
+      public MessageLite.Builder putMetadata(String apiKey, String s) {
+        return null;
+      }
+
+      public MessageLite.Builder setApiKey(String apiKey) {
+          return null;
       }
 
 
@@ -2171,6 +2181,10 @@ public final class Security {
         return super.mergeUnknownFields(unknownFields);
       }
 
+      public MessageLite.Builder setApiKey(String apiKey) {
+          return null;
+      }
+
 
       // @@protoc_insertion_point(builder_scope:automation.AlarmStatusResponse)
     }
@@ -2866,6 +2880,10 @@ public final class Security {
         return super.mergeUnknownFields(unknownFields);
       }
 
+      public MessageLite.Builder setApiKey(String apiKey) {
+          return null;
+      }
+
 
       // @@protoc_insertion_point(builder_scope:automation.SecurityEvent)
     }
@@ -3249,6 +3267,11 @@ public final class Security {
       Builder builder = new Builder(parent);
       return builder;
     }
+
+    public String getApiKey() {
+        return "";
+    }
+
     /**
      * Protobuf type {@code automation.SecurityAlert}
      */
@@ -3551,6 +3574,10 @@ public final class Security {
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
+      }
+
+      public MessageLite.Builder setApiKey(String apiKey) {
+          return null;
       }
 
 

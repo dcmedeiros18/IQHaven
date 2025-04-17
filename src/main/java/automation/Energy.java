@@ -1378,6 +1378,18 @@ public final class Energy {
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
+
+    /**
+     * <code>string api_key = 2;</code>
+     * @return The apiKey.
+     */
+    java.lang.String getApiKey();
+    /**
+     * <code>string api_key = 2;</code>
+     * @return The bytes for apiKey.
+     */
+    com.google.protobuf.ByteString
+        getApiKeyBytes();
   }
   /**
    * <pre>
@@ -1397,6 +1409,7 @@ public final class Energy {
     }
     private StreamEnergyUsageRequest() {
       deviceId_ = "";
+      apiKey_ = "";
     }
 
     @java.lang.Override
@@ -1433,6 +1446,12 @@ public final class Energy {
               java.lang.String s = input.readStringRequireUtf8();
 
               deviceId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              apiKey_ = s;
               break;
             }
             default: {
@@ -1503,6 +1522,42 @@ public final class Energy {
       }
     }
 
+    public static final int API_KEY_FIELD_NUMBER = 2;
+    private volatile java.lang.Object apiKey_;
+    /**
+     * <code>string api_key = 2;</code>
+     * @return The apiKey.
+     */
+    public java.lang.String getApiKey() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        apiKey_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string api_key = 2;</code>
+     * @return The bytes for apiKey.
+     */
+    public com.google.protobuf.ByteString
+        getApiKeyBytes() {
+      java.lang.Object ref = apiKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        apiKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1520,6 +1575,9 @@ public final class Energy {
       if (!getDeviceIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, deviceId_);
       }
+      if (!getApiKeyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, apiKey_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1531,6 +1589,9 @@ public final class Energy {
       size = 0;
       if (!getDeviceIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, deviceId_);
+      }
+      if (!getApiKeyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, apiKey_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1549,6 +1610,8 @@ public final class Energy {
 
       if (!getDeviceId()
           .equals(other.getDeviceId())) return false;
+      if (!getApiKey()
+          .equals(other.getApiKey())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1562,6 +1625,8 @@ public final class Energy {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + DEVICE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getDeviceId().hashCode();
+      hash = (37 * hash) + API_KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getApiKey().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1701,6 +1766,8 @@ public final class Energy {
         super.clear();
         deviceId_ = "";
 
+        apiKey_ = "";
+
         return this;
       }
 
@@ -1728,6 +1795,7 @@ public final class Energy {
       public automation.Energy.StreamEnergyUsageRequest buildPartial() {
         automation.Energy.StreamEnergyUsageRequest result = new automation.Energy.StreamEnergyUsageRequest(this);
         result.deviceId_ = deviceId_;
+        result.apiKey_ = apiKey_;
         onBuilt();
         return result;
       }
@@ -1778,6 +1846,10 @@ public final class Energy {
         if (other == automation.Energy.StreamEnergyUsageRequest.getDefaultInstance()) return this;
         if (!other.getDeviceId().isEmpty()) {
           deviceId_ = other.deviceId_;
+          onChanged();
+        }
+        if (!other.getApiKey().isEmpty()) {
+          apiKey_ = other.apiKey_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -1881,6 +1953,82 @@ public final class Energy {
   checkByteStringIsUtf8(value);
         
         deviceId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object apiKey_ = "";
+      /**
+       * <code>string api_key = 2;</code>
+       * @return The apiKey.
+       */
+      public java.lang.String getApiKey() {
+        java.lang.Object ref = apiKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          apiKey_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 2;</code>
+       * @return The bytes for apiKey.
+       */
+      public com.google.protobuf.ByteString
+          getApiKeyBytes() {
+        java.lang.Object ref = apiKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          apiKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string api_key = 2;</code>
+       * @param value The apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        apiKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearApiKey() {
+        
+        apiKey_ = getDefaultInstance().getApiKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string api_key = 2;</code>
+       * @param value The bytes for apiKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setApiKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        apiKey_ = value;
         onChanged();
         return this;
       }
@@ -5260,26 +5408,26 @@ public final class Energy {
       "\n\014energy.proto\022\nautomation\">\n\025OptimizeEn" +
       "ergyRequest\022\021\n\tdevice_id\030\001 \001(\t\022\022\n\nsugges" +
       "tion\030\002 \001(\t\":\n\026OptimizeEnergyResponse\022\017\n\007" +
-      "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"-\n\030Stream" +
-      "EnergyUsageRequest\022\021\n\tdevice_id\030\001 \001(\t\"7\n" +
-      "\023EnergyUsageResponse\022\r\n\005usage\030\001 \001(\001\022\021\n\tt" +
-      "imestamp\030\002 \001(\t\";\n\nEnergyData\022\021\n\tdevice_i" +
-      "d\030\001 \001(\t\022\032\n\022energy_consumption\030\002 \001(\001\"J\n\031E" +
-      "nergyDataSummaryResponse\022\017\n\007success\030\001 \001(" +
-      "\010\022\034\n\024data_points_received\030\002 \001(\005\"8\n\023Energ" +
-      "yUpdateRequest\022\021\n\tdevice_id\030\001 \001(\t\022\016\n\006act" +
-      "ion\030\002 \001(\t\"9\n\024EnergyUpdateResponse\022\021\n\tdev" +
-      "ice_id\030\001 \001(\t\022\016\n\006status\030\002 \001(\t2\361\002\n\rEnergyS" +
-      "ervice\022W\n\016OptimizeEnergy\022!.automation.Op" +
-      "timizeEnergyRequest\032\".automation.Optimiz" +
-      "eEnergyResponse\022\\\n\021StreamEnergyUsage\022$.a" +
-      "utomation.StreamEnergyUsageRequest\032\037.aut" +
-      "omation.EnergyUsageResponse0\001\022Q\n\016SendEne" +
-      "rgyData\022\026.automation.EnergyData\032%.automa" +
-      "tion.EnergyDataSummaryResponse(\001\022V\n\rMoni" +
-      "torEnergy\022\037.automation.EnergyUpdateReque" +
-      "st\032 .automation.EnergyUpdateResponse(\0010\001" +
-      "b\006proto3"
+      "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\">\n\030Stream" +
+      "EnergyUsageRequest\022\021\n\tdevice_id\030\001 \001(\t\022\017\n" +
+      "\007api_key\030\002 \001(\t\"7\n\023EnergyUsageResponse\022\r\n" +
+      "\005usage\030\001 \001(\001\022\021\n\ttimestamp\030\002 \001(\t\";\n\nEnerg" +
+      "yData\022\021\n\tdevice_id\030\001 \001(\t\022\032\n\022energy_consu" +
+      "mption\030\002 \001(\001\"J\n\031EnergyDataSummaryRespons" +
+      "e\022\017\n\007success\030\001 \001(\010\022\034\n\024data_points_receiv" +
+      "ed\030\002 \001(\005\"8\n\023EnergyUpdateRequest\022\021\n\tdevic" +
+      "e_id\030\001 \001(\t\022\016\n\006action\030\002 \001(\t\"9\n\024EnergyUpda" +
+      "teResponse\022\021\n\tdevice_id\030\001 \001(\t\022\016\n\006status\030" +
+      "\002 \001(\t2\361\002\n\rEnergyService\022W\n\016OptimizeEnerg" +
+      "y\022!.automation.OptimizeEnergyRequest\032\".a" +
+      "utomation.OptimizeEnergyResponse\022\\\n\021Stre" +
+      "amEnergyUsage\022$.automation.StreamEnergyU" +
+      "sageRequest\032\037.automation.EnergyUsageResp" +
+      "onse0\001\022Q\n\016SendEnergyData\022\026.automation.En" +
+      "ergyData\032%.automation.EnergyDataSummaryR" +
+      "esponse(\001\022V\n\rMonitorEnergy\022\037.automation." +
+      "EnergyUpdateRequest\032 .automation.EnergyU" +
+      "pdateResponse(\0010\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5302,7 +5450,7 @@ public final class Energy {
     internal_static_automation_StreamEnergyUsageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_automation_StreamEnergyUsageRequest_descriptor,
-        new java.lang.String[] { "DeviceId", });
+        new java.lang.String[] { "DeviceId", "ApiKey", });
     internal_static_automation_EnergyUsageResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_automation_EnergyUsageResponse_fieldAccessorTable = new

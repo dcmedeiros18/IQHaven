@@ -16,11 +16,15 @@ import automation.AutomationServiceGrpc.*;
 import automation.EnergyServiceGrpc.*;
 import automation.SecurityServiceGrpc.*;
 
-public class SmartHomeControlPanelUI extends JFrame {
+import static automation.Automation.DeviceCommand.newBuilder;
 
+public class SmartHomeControlPanelUI extends JFrame {
     private AutomationServiceStub automationStub;
     private EnergyServiceStub energyStub;
     private SecurityServiceStub securityStub;
+
+    // unique api key for authentication on the server connection
+    private final String API_KEY = "A7xL9mB2YzW0pTqE5vN6CdJsRuKfHgXoPiM1Q4ZlDbtV3nScAy";
 
     public SmartHomeControlPanelUI() {
         // gRPC Channel
@@ -56,25 +60,24 @@ public class SmartHomeControlPanelUI extends JFrame {
             String inputTime = timeField.getText().trim();
             String selectedAmPm = (String) amPmBox.getSelectedItem();
 
-            // Validação de horário no formato HH:MM (24h)
+
             if (!inputTime.matches("([01]\\d|2[0-3]):[0-5]\\d")) {
                 JOptionPane.showMessageDialog(null, "Horário inválido, entre com um horário válido");
                 return;
             }
 
-            // Apenas exibe AM/PM selecionado, sem alterar o formato do horário
-            String scheduledTime = inputTime + " " + selectedAmPm;
-
-            SetScheduleRequest request = SetScheduleRequest.newBuilder()
+            SetScheduleRequest request = (SetScheduleRequest) SetScheduleRequest.newBuilder()
                     .setDeviceId("blinds_sala")
-                    .setScheduleTime(inputTime) // aqui permanece no formato HH:mm puro
-                    .setTurnOn(false) // fechar
+                    .setScheduleTime(inputTime)
+                    .setTurnOn(false)
+                    .setApiKey(API_KEY)
                     .build();
 
             automationStub.setSchedule(request, new StreamObserver<SetScheduleResponse>() {
                 @Override
                 public void onNext(SetScheduleResponse value) {
-                    JOptionPane.showMessageDialog(null, "Fechamento de cortinas agendado.");
+                    JOptionPane.showMessageDialog(null,
+                            "Fechamento de cortinas agendado para: " + inputTime);
                 }
 
                 @Override
@@ -94,17 +97,14 @@ public class SmartHomeControlPanelUI extends JFrame {
         return panel;
     }
 
-
     private JPanel deviceCommandPanel() {
         JPanel panel = new JPanel(new FlowLayout());
         panel.setBorder(BorderFactory.createTitledBorder("2. Enviar Comandos para Dispositivos"));
 
-        // ComboBox para lâmpada da sala
         JLabel lightLabel = new JLabel("Lâmpada da Sala:");
         String[] lightOptions = {"Ligar", "Desligar"};
         JComboBox<String> lightCombo = new JComboBox<>(lightOptions);
 
-        // ComboBox para cortinas
         JLabel blindsLabel = new JLabel("Cortinas:");
         String[] blindsOptions = {"Abrir", "Fechar"};
         JComboBox<String> blindsCombo = new JComboBox<>(blindsOptions);
@@ -112,21 +112,16 @@ public class SmartHomeControlPanelUI extends JFrame {
         JButton sendCommandsBtn = new JButton("Executar Comandos");
 
         sendCommandsBtn.addActionListener(e -> {
-            // Pega os valores selecionados
             String lightCommand = lightCombo.getSelectedItem().equals("Ligar") ? "ON" : "OFF";
             String blindsCommand = blindsCombo.getSelectedItem().equals("Abrir") ? "OPEN" : "CLOSE";
 
-            // Para exibir na mensagem depois
-            String lightStatus = lightCommand.equals("ON") ? "Ligada" : "Desligada";
-            String blindsStatus = blindsCommand.equals("OPEN") ? "Aberta" : "Fechada";
 
             StreamObserver<DeviceCommand> requestObserver = automationStub.sendDeviceCommands(
                     new StreamObserver<CommandSummaryResponse>() {
                         @Override
                         public void onNext(CommandSummaryResponse value) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Lâmpada da Sala: " + lightStatus + "\n" +
-                                            "Cortinas: " + blindsStatus);
+                           JOptionPane.showMessageDialog(null,
+                                    "Comandos executados com sucesso!\n");
                         }
 
                         @Override
@@ -138,19 +133,22 @@ public class SmartHomeControlPanelUI extends JFrame {
                         public void onCompleted() {}
                     });
 
-            // Envia os comandos para o servidor
-            requestObserver.onNext(DeviceCommand.newBuilder()
+            // First command
+            requestObserver.onNext(newBuilder()
                     .setDeviceId("light_sala")
-                    .setCommand(lightCommand).build());
+                    .setCommand(lightCommand)
+                    .setApiKey(API_KEY)
+                    .build());
 
-            requestObserver.onNext(DeviceCommand.newBuilder()
+// Second command
+            requestObserver.onNext(newBuilder()
                     .setDeviceId("blinds_sala")
-                    .setCommand(blindsCommand).build());
-
+                    .setCommand(blindsCommand)
+                    .setApiKey(API_KEY)
+                    .build());
             requestObserver.onCompleted();
         });
 
-        // Adiciona componentes ao painel
         panel.add(lightLabel);
         panel.add(lightCombo);
         panel.add(blindsLabel);
@@ -159,7 +157,6 @@ public class SmartHomeControlPanelUI extends JFrame {
 
         return panel;
     }
-
 
     private JPanel energyStreamPanel() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -171,26 +168,31 @@ public class SmartHomeControlPanelUI extends JFrame {
         JButton streamEnergyBtn = new JButton("Iniciar Streaming");
 
         streamEnergyBtn.addActionListener(e -> {
-            energyOutput.setText("Iniciando monitoramento...\n");
 
-            StreamEnergyUsageRequest request = StreamEnergyUsageRequest.newBuilder()
+
+            StreamEnergyUsageRequest request = (StreamEnergyUsageRequest) StreamEnergyUsageRequest.newBuilder()
                     .setDeviceId("light_sala")
+                    .setApiKey(API_KEY)
                     .build();
 
             energyStub.streamEnergyUsage(request, new StreamObserver<EnergyUsageResponse>() {
                 @Override
                 public void onNext(EnergyUsageResponse value) {
-                    SwingUtilities.invokeLater(() -> energyOutput.append("Uso: " + value.getUsage() + " at " + value.getTimestamp() + "\n"));
+                    SwingUtilities.invokeLater(() ->
+                           energyOutput.append("Uso: " + value.getUsage() + "W at " +
+                                   value.getTimestamp() ));
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    SwingUtilities.invokeLater(() -> energyOutput.append("Erro: " + t.getMessage() + "\n"));
+                    SwingUtilities.invokeLater(() ->
+                            energyOutput.append("Erro: " + t.getMessage() + "\n"));
                 }
 
                 @Override
                 public void onCompleted() {
-                    SwingUtilities.invokeLater(() -> energyOutput.append("Streaming encerrado.\n"));
+                    SwingUtilities.invokeLater(() ->
+                            energyOutput.append("Streaming encerrado.\n"));
                 }
             });
         });
@@ -210,30 +212,35 @@ public class SmartHomeControlPanelUI extends JFrame {
         JButton startFeedBtn = new JButton("Iniciar Detecção de Movimento");
 
         startFeedBtn.addActionListener(e -> {
+
+
             StreamObserver<SecurityEvent> requestObserver = securityStub.liveSecurityFeed(
                     new StreamObserver<SecurityAlert>() {
                         @Override
                         public void onNext(SecurityAlert value) {
-                            SwingUtilities.invokeLater(() -> securityLog.append("Alerta: " + value.getMessage() + " [" + value.getAlertLevel() + "]\n"));
+                            SwingUtilities.invokeLater(() ->
+                                    securityLog.append("Alerta: " + value.getMessage() +
+                                            " [" + value.getAlertLevel() + "] \n" ));
                         }
 
                         @Override
                         public void onError(Throwable t) {
-                            SwingUtilities.invokeLater(() -> securityLog.append("Erro: " + t.getMessage() + "\n"));
+                            SwingUtilities.invokeLater(() ->
+                                    securityLog.append("Erro: " + t.getMessage() + "\n"));
                         }
 
                         @Override
                         public void onCompleted() {
-                            SwingUtilities.invokeLater(() -> securityLog.append("Stream finalizado.\n"));
+                            SwingUtilities.invokeLater(() ->
+                                    securityLog.append("Stream finalizado.\n"));
                         }
                     });
 
             Executors.newSingleThreadExecutor().submit(() -> {
                 try {
-                    // Simula movimento detectado a cada 2 segundos
                     for (int i = 0; i < 3; i++) {
                         Thread.sleep(2000);
-                        SecurityEvent event = SecurityEvent.newBuilder()
+                        SecurityEvent event = (SecurityEvent) SecurityEvent.newBuilder()
                                 .setEventType("movement")
                                 .setDetails("Movimento detectado na sala")
                                 .build();

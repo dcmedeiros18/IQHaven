@@ -160,7 +160,7 @@ public class SmartHomeControlPanelUI extends JFrame {
 
     private JPanel energyStreamPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("3. Consumo de Energia"));
+        panel.setBorder(BorderFactory.createTitledBorder("3. Consumo de Energia Novos Dispositivos"));
 
         JTextArea energyOutput = new JTextArea(5, 40);
         energyOutput.setEditable(false);

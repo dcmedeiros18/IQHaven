@@ -31,7 +31,6 @@ message SetScheduleRequest {
     string device_id = 1;
     string schedule_time = 2;
     bool turn_on = 3;
-    string api_key = 4;
 }
 
 message SetScheduleResponse {
@@ -52,7 +51,6 @@ message DeviceStatusResponse {
 message DeviceCommand {
     string device_id = 1;
     string command = 2;
-    string api_key = 3;
 }
 
 message CommandSummaryResponse {

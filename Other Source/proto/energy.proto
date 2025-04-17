@@ -29,7 +29,6 @@ message OptimizeEnergyResponse {
 // Server streaming
 message StreamEnergyUsageRequest {
     string device_id = 1;
-    string api_key = 2;
 }
 
 message EnergyUsageResponse {

@@ -1,5 +1,9 @@
 package automation;
 
+/**
+ * @author dcmed
+ */
+
 import io.grpc.*;
 import io.grpc.Server;
 
@@ -15,19 +19,23 @@ public class IQHavenServer {
     private static final int PORT = 50051;
     private Server server;
 
+    /**
+     * Starts the gRPC server, adding the main services (automation, energy, and security).
+     * Uses insecure credentials (no TLS) and includes a placeholder for authentication interceptor.
+     */
     public void start() throws IOException {
         try {
-            // Criação do servidor gRPC (sem TLS, mas com interceptador de autenticação)
+            // gRPC server creation (no TLS, but with optional authentication interceptor)
             server = Grpc.newServerBuilderForPort(PORT, InsecureServerCredentials.create())
-                    .addService(new AutomationServiceImpl())  // Serviço de automação
-                    .addService(new EnergyServiceImpl())      // Serviço de energia
-                    .addService(new SecurityServiceImpl())    // Serviço de segurança
-//                    .intercept(new AuthenticatorInterceptor()) // Interceptador de autenticação
+                    .addService(new AutomationServiceImpl())  // Automation service
+                    .addService(new EnergyServiceImpl())      // Energy service
+                    .addService(new SecurityServiceImpl())    // Security service
+//                    .intercept(new AuthenticatorInterceptor()) // Authentication interceptor
                     .build()
                     .start();
 
             System.out.println("Server started on port: " + PORT);
-            registerShutdownHook(); // Método para registrar o shutdown do servidor
+            registerShutdownHook(); // Registers a shutdown hook to gracefully stop the server
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to start server", e);
@@ -35,40 +43,22 @@ public class IQHavenServer {
         }
     }
 
-    // Método de interceptação para autenticação via header
-//    private static class AuthenticatorInterceptor implements ServerInterceptor {
-//        private static final String VALID_TOKEN = "teste123"; // Token fixo (simples para teste)
-//
-//        @Override
-//        public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
-//                ServerCall<ReqT, RespT> call,
-//                Metadata headers,
-//                ServerCallHandler<ReqT, RespT> next) {
-//
-//            // Obtém o token do header "x-auth-token" (corrigido para corresponder ao cliente)
-//            String token = headers.get(Metadata.Key.of("x-auth-token", Metadata.ASCII_STRING_MARSHALLER));
-//
-////            if (token == null || !token.equals(VALID_TOKEN)) {
-////                // Se o token estiver ausente ou for inválido, rejeita a requisição
-////                call.close(Status.UNAUTHENTICATED.withDescription("Token inválido ou ausente"), headers);
-////                return new ServerCall.Listener<ReqT>() {}; // Retorna um listener vazio (bloqueia a chamada)
-////            }
-//            return next.startCall(call, headers); // Se o token for válido, prossegue com a chamada
-//        }
-//    }
-
-    // Método para registrar o shutdown do servidor
+    /**
+     * Registers a shutdown hook to gracefully stop the server when the JVM is terminated.
+     */
     private void registerShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                stop();  // Chama o método de parada do servidor
+                stop();  // Calls the stop method
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }));
     }
 
-    // Método para parar o servidor
+    /**
+     * Stops the gRPC server, waiting a few seconds before forcing shutdown.
+     */
     public void stop() throws InterruptedException {
         if (server != null) {
             server.shutdown();
@@ -78,18 +68,23 @@ public class IQHavenServer {
         }
     }
 
-    // Método para bloquear até que o servidor seja fechado
+    /**
+     * Blocks the current thread until the server is terminated.
+     */
     public void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }
     }
 
+    /**
+     * Main method to start and block the server process.
+     */
     public static void main(String[] args) {
         IQHavenServer server = new IQHavenServer();
         try {
-            server.start(); // Inicia o servidor
-            server.blockUntilShutdown(); // Bloqueia até o servidor ser fechado
+            server.start(); // Starts the server
+            server.blockUntilShutdown(); // Blocks until server is shut down
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Server terminated with error", e);
             System.exit(1);

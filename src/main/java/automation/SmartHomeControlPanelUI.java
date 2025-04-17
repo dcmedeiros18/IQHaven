@@ -23,7 +23,7 @@ public class SmartHomeControlPanelUI extends JFrame {
     private EnergyServiceStub energyStub;
     private SecurityServiceStub securityStub;
 
-    // unique api key for authentication on the server connection
+    // Unique API key for authentication on the server connection
     private final String API_KEY = "A7xL9mB2YzW0pTqE5vN6CdJsRuKfHgXoPiM1Q4ZlDbtV3nScAy";
 
     public SmartHomeControlPanelUI() {
@@ -36,12 +36,12 @@ public class SmartHomeControlPanelUI extends JFrame {
         energyStub = EnergyServiceGrpc.newStub(channel);
         securityStub = SecurityServiceGrpc.newStub(channel);
 
-        setTitle("Painel de Automação Residencial");
+        setTitle("Smart Home Automation Panel");
         setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(4, 1));
 
-        // Componentes
+        // UI Components
         add(setSchedulePanel());
         add(deviceCommandPanel());
         add(energyStreamPanel());
@@ -50,19 +50,19 @@ public class SmartHomeControlPanelUI extends JFrame {
 
     private JPanel setSchedulePanel() {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("1. Agendar Fechamento da Cortina"));
+        panel.setBorder(BorderFactory.createTitledBorder("1. Schedule Curtain Closing"));
 
         JTextField timeField = new JTextField(5);
         JComboBox<String> amPmBox = new JComboBox<>(new String[]{"AM", "PM"});
-        JButton scheduleBtn = new JButton("Agendar");
+        JButton scheduleBtn = new JButton("Schedule");
 
         scheduleBtn.addActionListener(e -> {
             String inputTime = timeField.getText().trim();
             String selectedAmPm = (String) amPmBox.getSelectedItem();
 
-
+            // Validate time format
             if (!inputTime.matches("([01]\\d|2[0-3]):[0-5]\\d")) {
-                JOptionPane.showMessageDialog(null, "Horário inválido, entre com um horário válido");
+                JOptionPane.showMessageDialog(null, "Invalid time. Please enter a valid time.");
                 return;
             }
 
@@ -77,12 +77,12 @@ public class SmartHomeControlPanelUI extends JFrame {
                 @Override
                 public void onNext(SetScheduleResponse value) {
                     JOptionPane.showMessageDialog(null,
-                            "Fechamento de cortinas agendado para: " + inputTime);
+                            "Curtain closing scheduled at " + inputTime);
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    JOptionPane.showMessageDialog(null, "Erro: " + t.getMessage());
+                    JOptionPane.showMessageDialog(null, "Error: " + t.getMessage());
                 }
 
                 @Override
@@ -90,7 +90,7 @@ public class SmartHomeControlPanelUI extends JFrame {
             });
         });
 
-        panel.add(new JLabel("Horário (HH:MM):"));
+        panel.add(new JLabel("Time (HH:MM):"));
         panel.add(timeField);
         panel.add(amPmBox);
         panel.add(scheduleBtn);
@@ -99,34 +99,33 @@ public class SmartHomeControlPanelUI extends JFrame {
 
     private JPanel deviceCommandPanel() {
         JPanel panel = new JPanel(new FlowLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("2. Enviar Comandos para Dispositivos"));
+        panel.setBorder(BorderFactory.createTitledBorder("2. Send Commands to Devices"));
 
-        JLabel lightLabel = new JLabel("Lâmpada da Sala:");
-        String[] lightOptions = {"Ligar", "Desligar"};
+        JLabel lightLabel = new JLabel("Living Room Light:");
+        String[] lightOptions = {"Turn On", "Turn Off"};
         JComboBox<String> lightCombo = new JComboBox<>(lightOptions);
 
-        JLabel blindsLabel = new JLabel("Cortinas:");
-        String[] blindsOptions = {"Abrir", "Fechar"};
+        JLabel blindsLabel = new JLabel("Blinds:");
+        String[] blindsOptions = {"Open", "Close"};
         JComboBox<String> blindsCombo = new JComboBox<>(blindsOptions);
 
-        JButton sendCommandsBtn = new JButton("Executar Comandos");
+        JButton sendCommandsBtn = new JButton("Execute Commands");
 
         sendCommandsBtn.addActionListener(e -> {
-            String lightCommand = lightCombo.getSelectedItem().equals("Ligar") ? "ON" : "OFF";
-            String blindsCommand = blindsCombo.getSelectedItem().equals("Abrir") ? "OPEN" : "CLOSE";
-
+            String lightCommand = lightCombo.getSelectedItem().equals("Turn On") ? "ON" : "OFF";
+            String blindsCommand = blindsCombo.getSelectedItem().equals("Open") ? "OPEN" : "CLOSE";
 
             StreamObserver<DeviceCommand> requestObserver = automationStub.sendDeviceCommands(
                     new StreamObserver<CommandSummaryResponse>() {
                         @Override
                         public void onNext(CommandSummaryResponse value) {
-                           JOptionPane.showMessageDialog(null,
-                                    "Comandos executados com sucesso!\n");
+                            JOptionPane.showMessageDialog(null,
+                                    "Commands executed successfully!\n");
                         }
 
                         @Override
                         public void onError(Throwable t) {
-                            JOptionPane.showMessageDialog(null, "Erro: " + t.getMessage());
+                            JOptionPane.showMessageDialog(null, "Error: " + t.getMessage());
                         }
 
                         @Override
@@ -140,7 +139,7 @@ public class SmartHomeControlPanelUI extends JFrame {
                     .setApiKey(API_KEY)
                     .build());
 
-// Second command
+            // Second command
             requestObserver.onNext(newBuilder()
                     .setDeviceId("blinds_sala")
                     .setCommand(blindsCommand)
@@ -160,16 +159,14 @@ public class SmartHomeControlPanelUI extends JFrame {
 
     private JPanel energyStreamPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("3. Consumo de Energia Novos Dispositivos"));
+        panel.setBorder(BorderFactory.createTitledBorder("3. Energy Consumption of New Devices"));
 
         JTextArea energyOutput = new JTextArea(5, 40);
         energyOutput.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(energyOutput);
-        JButton streamEnergyBtn = new JButton("Iniciar Streaming");
+        JButton streamEnergyBtn = new JButton("Start Streaming");
 
         streamEnergyBtn.addActionListener(e -> {
-
-
             StreamEnergyUsageRequest request = (StreamEnergyUsageRequest) StreamEnergyUsageRequest.newBuilder()
                     .setDeviceId("light_sala")
                     .setApiKey(API_KEY)
@@ -179,20 +176,20 @@ public class SmartHomeControlPanelUI extends JFrame {
                 @Override
                 public void onNext(EnergyUsageResponse value) {
                     SwingUtilities.invokeLater(() ->
-                           energyOutput.append("Uso: " + value.getUsage() + "W at " +
-                                   value.getTimestamp() ));
+                            energyOutput.append("Usage: " + value.getUsage() + "W at " +
+                                    value.getTimestamp() ));
                 }
 
                 @Override
                 public void onError(Throwable t) {
                     SwingUtilities.invokeLater(() ->
-                            energyOutput.append("Erro: " + t.getMessage() + "\n"));
+                            energyOutput.append("Error: " + t.getMessage() + "\n"));
                 }
 
                 @Override
                 public void onCompleted() {
                     SwingUtilities.invokeLater(() ->
-                            energyOutput.append("Streaming encerrado.\n"));
+                            energyOutput.append("Streaming finished.\n"));
                 }
             });
         });
@@ -204,35 +201,33 @@ public class SmartHomeControlPanelUI extends JFrame {
 
     private JPanel securityFeedPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("4. Monitoramento de Segurança (Movimento)"));
+        panel.setBorder(BorderFactory.createTitledBorder("4. Security Monitoring (Motion)"));
 
         JTextArea securityLog = new JTextArea(5, 40);
         securityLog.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(securityLog);
-        JButton startFeedBtn = new JButton("Iniciar Detecção de Movimento");
+        JButton startFeedBtn = new JButton("Start Motion Detection");
 
         startFeedBtn.addActionListener(e -> {
-
-
             StreamObserver<SecurityEvent> requestObserver = securityStub.liveSecurityFeed(
                     new StreamObserver<SecurityAlert>() {
                         @Override
                         public void onNext(SecurityAlert value) {
                             SwingUtilities.invokeLater(() ->
-                                    securityLog.append("Alerta: " + value.getMessage() +
+                                    securityLog.append("Alert: " + value.getMessage() +
                                             " [" + value.getAlertLevel() + "] \n" ));
                         }
 
                         @Override
                         public void onError(Throwable t) {
                             SwingUtilities.invokeLater(() ->
-                                    securityLog.append("Erro: " + t.getMessage() + "\n"));
+                                    securityLog.append("Error: " + t.getMessage() + "\n"));
                         }
 
                         @Override
                         public void onCompleted() {
                             SwingUtilities.invokeLater(() ->
-                                    securityLog.append("Stream finalizado.\n"));
+                                    securityLog.append("Stream ended.\n"));
                         }
                     });
 
@@ -242,7 +237,7 @@ public class SmartHomeControlPanelUI extends JFrame {
                         Thread.sleep(2000);
                         SecurityEvent event = (SecurityEvent) SecurityEvent.newBuilder()
                                 .setEventType("movement")
-                                .setDetails("Movimento detectado na sala")
+                                .setDetails("Movement detected in the living room")
                                 .build();
                         requestObserver.onNext(event);
                     }

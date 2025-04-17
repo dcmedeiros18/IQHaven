@@ -12,12 +12,20 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServiceImplBase {
+
+    // Stores on/off status of each device
     private final Map<String, Boolean> devices = new HashMap<>();
+
+    // Stores the current position (percentage closed) of blinds
     private final Map<String, Integer> blindsPosition = new HashMap<>();
+
+    // Stores the current temperature set for air conditioners
     private final Map<String, Integer> airConditionerTemperature = new HashMap<>();
 
+    // API key for authentication
     private final String API_KEY = "A7xL9mB2YzW0pTqE5vN6CdJsRuKfHgXoPiM1Q4ZlDbtV3nScAy";
 
+    // Turns a device ON or OFF based on client request
     @Override
     public void toggleDevice(ToggleDeviceRequest request, StreamObserver<ToggleDeviceResponse> responseObserver) {
 
@@ -31,10 +39,9 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         try {
             boolean success = controlDevice(request.getDeviceId(), request.getTurnOn());
 
-            ToggleDeviceResponse response = (ToggleDeviceResponse) (ToggleDeviceResponse) ToggleDeviceResponse.newBuilder()
+            ToggleDeviceResponse response = (ToggleDeviceResponse) ToggleDeviceResponse.newBuilder()
                     .setSuccess(success)
                     .setMessage(success ? (request.getTurnOn() ? "Device turned ON" : "Device turned OFF") : "Failed")
-                //    .setApiKey(API_KEY)
                     .build();
 
             responseObserver.onNext(response);
@@ -47,6 +54,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         }
     }
 
+    // Schedules a future action for a specific device
     @Override
     public void setSchedule(SetScheduleRequest request, StreamObserver<SetScheduleResponse> responseObserver) {
 
@@ -82,6 +90,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         responseObserver.onCompleted();
     }
 
+    // Streams the current status of a device to the client
     @Override
     public void streamDeviceStatus(StreamDeviceStatusRequest request, StreamObserver<DeviceStatusResponse> responseObserver) {
 
@@ -111,6 +120,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         }
     }
 
+    // Receives a stream of commands from the client and sends back a summary
     @Override
     public StreamObserver<DeviceCommand> sendDeviceCommands(final StreamObserver<CommandSummaryResponse> responseObserver) {
 
@@ -146,6 +156,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         };
     }
 
+    // Bidirectional stream that simulates live communication with a device
     @Override
     public StreamObserver<DeviceMessage> communicateWithDevice(final StreamObserver<DeviceMessage> responseObserver) {
 
@@ -225,6 +236,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         };
     }
 
+    // Simulates the control of a device and logs its state
     private boolean controlDevice(String deviceId, boolean turnOn) {
         devices.put(deviceId, turnOn);
         String action = turnOn ? "ON" : "OFF";

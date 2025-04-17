@@ -2,14 +2,13 @@ package automation;
 
 import io.grpc.*;
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import io.grpc.TlsServerCredentials;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import automation.Energy.*;
 
 public class IQHavenServer {
     private static final Logger logger = Logger.getLogger(IQHavenServer.class.getName());
@@ -18,85 +17,69 @@ public class IQHavenServer {
 
     public void start() throws IOException {
         try {
-            // Create server credentials with TLS
-            ServerCredentials credentials = TlsServerCredentials.create(
-                    new File("server.crt"),  // Server certificate
-                    new File("server.pem")   // Private key
-            );
-
-            // Create authentication interceptor
-            ServerInterceptor authInterceptor = new ServerInterceptor() {
-                @Override
-                public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
-                        ServerCall<ReqT, RespT> call,
-                        Metadata headers,
-                        ServerCallHandler<ReqT, RespT> next) {
-
-                    String token = headers.get(Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER));
-
-                    if (token == null || !token.equals("Bearer my-secret-token")) {
-                        call.close(Status.UNAUTHENTICATED.withDescription("Invalid or missing token"), headers);
-                        return new ServerCall.Listener<ReqT>() {};
-                    }
-
-                    return next.startCall(call, headers);
-                }
-            };
-
-            // Build the server with security and services
-            server = ServerBuilder.forPort(PORT)
-                    .addService(new AutomationServiceImpl())
-                    .addService(new EnergyServiceImpl())
-                    .addService(new SecurityServiceImpl())
-                    .intercept(authInterceptor)
-                    .useTransportSecurity(
-                            new File("server.crt"),
-                            new File("server.pem")
-                    )
+            // Criação do servidor gRPC (sem TLS, mas com interceptador de autenticação)
+            server = Grpc.newServerBuilderForPort(PORT, InsecureServerCredentials.create())
+                    .addService(new AutomationServiceImpl())  // Serviço de automação
+                    .addService(new EnergyServiceImpl())      // Serviço de energia
+                    .addService(new SecurityServiceImpl())    // Serviço de segurança
+//                    .intercept(new AuthenticatorInterceptor()) // Interceptador de autenticação
                     .build()
                     .start();
 
-            logger.log(Level.INFO, "IQHavenServer started. Listening on port {0}", PORT);
-            logger.info("Services registered:\n" +
-                    "- AutomationService\n" +
-                    "- EnergyService\n" +
-                    "- SecurityService");
+            System.out.println("Server started on port: " + PORT);
+            registerShutdownHook(); // Método para registrar o shutdown do servidor
 
-            registerShutdownHook();
-
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to start server on port " + PORT, e);
-            throw e;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Failed to start server", e);
+            throw new IOException("Server startup failed", e);
         }
     }
 
+    // Método de interceptação para autenticação via header
+//    private static class AuthenticatorInterceptor implements ServerInterceptor {
+//        private static final String VALID_TOKEN = "teste123"; // Token fixo (simples para teste)
+//
+//        @Override
+//        public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
+//                ServerCall<ReqT, RespT> call,
+//                Metadata headers,
+//                ServerCallHandler<ReqT, RespT> next) {
+//
+//            // Obtém o token do header "x-auth-token" (corrigido para corresponder ao cliente)
+//            String token = headers.get(Metadata.Key.of("x-auth-token", Metadata.ASCII_STRING_MARSHALLER));
+//
+////            if (token == null || !token.equals(VALID_TOKEN)) {
+////                // Se o token estiver ausente ou for inválido, rejeita a requisição
+////                call.close(Status.UNAUTHENTICATED.withDescription("Token inválido ou ausente"), headers);
+////                return new ServerCall.Listener<ReqT>() {}; // Retorna um listener vazio (bloqueia a chamada)
+////            }
+//            return next.startCall(call, headers); // Se o token for válido, prossegue com a chamada
+//        }
+//    }
+
+    // Método para registrar o shutdown do servidor
     private void registerShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            logger.info("Shutting down gRPC server...");
             try {
-                IQHavenServer.this.stop();
-                logger.info("Server shut down successfully.");
-            } catch (Exception e) {
-                logger.log(Level.SEVERE, "Error during server shutdown", e);
+                stop();  // Chama o método de parada do servidor
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }));
     }
 
+    // Método para parar o servidor
     public void stop() throws InterruptedException {
-        if (server != null && !server.isShutdown()) {
+        if (server != null) {
             server.shutdown();
-            try {
-                if (!server.awaitTermination(3, TimeUnit.SECONDS)) {
-                    server.shutdownNow();
-                }
-            } catch (InterruptedException e) {
+            if (!server.awaitTermination(3, TimeUnit.SECONDS)) {
                 server.shutdownNow();
-                Thread.currentThread().interrupt();
             }
         }
     }
 
-    private void blockUntilShutdown() throws InterruptedException {
+    // Método para bloquear até que o servidor seja fechado
+    public void blockUntilShutdown() throws InterruptedException {
         if (server != null) {
             server.awaitTermination();
         }
@@ -105,17 +88,10 @@ public class IQHavenServer {
     public static void main(String[] args) {
         IQHavenServer server = new IQHavenServer();
         try {
-            server.start();
-            server.blockUntilShutdown();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Server failed to start", e);
-            System.exit(1);
-        } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Server was interrupted", e);
-            Thread.currentThread().interrupt();
-            System.exit(1);
+            server.start(); // Inicia o servidor
+            server.blockUntilShutdown(); // Bloqueia até o servidor ser fechado
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unexpected server error", e);
+            logger.log(Level.SEVERE, "Server terminated with error", e);
             System.exit(1);
         }
     }

@@ -114,12 +114,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version> <!-- versão mais nova que lida melhor com JDK 21 -->
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <release></release> <!-- Isso desativa o uso do release -->
+                    <source>21</source>
+                    <target>21</target>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>

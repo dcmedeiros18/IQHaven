@@ -1,25 +1,13 @@
 package automation;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.15.0)",
+    value = "by gRPC proto compiler (version 1.56.1)",
     comments = "Source: energy.proto")
+@io.grpc.stub.annotations.GrpcGenerated
 public final class EnergyServiceGrpc {
 
   private EnergyServiceGrpc() {}
@@ -41,22 +29,21 @@ public final class EnergyServiceGrpc {
     if ((getOptimizeEnergyMethod = EnergyServiceGrpc.getOptimizeEnergyMethod) == null) {
       synchronized (EnergyServiceGrpc.class) {
         if ((getOptimizeEnergyMethod = EnergyServiceGrpc.getOptimizeEnergyMethod) == null) {
-          EnergyServiceGrpc.getOptimizeEnergyMethod = getOptimizeEnergyMethod = 
+          EnergyServiceGrpc.getOptimizeEnergyMethod = getOptimizeEnergyMethod =
               io.grpc.MethodDescriptor.<automation.Energy.OptimizeEnergyRequest, automation.Energy.OptimizeEnergyResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.EnergyService", "OptimizeEnergy"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "OptimizeEnergy"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.OptimizeEnergyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.OptimizeEnergyResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("OptimizeEnergy"))
-                  .build();
-          }
+              .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("OptimizeEnergy"))
+              .build();
         }
-     }
-     return getOptimizeEnergyMethod;
+      }
+    }
+    return getOptimizeEnergyMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Energy.StreamEnergyUsageRequest,
@@ -73,22 +60,21 @@ public final class EnergyServiceGrpc {
     if ((getStreamEnergyUsageMethod = EnergyServiceGrpc.getStreamEnergyUsageMethod) == null) {
       synchronized (EnergyServiceGrpc.class) {
         if ((getStreamEnergyUsageMethod = EnergyServiceGrpc.getStreamEnergyUsageMethod) == null) {
-          EnergyServiceGrpc.getStreamEnergyUsageMethod = getStreamEnergyUsageMethod = 
+          EnergyServiceGrpc.getStreamEnergyUsageMethod = getStreamEnergyUsageMethod =
               io.grpc.MethodDescriptor.<automation.Energy.StreamEnergyUsageRequest, automation.Energy.EnergyUsageResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.EnergyService", "StreamEnergyUsage"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamEnergyUsage"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.StreamEnergyUsageRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.EnergyUsageResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("StreamEnergyUsage"))
-                  .build();
-          }
+              .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("StreamEnergyUsage"))
+              .build();
         }
-     }
-     return getStreamEnergyUsageMethod;
+      }
+    }
+    return getStreamEnergyUsageMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Energy.EnergyData,
@@ -105,22 +91,21 @@ public final class EnergyServiceGrpc {
     if ((getSendEnergyDataMethod = EnergyServiceGrpc.getSendEnergyDataMethod) == null) {
       synchronized (EnergyServiceGrpc.class) {
         if ((getSendEnergyDataMethod = EnergyServiceGrpc.getSendEnergyDataMethod) == null) {
-          EnergyServiceGrpc.getSendEnergyDataMethod = getSendEnergyDataMethod = 
+          EnergyServiceGrpc.getSendEnergyDataMethod = getSendEnergyDataMethod =
               io.grpc.MethodDescriptor.<automation.Energy.EnergyData, automation.Energy.EnergyDataSummaryResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.EnergyService", "SendEnergyData"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SendEnergyData"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.EnergyData.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.EnergyDataSummaryResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("SendEnergyData"))
-                  .build();
-          }
+              .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("SendEnergyData"))
+              .build();
         }
-     }
-     return getSendEnergyDataMethod;
+      }
+    }
+    return getSendEnergyDataMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Energy.EnergyUpdateRequest,
@@ -137,29 +122,35 @@ public final class EnergyServiceGrpc {
     if ((getMonitorEnergyMethod = EnergyServiceGrpc.getMonitorEnergyMethod) == null) {
       synchronized (EnergyServiceGrpc.class) {
         if ((getMonitorEnergyMethod = EnergyServiceGrpc.getMonitorEnergyMethod) == null) {
-          EnergyServiceGrpc.getMonitorEnergyMethod = getMonitorEnergyMethod = 
+          EnergyServiceGrpc.getMonitorEnergyMethod = getMonitorEnergyMethod =
               io.grpc.MethodDescriptor.<automation.Energy.EnergyUpdateRequest, automation.Energy.EnergyUpdateResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.EnergyService", "MonitorEnergy"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "MonitorEnergy"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.EnergyUpdateRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Energy.EnergyUpdateResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("MonitorEnergy"))
-                  .build();
-          }
+              .setSchemaDescriptor(new EnergyServiceMethodDescriptorSupplier("MonitorEnergy"))
+              .build();
         }
-     }
-     return getMonitorEnergyMethod;
+      }
+    }
+    return getMonitorEnergyMethod;
   }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static EnergyServiceStub newStub(io.grpc.Channel channel) {
-    return new EnergyServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<EnergyServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<EnergyServiceStub>() {
+        @java.lang.Override
+        public EnergyServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new EnergyServiceStub(channel, callOptions);
+        }
+      };
+    return EnergyServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -167,7 +158,14 @@ public final class EnergyServiceGrpc {
    */
   public static EnergyServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new EnergyServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<EnergyServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<EnergyServiceBlockingStub>() {
+        @java.lang.Override
+        public EnergyServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new EnergyServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return EnergyServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
@@ -175,21 +173,28 @@ public final class EnergyServiceGrpc {
    */
   public static EnergyServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new EnergyServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<EnergyServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<EnergyServiceFutureStub>() {
+        @java.lang.Override
+        public EnergyServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new EnergyServiceFutureStub(channel, callOptions);
+        }
+      };
+    return EnergyServiceFutureStub.newStub(factory, channel);
   }
 
   /**
    */
-  public static abstract class EnergyServiceImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * Unary RPC
      * </pre>
      */
-    public void optimizeEnergy(automation.Energy.OptimizeEnergyRequest request,
+    default void optimizeEnergy(automation.Energy.OptimizeEnergyRequest request,
         io.grpc.stub.StreamObserver<automation.Energy.OptimizeEnergyResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getOptimizeEnergyMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getOptimizeEnergyMethod(), responseObserver);
     }
 
     /**
@@ -197,9 +202,9 @@ public final class EnergyServiceGrpc {
      * Server Streaming RPC:The server sends continuous energy optimisation suggestions.
      * </pre>
      */
-    public void streamEnergyUsage(automation.Energy.StreamEnergyUsageRequest request,
+    default void streamEnergyUsage(automation.Energy.StreamEnergyUsageRequest request,
         io.grpc.stub.StreamObserver<automation.Energy.EnergyUsageResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getStreamEnergyUsageMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamEnergyUsageMethod(), responseObserver);
     }
 
     /**
@@ -207,9 +212,9 @@ public final class EnergyServiceGrpc {
      * Client Streaming RPC:The customer sends multiple consumption data and receives a summary.
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<automation.Energy.EnergyData> sendEnergyData(
+    default io.grpc.stub.StreamObserver<automation.Energy.EnergyData> sendEnergyData(
         io.grpc.stub.StreamObserver<automation.Energy.EnergyDataSummaryResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getSendEnergyDataMethod(), responseObserver);
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getSendEnergyDataMethod(), responseObserver);
     }
 
     /**
@@ -217,60 +222,36 @@ public final class EnergyServiceGrpc {
      * Bidirectional Streaming RPC:Continuous communication between client and server for energy optimisation.
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<automation.Energy.EnergyUpdateRequest> monitorEnergy(
+    default io.grpc.stub.StreamObserver<automation.Energy.EnergyUpdateRequest> monitorEnergy(
         io.grpc.stub.StreamObserver<automation.Energy.EnergyUpdateResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getMonitorEnergyMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getOptimizeEnergyMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                automation.Energy.OptimizeEnergyRequest,
-                automation.Energy.OptimizeEnergyResponse>(
-                  this, METHODID_OPTIMIZE_ENERGY)))
-          .addMethod(
-            getStreamEnergyUsageMethod(),
-            asyncServerStreamingCall(
-              new MethodHandlers<
-                automation.Energy.StreamEnergyUsageRequest,
-                automation.Energy.EnergyUsageResponse>(
-                  this, METHODID_STREAM_ENERGY_USAGE)))
-          .addMethod(
-            getSendEnergyDataMethod(),
-            asyncClientStreamingCall(
-              new MethodHandlers<
-                automation.Energy.EnergyData,
-                automation.Energy.EnergyDataSummaryResponse>(
-                  this, METHODID_SEND_ENERGY_DATA)))
-          .addMethod(
-            getMonitorEnergyMethod(),
-            asyncBidiStreamingCall(
-              new MethodHandlers<
-                automation.Energy.EnergyUpdateRequest,
-                automation.Energy.EnergyUpdateResponse>(
-                  this, METHODID_MONITOR_ENERGY)))
-          .build();
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getMonitorEnergyMethod(), responseObserver);
     }
   }
 
   /**
+   * Base class for the server implementation of the service EnergyService.
    */
-  public static final class EnergyServiceStub extends io.grpc.stub.AbstractStub<EnergyServiceStub> {
-    private EnergyServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
+  public static abstract class EnergyServiceImplBase
+      implements io.grpc.BindableService, AsyncService {
 
-    private EnergyServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return EnergyServiceGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service EnergyService.
+   */
+  public static final class EnergyServiceStub
+      extends io.grpc.stub.AbstractAsyncStub<EnergyServiceStub> {
+    private EnergyServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected EnergyServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected EnergyServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new EnergyServiceStub(channel, callOptions);
     }
 
@@ -281,7 +262,7 @@ public final class EnergyServiceGrpc {
      */
     public void optimizeEnergy(automation.Energy.OptimizeEnergyRequest request,
         io.grpc.stub.StreamObserver<automation.Energy.OptimizeEnergyResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getOptimizeEnergyMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -292,7 +273,7 @@ public final class EnergyServiceGrpc {
      */
     public void streamEnergyUsage(automation.Energy.StreamEnergyUsageRequest request,
         io.grpc.stub.StreamObserver<automation.Energy.EnergyUsageResponse> responseObserver) {
-      asyncServerStreamingCall(
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getStreamEnergyUsageMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -303,7 +284,7 @@ public final class EnergyServiceGrpc {
      */
     public io.grpc.stub.StreamObserver<automation.Energy.EnergyData> sendEnergyData(
         io.grpc.stub.StreamObserver<automation.Energy.EnergyDataSummaryResponse> responseObserver) {
-      return asyncClientStreamingCall(
+      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
           getChannel().newCall(getSendEnergyDataMethod(), getCallOptions()), responseObserver);
     }
 
@@ -314,26 +295,24 @@ public final class EnergyServiceGrpc {
      */
     public io.grpc.stub.StreamObserver<automation.Energy.EnergyUpdateRequest> monitorEnergy(
         io.grpc.stub.StreamObserver<automation.Energy.EnergyUpdateResponse> responseObserver) {
-      return asyncBidiStreamingCall(
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
           getChannel().newCall(getMonitorEnergyMethod(), getCallOptions()), responseObserver);
     }
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service EnergyService.
    */
-  public static final class EnergyServiceBlockingStub extends io.grpc.stub.AbstractStub<EnergyServiceBlockingStub> {
-    private EnergyServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private EnergyServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class EnergyServiceBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<EnergyServiceBlockingStub> {
+    private EnergyServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected EnergyServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected EnergyServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new EnergyServiceBlockingStub(channel, callOptions);
     }
 
@@ -343,7 +322,7 @@ public final class EnergyServiceGrpc {
      * </pre>
      */
     public automation.Energy.OptimizeEnergyResponse optimizeEnergy(automation.Energy.OptimizeEnergyRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getOptimizeEnergyMethod(), getCallOptions(), request);
     }
 
@@ -354,26 +333,24 @@ public final class EnergyServiceGrpc {
      */
     public java.util.Iterator<automation.Energy.EnergyUsageResponse> streamEnergyUsage(
         automation.Energy.StreamEnergyUsageRequest request) {
-      return blockingServerStreamingCall(
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
           getChannel(), getStreamEnergyUsageMethod(), getCallOptions(), request);
     }
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service EnergyService.
    */
-  public static final class EnergyServiceFutureStub extends io.grpc.stub.AbstractStub<EnergyServiceFutureStub> {
-    private EnergyServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private EnergyServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class EnergyServiceFutureStub
+      extends io.grpc.stub.AbstractFutureStub<EnergyServiceFutureStub> {
+    private EnergyServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected EnergyServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected EnergyServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new EnergyServiceFutureStub(channel, callOptions);
     }
 
@@ -384,7 +361,7 @@ public final class EnergyServiceGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<automation.Energy.OptimizeEnergyResponse> optimizeEnergy(
         automation.Energy.OptimizeEnergyRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getOptimizeEnergyMethod(), getCallOptions()), request);
     }
   }
@@ -399,10 +376,10 @@ public final class EnergyServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final EnergyServiceImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(EnergyServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -439,6 +416,39 @@ public final class EnergyServiceGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getOptimizeEnergyMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              automation.Energy.OptimizeEnergyRequest,
+              automation.Energy.OptimizeEnergyResponse>(
+                service, METHODID_OPTIMIZE_ENERGY)))
+        .addMethod(
+          getStreamEnergyUsageMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            new MethodHandlers<
+              automation.Energy.StreamEnergyUsageRequest,
+              automation.Energy.EnergyUsageResponse>(
+                service, METHODID_STREAM_ENERGY_USAGE)))
+        .addMethod(
+          getSendEnergyDataMethod(),
+          io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+            new MethodHandlers<
+              automation.Energy.EnergyData,
+              automation.Energy.EnergyDataSummaryResponse>(
+                service, METHODID_SEND_ENERGY_DATA)))
+        .addMethod(
+          getMonitorEnergyMethod(),
+          io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+            new MethodHandlers<
+              automation.Energy.EnergyUpdateRequest,
+              automation.Energy.EnergyUpdateResponse>(
+                service, METHODID_MONITOR_ENERGY)))
+        .build();
   }
 
   private static abstract class EnergyServiceBaseDescriptorSupplier

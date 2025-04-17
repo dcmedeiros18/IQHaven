@@ -20,16 +20,19 @@ public final class Automation {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>bool turn_on = 2;</code>
+     * @return The turnOn.
      */
     boolean getTurnOn();
   }
@@ -47,7 +50,13 @@ public final class Automation {
     }
     private ToggleDeviceRequest() {
       deviceId_ = "";
-      turnOn_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ToggleDeviceRequest();
     }
 
     @java.lang.Override
@@ -63,7 +72,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -86,7 +94,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -121,6 +129,7 @@ public final class Automation {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -136,6 +145,7 @@ public final class Automation {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -155,6 +165,7 @@ public final class Automation {
     private boolean turnOn_;
     /**
      * <code>bool turn_on = 2;</code>
+     * @return The turnOn.
      */
     public boolean getTurnOn() {
       return turnOn_;
@@ -211,13 +222,12 @@ public final class Automation {
       }
       automation.Automation.ToggleDeviceRequest other = (automation.Automation.ToggleDeviceRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && (getTurnOn()
-          == other.getTurnOn());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (getTurnOn()
+          != other.getTurnOn()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -327,12 +337,7 @@ public final class Automation {
       Builder builder = new Builder(parent);
       return builder;
     }
-
-      public boolean hasTurnOn() {
-        return false;
-      }
-
-      /**
+    /**
      * Protobuf type {@code automation.ToggleDeviceRequest}
      */
     public static final class Builder extends
@@ -408,35 +413,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -489,6 +494,7 @@ public final class Automation {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -504,6 +510,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -520,6 +527,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -533,6 +542,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -542,6 +552,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -558,12 +570,15 @@ public final class Automation {
       private boolean turnOn_ ;
       /**
        * <code>bool turn_on = 2;</code>
+       * @return The turnOn.
        */
       public boolean getTurnOn() {
         return turnOn_;
       }
       /**
        * <code>bool turn_on = 2;</code>
+       * @param value The turnOn to set.
+       * @return This builder for chaining.
        */
       public Builder setTurnOn(boolean value) {
         
@@ -573,6 +588,7 @@ public final class Automation {
       }
       /**
        * <code>bool turn_on = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTurnOn() {
         
@@ -583,7 +599,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -639,15 +655,18 @@ public final class Automation {
 
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     boolean getSuccess();
 
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     java.lang.String getMessage();
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -665,8 +684,14 @@ public final class Automation {
       super(builder);
     }
     private ToggleDeviceResponse() {
-      success_ = false;
       message_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ToggleDeviceResponse();
     }
 
     @java.lang.Override
@@ -682,7 +707,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -705,7 +729,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -740,6 +764,7 @@ public final class Automation {
     private boolean success_;
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     public boolean getSuccess() {
       return success_;
@@ -749,6 +774,7 @@ public final class Automation {
     private volatile java.lang.Object message_;
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -764,6 +790,7 @@ public final class Automation {
     }
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -830,13 +857,12 @@ public final class Automation {
       }
       automation.Automation.ToggleDeviceResponse other = (automation.Automation.ToggleDeviceResponse) obj;
 
-      boolean result = true;
-      result = result && (getSuccess()
-          == other.getSuccess());
-      result = result && getMessage()
-          .equals(other.getMessage());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1022,35 +1048,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1103,12 +1129,15 @@ public final class Automation {
       private boolean success_ ;
       /**
        * <code>bool success = 1;</code>
+       * @return The success.
        */
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         
@@ -1118,6 +1147,7 @@ public final class Automation {
       }
       /**
        * <code>bool success = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         
@@ -1129,6 +1159,7 @@ public final class Automation {
       private java.lang.Object message_ = "";
       /**
        * <code>string message = 2;</code>
+       * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -1144,6 +1175,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -1160,6 +1192,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -1173,6 +1207,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMessage() {
         
@@ -1182,6 +1217,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -1197,7 +1234,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1253,26 +1290,31 @@ public final class Automation {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string schedule_time = 2;</code>
+     * @return The scheduleTime.
      */
     java.lang.String getScheduleTime();
     /**
      * <code>string schedule_time = 2;</code>
+     * @return The bytes for scheduleTime.
      */
     com.google.protobuf.ByteString
         getScheduleTimeBytes();
 
     /**
      * <code>bool turn_on = 3;</code>
+     * @return The turnOn.
      */
     boolean getTurnOn();
   }
@@ -1291,7 +1333,13 @@ public final class Automation {
     private SetScheduleRequest() {
       deviceId_ = "";
       scheduleTime_ = "";
-      turnOn_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SetScheduleRequest();
     }
 
     @java.lang.Override
@@ -1307,7 +1355,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1336,7 +1383,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -1371,6 +1418,7 @@ public final class Automation {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -1386,6 +1434,7 @@ public final class Automation {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -1405,6 +1454,7 @@ public final class Automation {
     private volatile java.lang.Object scheduleTime_;
     /**
      * <code>string schedule_time = 2;</code>
+     * @return The scheduleTime.
      */
     public java.lang.String getScheduleTime() {
       java.lang.Object ref = scheduleTime_;
@@ -1420,6 +1470,7 @@ public final class Automation {
     }
     /**
      * <code>string schedule_time = 2;</code>
+     * @return The bytes for scheduleTime.
      */
     public com.google.protobuf.ByteString
         getScheduleTimeBytes() {
@@ -1439,6 +1490,7 @@ public final class Automation {
     private boolean turnOn_;
     /**
      * <code>bool turn_on = 3;</code>
+     * @return The turnOn.
      */
     public boolean getTurnOn() {
       return turnOn_;
@@ -1501,15 +1553,14 @@ public final class Automation {
       }
       automation.Automation.SetScheduleRequest other = (automation.Automation.SetScheduleRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getScheduleTime()
-          .equals(other.getScheduleTime());
-      result = result && (getTurnOn()
-          == other.getTurnOn());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getScheduleTime()
+          .equals(other.getScheduleTime())) return false;
+      if (getTurnOn()
+          != other.getTurnOn()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1700,35 +1751,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1785,6 +1836,7 @@ public final class Automation {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -1800,6 +1852,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -1816,6 +1869,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -1829,6 +1884,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -1838,6 +1894,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1854,6 +1912,7 @@ public final class Automation {
       private java.lang.Object scheduleTime_ = "";
       /**
        * <code>string schedule_time = 2;</code>
+       * @return The scheduleTime.
        */
       public java.lang.String getScheduleTime() {
         java.lang.Object ref = scheduleTime_;
@@ -1869,6 +1928,7 @@ public final class Automation {
       }
       /**
        * <code>string schedule_time = 2;</code>
+       * @return The bytes for scheduleTime.
        */
       public com.google.protobuf.ByteString
           getScheduleTimeBytes() {
@@ -1885,6 +1945,8 @@ public final class Automation {
       }
       /**
        * <code>string schedule_time = 2;</code>
+       * @param value The scheduleTime to set.
+       * @return This builder for chaining.
        */
       public Builder setScheduleTime(
           java.lang.String value) {
@@ -1898,6 +1960,7 @@ public final class Automation {
       }
       /**
        * <code>string schedule_time = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScheduleTime() {
         
@@ -1907,6 +1970,8 @@ public final class Automation {
       }
       /**
        * <code>string schedule_time = 2;</code>
+       * @param value The bytes for scheduleTime to set.
+       * @return This builder for chaining.
        */
       public Builder setScheduleTimeBytes(
           com.google.protobuf.ByteString value) {
@@ -1923,12 +1988,15 @@ public final class Automation {
       private boolean turnOn_ ;
       /**
        * <code>bool turn_on = 3;</code>
+       * @return The turnOn.
        */
       public boolean getTurnOn() {
         return turnOn_;
       }
       /**
        * <code>bool turn_on = 3;</code>
+       * @param value The turnOn to set.
+       * @return This builder for chaining.
        */
       public Builder setTurnOn(boolean value) {
         
@@ -1938,6 +2006,7 @@ public final class Automation {
       }
       /**
        * <code>bool turn_on = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTurnOn() {
         
@@ -1948,7 +2017,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2004,15 +2073,18 @@ public final class Automation {
 
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     boolean getSuccess();
 
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     java.lang.String getMessage();
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -2030,8 +2102,14 @@ public final class Automation {
       super(builder);
     }
     private SetScheduleResponse() {
-      success_ = false;
       message_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SetScheduleResponse();
     }
 
     @java.lang.Override
@@ -2047,7 +2125,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2070,7 +2147,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2105,6 +2182,7 @@ public final class Automation {
     private boolean success_;
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     public boolean getSuccess() {
       return success_;
@@ -2114,6 +2192,7 @@ public final class Automation {
     private volatile java.lang.Object message_;
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -2129,6 +2208,7 @@ public final class Automation {
     }
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -2195,13 +2275,12 @@ public final class Automation {
       }
       automation.Automation.SetScheduleResponse other = (automation.Automation.SetScheduleResponse) obj;
 
-      boolean result = true;
-      result = result && (getSuccess()
-          == other.getSuccess());
-      result = result && getMessage()
-          .equals(other.getMessage());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2387,35 +2466,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2468,12 +2547,15 @@ public final class Automation {
       private boolean success_ ;
       /**
        * <code>bool success = 1;</code>
+       * @return The success.
        */
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         
@@ -2483,6 +2565,7 @@ public final class Automation {
       }
       /**
        * <code>bool success = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         
@@ -2494,6 +2577,7 @@ public final class Automation {
       private java.lang.Object message_ = "";
       /**
        * <code>string message = 2;</code>
+       * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -2509,6 +2593,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -2525,6 +2610,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -2538,6 +2625,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMessage() {
         
@@ -2547,6 +2635,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -2562,7 +2652,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2618,10 +2708,12 @@ public final class Automation {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
@@ -2647,6 +2739,13 @@ public final class Automation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StreamDeviceStatusRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2659,7 +2758,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2677,7 +2775,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2712,6 +2810,7 @@ public final class Automation {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -2727,6 +2826,7 @@ public final class Automation {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -2786,11 +2886,10 @@ public final class Automation {
       }
       automation.Automation.StreamDeviceStatusRequest other = (automation.Automation.StreamDeviceStatusRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2974,35 +3073,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3052,6 +3151,7 @@ public final class Automation {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -3067,6 +3167,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -3083,6 +3184,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -3096,6 +3199,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -3105,6 +3209,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3120,7 +3226,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3176,20 +3282,24 @@ public final class Automation {
 
     /**
      * <code>string status = 1;</code>
+     * @return The status.
      */
     java.lang.String getStatus();
     /**
      * <code>string status = 1;</code>
+     * @return The bytes for status.
      */
     com.google.protobuf.ByteString
         getStatusBytes();
 
     /**
      * <code>string timestamp = 2;</code>
+     * @return The timestamp.
      */
     java.lang.String getTimestamp();
     /**
      * <code>string timestamp = 2;</code>
+     * @return The bytes for timestamp.
      */
     com.google.protobuf.ByteString
         getTimestampBytes();
@@ -3212,6 +3322,13 @@ public final class Automation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeviceStatusResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3224,7 +3341,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3248,7 +3364,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3283,6 +3399,7 @@ public final class Automation {
     private volatile java.lang.Object status_;
     /**
      * <code>string status = 1;</code>
+     * @return The status.
      */
     public java.lang.String getStatus() {
       java.lang.Object ref = status_;
@@ -3298,6 +3415,7 @@ public final class Automation {
     }
     /**
      * <code>string status = 1;</code>
+     * @return The bytes for status.
      */
     public com.google.protobuf.ByteString
         getStatusBytes() {
@@ -3317,6 +3435,7 @@ public final class Automation {
     private volatile java.lang.Object timestamp_;
     /**
      * <code>string timestamp = 2;</code>
+     * @return The timestamp.
      */
     public java.lang.String getTimestamp() {
       java.lang.Object ref = timestamp_;
@@ -3332,6 +3451,7 @@ public final class Automation {
     }
     /**
      * <code>string timestamp = 2;</code>
+     * @return The bytes for timestamp.
      */
     public com.google.protobuf.ByteString
         getTimestampBytes() {
@@ -3397,13 +3517,12 @@ public final class Automation {
       }
       automation.Automation.DeviceStatusResponse other = (automation.Automation.DeviceStatusResponse) obj;
 
-      boolean result = true;
-      result = result && getStatus()
-          .equals(other.getStatus());
-      result = result && getTimestamp()
-          .equals(other.getTimestamp());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getStatus()
+          .equals(other.getStatus())) return false;
+      if (!getTimestamp()
+          .equals(other.getTimestamp())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3588,35 +3707,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3670,6 +3789,7 @@ public final class Automation {
       private java.lang.Object status_ = "";
       /**
        * <code>string status = 1;</code>
+       * @return The status.
        */
       public java.lang.String getStatus() {
         java.lang.Object ref = status_;
@@ -3685,6 +3805,7 @@ public final class Automation {
       }
       /**
        * <code>string status = 1;</code>
+       * @return The bytes for status.
        */
       public com.google.protobuf.ByteString
           getStatusBytes() {
@@ -3701,6 +3822,8 @@ public final class Automation {
       }
       /**
        * <code>string status = 1;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(
           java.lang.String value) {
@@ -3714,6 +3837,7 @@ public final class Automation {
       }
       /**
        * <code>string status = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -3723,6 +3847,8 @@ public final class Automation {
       }
       /**
        * <code>string status = 1;</code>
+       * @param value The bytes for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusBytes(
           com.google.protobuf.ByteString value) {
@@ -3739,6 +3865,7 @@ public final class Automation {
       private java.lang.Object timestamp_ = "";
       /**
        * <code>string timestamp = 2;</code>
+       * @return The timestamp.
        */
       public java.lang.String getTimestamp() {
         java.lang.Object ref = timestamp_;
@@ -3754,6 +3881,7 @@ public final class Automation {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @return The bytes for timestamp.
        */
       public com.google.protobuf.ByteString
           getTimestampBytes() {
@@ -3770,6 +3898,8 @@ public final class Automation {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @param value The timestamp to set.
+       * @return This builder for chaining.
        */
       public Builder setTimestamp(
           java.lang.String value) {
@@ -3783,6 +3913,7 @@ public final class Automation {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
         
@@ -3792,6 +3923,8 @@ public final class Automation {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @param value The bytes for timestamp to set.
+       * @return This builder for chaining.
        */
       public Builder setTimestampBytes(
           com.google.protobuf.ByteString value) {
@@ -3807,7 +3940,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3863,20 +3996,24 @@ public final class Automation {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string command = 2;</code>
+     * @return The command.
      */
     java.lang.String getCommand();
     /**
      * <code>string command = 2;</code>
+     * @return The bytes for command.
      */
     com.google.protobuf.ByteString
         getCommandBytes();
@@ -3899,6 +4036,13 @@ public final class Automation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeviceCommand();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3911,7 +4055,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3935,7 +4078,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3970,6 +4113,7 @@ public final class Automation {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -3985,6 +4129,7 @@ public final class Automation {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -4004,6 +4149,7 @@ public final class Automation {
     private volatile java.lang.Object command_;
     /**
      * <code>string command = 2;</code>
+     * @return The command.
      */
     public java.lang.String getCommand() {
       java.lang.Object ref = command_;
@@ -4019,6 +4165,7 @@ public final class Automation {
     }
     /**
      * <code>string command = 2;</code>
+     * @return The bytes for command.
      */
     public com.google.protobuf.ByteString
         getCommandBytes() {
@@ -4084,13 +4231,12 @@ public final class Automation {
       }
       automation.Automation.DeviceCommand other = (automation.Automation.DeviceCommand) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getCommand()
-          .equals(other.getCommand());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getCommand()
+          .equals(other.getCommand())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4275,35 +4421,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4357,6 +4503,7 @@ public final class Automation {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -4372,6 +4519,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -4388,6 +4536,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -4401,6 +4551,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -4410,6 +4561,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4426,6 +4579,7 @@ public final class Automation {
       private java.lang.Object command_ = "";
       /**
        * <code>string command = 2;</code>
+       * @return The command.
        */
       public java.lang.String getCommand() {
         java.lang.Object ref = command_;
@@ -4441,6 +4595,7 @@ public final class Automation {
       }
       /**
        * <code>string command = 2;</code>
+       * @return The bytes for command.
        */
       public com.google.protobuf.ByteString
           getCommandBytes() {
@@ -4457,6 +4612,8 @@ public final class Automation {
       }
       /**
        * <code>string command = 2;</code>
+       * @param value The command to set.
+       * @return This builder for chaining.
        */
       public Builder setCommand(
           java.lang.String value) {
@@ -4470,6 +4627,7 @@ public final class Automation {
       }
       /**
        * <code>string command = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCommand() {
         
@@ -4479,6 +4637,8 @@ public final class Automation {
       }
       /**
        * <code>string command = 2;</code>
+       * @param value The bytes for command to set.
+       * @return This builder for chaining.
        */
       public Builder setCommandBytes(
           com.google.protobuf.ByteString value) {
@@ -4494,7 +4654,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -4550,11 +4710,13 @@ public final class Automation {
 
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     boolean getSuccess();
 
     /**
      * <code>int32 commands_received = 2;</code>
+     * @return The commandsReceived.
      */
     int getCommandsReceived();
   }
@@ -4571,8 +4733,13 @@ public final class Automation {
       super(builder);
     }
     private CommandSummaryResponse() {
-      success_ = false;
-      commandsReceived_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CommandSummaryResponse();
     }
 
     @java.lang.Override
@@ -4588,7 +4755,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4610,7 +4776,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -4645,6 +4811,7 @@ public final class Automation {
     private boolean success_;
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     public boolean getSuccess() {
       return success_;
@@ -4654,6 +4821,7 @@ public final class Automation {
     private int commandsReceived_;
     /**
      * <code>int32 commands_received = 2;</code>
+     * @return The commandsReceived.
      */
     public int getCommandsReceived() {
       return commandsReceived_;
@@ -4711,13 +4879,12 @@ public final class Automation {
       }
       automation.Automation.CommandSummaryResponse other = (automation.Automation.CommandSummaryResponse) obj;
 
-      boolean result = true;
-      result = result && (getSuccess()
-          == other.getSuccess());
-      result = result && (getCommandsReceived()
-          == other.getCommandsReceived());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (getCommandsReceived()
+          != other.getCommandsReceived()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4903,35 +5070,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4983,12 +5150,15 @@ public final class Automation {
       private boolean success_ ;
       /**
        * <code>bool success = 1;</code>
+       * @return The success.
        */
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         
@@ -4998,6 +5168,7 @@ public final class Automation {
       }
       /**
        * <code>bool success = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         
@@ -5009,12 +5180,15 @@ public final class Automation {
       private int commandsReceived_ ;
       /**
        * <code>int32 commands_received = 2;</code>
+       * @return The commandsReceived.
        */
       public int getCommandsReceived() {
         return commandsReceived_;
       }
       /**
        * <code>int32 commands_received = 2;</code>
+       * @param value The commandsReceived to set.
+       * @return This builder for chaining.
        */
       public Builder setCommandsReceived(int value) {
         
@@ -5024,6 +5198,7 @@ public final class Automation {
       }
       /**
        * <code>int32 commands_received = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCommandsReceived() {
         
@@ -5034,7 +5209,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5090,20 +5265,24 @@ public final class Automation {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     java.lang.String getMessage();
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -5126,6 +5305,13 @@ public final class Automation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeviceMessage();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5138,7 +5324,6 @@ public final class Automation {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5162,7 +5347,7 @@ public final class Automation {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -5197,6 +5382,7 @@ public final class Automation {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -5212,6 +5398,7 @@ public final class Automation {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -5231,6 +5418,7 @@ public final class Automation {
     private volatile java.lang.Object message_;
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -5246,6 +5434,7 @@ public final class Automation {
     }
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -5311,13 +5500,12 @@ public final class Automation {
       }
       automation.Automation.DeviceMessage other = (automation.Automation.DeviceMessage) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getMessage()
-          .equals(other.getMessage());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5502,35 +5690,35 @@ public final class Automation {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -5584,6 +5772,7 @@ public final class Automation {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -5599,6 +5788,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -5615,6 +5805,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -5628,6 +5820,7 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -5637,6 +5830,8 @@ public final class Automation {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -5653,6 +5848,7 @@ public final class Automation {
       private java.lang.Object message_ = "";
       /**
        * <code>string message = 2;</code>
+       * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -5668,6 +5864,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -5684,6 +5881,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -5697,6 +5896,7 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMessage() {
         
@@ -5706,6 +5906,8 @@ public final class Automation {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -5721,7 +5923,7 @@ public final class Automation {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5852,18 +6054,10 @@ public final class Automation {
       "ce\022\031.automation.DeviceMessage\032\031.automati" +
       "on.DeviceMessage(\0010\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_automation_ToggleDeviceRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_automation_ToggleDeviceRequest_fieldAccessorTable = new

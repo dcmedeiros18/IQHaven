@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package automation;
+
+service EnergyService {
+    // Unary RPC
+    rpc OptimizeEnergy(OptimizeEnergyRequest) returns (OptimizeEnergyResponse);
+
+    // Server Streaming RPC:The server sends continuous energy optimisation suggestions.
+    rpc StreamEnergyUsage(StreamEnergyUsageRequest) returns (stream EnergyUsageResponse);
+
+    // Client Streaming RPC:The customer sends multiple consumption data and receives a summary.
+    rpc SendEnergyData(stream EnergyData) returns (EnergyDataSummaryResponse);
+
+    // Bidirectional Streaming RPC:Continuous communication between client and server for energy optimisation.
+    rpc MonitorEnergy(stream EnergyUpdateRequest) returns (stream EnergyUpdateResponse);
+}
+
+message OptimizeEnergyRequest {
+    string device_id = 1;
+    string suggestion = 2;
+}
+
+message OptimizeEnergyResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Server streaming
+message StreamEnergyUsageRequest {
+    string device_id = 1;
+}
+
+message EnergyUsageResponse {
+    double usage = 1;
+    string timestamp = 2;
+}
+
+// Client streaming
+message EnergyData {
+    string device_id = 1;
+    double energy_consumption = 2;
+}
+
+message EnergyDataSummaryResponse {
+    bool success = 1;
+    int32 data_points_received = 2;
+
+}
+
+// Bi-directional streaming
+message EnergyUpdateRequest {
+    string device_id = 1;
+    string action = 2;
+}
+
+message EnergyUpdateResponse {
+    string device_id = 1;
+    string status = 2;
+}

@@ -1,27 +1,13 @@
 package automation;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
-import automation.Automation.DeviceMessage;
-import io.grpc.stub.StreamObserver;
 
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.15.0)",
+    value = "by gRPC proto compiler (version 1.56.1)",
     comments = "Source: automation.proto")
+@io.grpc.stub.annotations.GrpcGenerated
 public final class AutomationServiceGrpc {
 
   private AutomationServiceGrpc() {}
@@ -46,19 +32,18 @@ public final class AutomationServiceGrpc {
           AutomationServiceGrpc.getToggleDeviceMethod = getToggleDeviceMethod =
               io.grpc.MethodDescriptor.<automation.Automation.ToggleDeviceRequest, automation.Automation.ToggleDeviceResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.AutomationService", "ToggleDevice"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ToggleDevice"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.ToggleDeviceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.ToggleDeviceResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("ToggleDevice"))
-                  .build();
-          }
+              .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("ToggleDevice"))
+              .build();
         }
-     }
-     return getToggleDeviceMethod;
+      }
+    }
+    return getToggleDeviceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Automation.SetScheduleRequest,
@@ -78,19 +63,18 @@ public final class AutomationServiceGrpc {
           AutomationServiceGrpc.getSetScheduleMethod = getSetScheduleMethod =
               io.grpc.MethodDescriptor.<automation.Automation.SetScheduleRequest, automation.Automation.SetScheduleResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.AutomationService", "SetSchedule"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SetSchedule"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.SetScheduleRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.SetScheduleResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("SetSchedule"))
-                  .build();
-          }
+              .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("SetSchedule"))
+              .build();
         }
-     }
-     return getSetScheduleMethod;
+      }
+    }
+    return getSetScheduleMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Automation.StreamDeviceStatusRequest,
@@ -110,19 +94,18 @@ public final class AutomationServiceGrpc {
           AutomationServiceGrpc.getStreamDeviceStatusMethod = getStreamDeviceStatusMethod =
               io.grpc.MethodDescriptor.<automation.Automation.StreamDeviceStatusRequest, automation.Automation.DeviceStatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.AutomationService", "StreamDeviceStatus"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "StreamDeviceStatus"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.StreamDeviceStatusRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.DeviceStatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("StreamDeviceStatus"))
-                  .build();
-          }
+              .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("StreamDeviceStatus"))
+              .build();
         }
-     }
-     return getStreamDeviceStatusMethod;
+      }
+    }
+    return getStreamDeviceStatusMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Automation.DeviceCommand,
@@ -142,19 +125,18 @@ public final class AutomationServiceGrpc {
           AutomationServiceGrpc.getSendDeviceCommandsMethod = getSendDeviceCommandsMethod =
               io.grpc.MethodDescriptor.<automation.Automation.DeviceCommand, automation.Automation.CommandSummaryResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.AutomationService", "SendDeviceCommands"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SendDeviceCommands"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.DeviceCommand.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.CommandSummaryResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("SendDeviceCommands"))
-                  .build();
-          }
+              .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("SendDeviceCommands"))
+              .build();
         }
-     }
-     return getSendDeviceCommandsMethod;
+      }
+    }
+    return getSendDeviceCommandsMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<automation.Automation.DeviceMessage,
@@ -174,26 +156,32 @@ public final class AutomationServiceGrpc {
           AutomationServiceGrpc.getCommunicateWithDeviceMethod = getCommunicateWithDeviceMethod =
               io.grpc.MethodDescriptor.<automation.Automation.DeviceMessage, automation.Automation.DeviceMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
-              .setFullMethodName(generateFullMethodName(
-                  "automation.AutomationService", "CommunicateWithDevice"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CommunicateWithDevice"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.DeviceMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   automation.Automation.DeviceMessage.getDefaultInstance()))
-                  .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("CommunicateWithDevice"))
-                  .build();
-          }
+              .setSchemaDescriptor(new AutomationServiceMethodDescriptorSupplier("CommunicateWithDevice"))
+              .build();
         }
-     }
-     return getCommunicateWithDeviceMethod;
+      }
+    }
+    return getCommunicateWithDeviceMethod;
   }
 
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static AutomationServiceStub newStub(io.grpc.Channel channel) {
-    return new AutomationServiceStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<AutomationServiceStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<AutomationServiceStub>() {
+        @java.lang.Override
+        public AutomationServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new AutomationServiceStub(channel, callOptions);
+        }
+      };
+    return AutomationServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -201,7 +189,14 @@ public final class AutomationServiceGrpc {
    */
   public static AutomationServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new AutomationServiceBlockingStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<AutomationServiceBlockingStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<AutomationServiceBlockingStub>() {
+        @java.lang.Override
+        public AutomationServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new AutomationServiceBlockingStub(channel, callOptions);
+        }
+      };
+    return AutomationServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
@@ -209,28 +204,35 @@ public final class AutomationServiceGrpc {
    */
   public static AutomationServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new AutomationServiceFutureStub(channel);
+    io.grpc.stub.AbstractStub.StubFactory<AutomationServiceFutureStub> factory =
+      new io.grpc.stub.AbstractStub.StubFactory<AutomationServiceFutureStub>() {
+        @java.lang.Override
+        public AutomationServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+          return new AutomationServiceFutureStub(channel, callOptions);
+        }
+      };
+    return AutomationServiceFutureStub.newStub(factory, channel);
   }
 
   /**
    */
-  public static abstract class AutomationServiceImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * Unary RPC
      * </pre>
      */
-    public void toggleDevice(automation.Automation.ToggleDeviceRequest request,
+    default void toggleDevice(automation.Automation.ToggleDeviceRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.ToggleDeviceResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getToggleDeviceMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getToggleDeviceMethod(), responseObserver);
     }
 
     /**
      */
-    public void setSchedule(automation.Automation.SetScheduleRequest request,
+    default void setSchedule(automation.Automation.SetScheduleRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.SetScheduleResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetScheduleMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSetScheduleMethod(), responseObserver);
     }
 
     /**
@@ -238,9 +240,9 @@ public final class AutomationServiceGrpc {
      * Server Streaming RPC:Server sends continuous updates on device status
      * </pre>
      */
-    public void streamDeviceStatus(automation.Automation.StreamDeviceStatusRequest request,
+    default void streamDeviceStatus(automation.Automation.StreamDeviceStatusRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.DeviceStatusResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getStreamDeviceStatusMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getStreamDeviceStatusMethod(), responseObserver);
     }
 
     /**
@@ -248,9 +250,9 @@ public final class AutomationServiceGrpc {
      * Client Streaming RPC:The client sends multiple activation/deactivation requests and receives a single response
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<automation.Automation.DeviceCommand> sendDeviceCommands(
+    default io.grpc.stub.StreamObserver<automation.Automation.DeviceCommand> sendDeviceCommands(
         io.grpc.stub.StreamObserver<automation.Automation.CommandSummaryResponse> responseObserver) {
-      return asyncUnimplementedStreamingCall(getSendDeviceCommandsMethod(), responseObserver);
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getSendDeviceCommandsMethod(), responseObserver);
     }
 
     /**
@@ -258,67 +260,36 @@ public final class AutomationServiceGrpc {
      * Bidirectional Streaming RPC:Continuous communication between client and server for automation control
      * </pre>
      */
-    public io.grpc.stub.StreamObserver<automation.Automation.DeviceMessage> communicateWithDevice(
+    default io.grpc.stub.StreamObserver<automation.Automation.DeviceMessage> communicateWithDevice(
         io.grpc.stub.StreamObserver<automation.Automation.DeviceMessage> responseObserver) {
-      return asyncUnimplementedStreamingCall(getCommunicateWithDeviceMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getToggleDeviceMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                automation.Automation.ToggleDeviceRequest,
-                automation.Automation.ToggleDeviceResponse>(
-                  this, METHODID_TOGGLE_DEVICE)))
-          .addMethod(
-            getSetScheduleMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                automation.Automation.SetScheduleRequest,
-                automation.Automation.SetScheduleResponse>(
-                  this, METHODID_SET_SCHEDULE)))
-          .addMethod(
-            getStreamDeviceStatusMethod(),
-            asyncServerStreamingCall(
-              new MethodHandlers<
-                automation.Automation.StreamDeviceStatusRequest,
-                automation.Automation.DeviceStatusResponse>(
-                  this, METHODID_STREAM_DEVICE_STATUS)))
-          .addMethod(
-            getSendDeviceCommandsMethod(),
-            asyncClientStreamingCall(
-              new MethodHandlers<
-                automation.Automation.DeviceCommand,
-                automation.Automation.CommandSummaryResponse>(
-                  this, METHODID_SEND_DEVICE_COMMANDS)))
-          .addMethod(
-            getCommunicateWithDeviceMethod(),
-            asyncBidiStreamingCall(
-              new MethodHandlers<
-                automation.Automation.DeviceMessage,
-                automation.Automation.DeviceMessage>(
-                  this, METHODID_COMMUNICATE_WITH_DEVICE)))
-          .build();
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getCommunicateWithDeviceMethod(), responseObserver);
     }
   }
 
   /**
+   * Base class for the server implementation of the service AutomationService.
    */
-  public static final class AutomationServiceStub extends io.grpc.stub.AbstractStub<AutomationServiceStub> {
-    private AutomationServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
+  public static abstract class AutomationServiceImplBase
+      implements io.grpc.BindableService, AsyncService {
 
-    private AutomationServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return AutomationServiceGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service AutomationService.
+   */
+  public static final class AutomationServiceStub
+      extends io.grpc.stub.AbstractAsyncStub<AutomationServiceStub> {
+    private AutomationServiceStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected AutomationServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected AutomationServiceStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new AutomationServiceStub(channel, callOptions);
     }
 
@@ -329,7 +300,7 @@ public final class AutomationServiceGrpc {
      */
     public void toggleDevice(automation.Automation.ToggleDeviceRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.ToggleDeviceResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getToggleDeviceMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -337,7 +308,7 @@ public final class AutomationServiceGrpc {
      */
     public void setSchedule(automation.Automation.SetScheduleRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.SetScheduleResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getSetScheduleMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -348,7 +319,7 @@ public final class AutomationServiceGrpc {
      */
     public void streamDeviceStatus(automation.Automation.StreamDeviceStatusRequest request,
         io.grpc.stub.StreamObserver<automation.Automation.DeviceStatusResponse> responseObserver) {
-      asyncServerStreamingCall(
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getStreamDeviceStatusMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -359,7 +330,7 @@ public final class AutomationServiceGrpc {
      */
     public io.grpc.stub.StreamObserver<automation.Automation.DeviceCommand> sendDeviceCommands(
         io.grpc.stub.StreamObserver<automation.Automation.CommandSummaryResponse> responseObserver) {
-      return asyncClientStreamingCall(
+      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
           getChannel().newCall(getSendDeviceCommandsMethod(), getCallOptions()), responseObserver);
     }
 
@@ -369,27 +340,25 @@ public final class AutomationServiceGrpc {
      * </pre>
      */
     public io.grpc.stub.StreamObserver<automation.Automation.DeviceMessage> communicateWithDevice(
-        StreamObserver<DeviceMessage> responseObserver) {
-      return asyncBidiStreamingCall(
+        io.grpc.stub.StreamObserver<automation.Automation.DeviceMessage> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
           getChannel().newCall(getCommunicateWithDeviceMethod(), getCallOptions()), responseObserver);
     }
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service AutomationService.
    */
-  public static final class AutomationServiceBlockingStub extends io.grpc.stub.AbstractStub<AutomationServiceBlockingStub> {
-    private AutomationServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private AutomationServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class AutomationServiceBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<AutomationServiceBlockingStub> {
+    private AutomationServiceBlockingStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected AutomationServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected AutomationServiceBlockingStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new AutomationServiceBlockingStub(channel, callOptions);
     }
 
@@ -399,14 +368,14 @@ public final class AutomationServiceGrpc {
      * </pre>
      */
     public automation.Automation.ToggleDeviceResponse toggleDevice(automation.Automation.ToggleDeviceRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getToggleDeviceMethod(), getCallOptions(), request);
     }
 
     /**
      */
     public automation.Automation.SetScheduleResponse setSchedule(automation.Automation.SetScheduleRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getSetScheduleMethod(), getCallOptions(), request);
     }
 
@@ -417,26 +386,24 @@ public final class AutomationServiceGrpc {
      */
     public java.util.Iterator<automation.Automation.DeviceStatusResponse> streamDeviceStatus(
         automation.Automation.StreamDeviceStatusRequest request) {
-      return blockingServerStreamingCall(
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
           getChannel(), getStreamDeviceStatusMethod(), getCallOptions(), request);
     }
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service AutomationService.
    */
-  public static final class AutomationServiceFutureStub extends io.grpc.stub.AbstractStub<AutomationServiceFutureStub> {
-    private AutomationServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private AutomationServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+  public static final class AutomationServiceFutureStub
+      extends io.grpc.stub.AbstractFutureStub<AutomationServiceFutureStub> {
+    private AutomationServiceFutureStub(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected AutomationServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
+    protected AutomationServiceFutureStub build(
+        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new AutomationServiceFutureStub(channel, callOptions);
     }
 
@@ -447,7 +414,7 @@ public final class AutomationServiceGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<automation.Automation.ToggleDeviceResponse> toggleDevice(
         automation.Automation.ToggleDeviceRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getToggleDeviceMethod(), getCallOptions()), request);
     }
 
@@ -455,7 +422,7 @@ public final class AutomationServiceGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<automation.Automation.SetScheduleResponse> setSchedule(
         automation.Automation.SetScheduleRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getSetScheduleMethod(), getCallOptions()), request);
     }
   }
@@ -471,10 +438,10 @@ public final class AutomationServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final AutomationServiceImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(AutomationServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -515,6 +482,46 @@ public final class AutomationServiceGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getToggleDeviceMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              automation.Automation.ToggleDeviceRequest,
+              automation.Automation.ToggleDeviceResponse>(
+                service, METHODID_TOGGLE_DEVICE)))
+        .addMethod(
+          getSetScheduleMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              automation.Automation.SetScheduleRequest,
+              automation.Automation.SetScheduleResponse>(
+                service, METHODID_SET_SCHEDULE)))
+        .addMethod(
+          getStreamDeviceStatusMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            new MethodHandlers<
+              automation.Automation.StreamDeviceStatusRequest,
+              automation.Automation.DeviceStatusResponse>(
+                service, METHODID_STREAM_DEVICE_STATUS)))
+        .addMethod(
+          getSendDeviceCommandsMethod(),
+          io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+            new MethodHandlers<
+              automation.Automation.DeviceCommand,
+              automation.Automation.CommandSummaryResponse>(
+                service, METHODID_SEND_DEVICE_COMMANDS)))
+        .addMethod(
+          getCommunicateWithDeviceMethod(),
+          io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+            new MethodHandlers<
+              automation.Automation.DeviceMessage,
+              automation.Automation.DeviceMessage>(
+                service, METHODID_COMMUNICATE_WITH_DEVICE)))
+        .build();
   }
 
   private static abstract class AutomationServiceBaseDescriptorSupplier

@@ -20,20 +20,24 @@ public final class Energy {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string suggestion = 2;</code>
+     * @return The suggestion.
      */
     java.lang.String getSuggestion();
     /**
      * <code>string suggestion = 2;</code>
+     * @return The bytes for suggestion.
      */
     com.google.protobuf.ByteString
         getSuggestionBytes();
@@ -56,6 +60,13 @@ public final class Energy {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OptimizeEnergyRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -68,7 +79,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -92,7 +102,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -127,6 +137,7 @@ public final class Energy {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -142,6 +153,7 @@ public final class Energy {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -161,6 +173,7 @@ public final class Energy {
     private volatile java.lang.Object suggestion_;
     /**
      * <code>string suggestion = 2;</code>
+     * @return The suggestion.
      */
     public java.lang.String getSuggestion() {
       java.lang.Object ref = suggestion_;
@@ -176,6 +189,7 @@ public final class Energy {
     }
     /**
      * <code>string suggestion = 2;</code>
+     * @return The bytes for suggestion.
      */
     public com.google.protobuf.ByteString
         getSuggestionBytes() {
@@ -241,13 +255,12 @@ public final class Energy {
       }
       automation.Energy.OptimizeEnergyRequest other = (automation.Energy.OptimizeEnergyRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getSuggestion()
-          .equals(other.getSuggestion());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getSuggestion()
+          .equals(other.getSuggestion())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -432,35 +445,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -514,6 +527,7 @@ public final class Energy {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -529,6 +543,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -545,6 +560,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -558,6 +575,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -567,6 +585,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -583,6 +603,7 @@ public final class Energy {
       private java.lang.Object suggestion_ = "";
       /**
        * <code>string suggestion = 2;</code>
+       * @return The suggestion.
        */
       public java.lang.String getSuggestion() {
         java.lang.Object ref = suggestion_;
@@ -598,6 +619,7 @@ public final class Energy {
       }
       /**
        * <code>string suggestion = 2;</code>
+       * @return The bytes for suggestion.
        */
       public com.google.protobuf.ByteString
           getSuggestionBytes() {
@@ -614,6 +636,8 @@ public final class Energy {
       }
       /**
        * <code>string suggestion = 2;</code>
+       * @param value The suggestion to set.
+       * @return This builder for chaining.
        */
       public Builder setSuggestion(
           java.lang.String value) {
@@ -627,6 +651,7 @@ public final class Energy {
       }
       /**
        * <code>string suggestion = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuggestion() {
         
@@ -636,6 +661,8 @@ public final class Energy {
       }
       /**
        * <code>string suggestion = 2;</code>
+       * @param value The bytes for suggestion to set.
+       * @return This builder for chaining.
        */
       public Builder setSuggestionBytes(
           com.google.protobuf.ByteString value) {
@@ -651,7 +678,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -707,15 +734,18 @@ public final class Energy {
 
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     boolean getSuccess();
 
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     java.lang.String getMessage();
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -733,8 +763,14 @@ public final class Energy {
       super(builder);
     }
     private OptimizeEnergyResponse() {
-      success_ = false;
       message_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OptimizeEnergyResponse();
     }
 
     @java.lang.Override
@@ -750,7 +786,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -773,7 +808,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -808,6 +843,7 @@ public final class Energy {
     private boolean success_;
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     public boolean getSuccess() {
       return success_;
@@ -817,6 +853,7 @@ public final class Energy {
     private volatile java.lang.Object message_;
     /**
      * <code>string message = 2;</code>
+     * @return The message.
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -832,6 +869,7 @@ public final class Energy {
     }
     /**
      * <code>string message = 2;</code>
+     * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -898,13 +936,12 @@ public final class Energy {
       }
       automation.Energy.OptimizeEnergyResponse other = (automation.Energy.OptimizeEnergyResponse) obj;
 
-      boolean result = true;
-      result = result && (getSuccess()
-          == other.getSuccess());
-      result = result && getMessage()
-          .equals(other.getMessage());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1090,35 +1127,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1171,12 +1208,15 @@ public final class Energy {
       private boolean success_ ;
       /**
        * <code>bool success = 1;</code>
+       * @return The success.
        */
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         
@@ -1186,6 +1226,7 @@ public final class Energy {
       }
       /**
        * <code>bool success = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         
@@ -1197,6 +1238,7 @@ public final class Energy {
       private java.lang.Object message_ = "";
       /**
        * <code>string message = 2;</code>
+       * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -1212,6 +1254,7 @@ public final class Energy {
       }
       /**
        * <code>string message = 2;</code>
+       * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -1228,6 +1271,8 @@ public final class Energy {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -1241,6 +1286,7 @@ public final class Energy {
       }
       /**
        * <code>string message = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMessage() {
         
@@ -1250,6 +1296,8 @@ public final class Energy {
       }
       /**
        * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -1265,7 +1313,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1321,10 +1369,12 @@ public final class Energy {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
@@ -1350,6 +1400,13 @@ public final class Energy {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StreamEnergyUsageRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1362,7 +1419,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1380,7 +1436,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -1415,6 +1471,7 @@ public final class Energy {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -1430,6 +1487,7 @@ public final class Energy {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -1489,11 +1547,10 @@ public final class Energy {
       }
       automation.Energy.StreamEnergyUsageRequest other = (automation.Energy.StreamEnergyUsageRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1677,35 +1734,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1755,6 +1812,7 @@ public final class Energy {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -1770,6 +1828,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -1786,6 +1845,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -1799,6 +1860,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -1808,6 +1870,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1823,7 +1887,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1879,15 +1943,18 @@ public final class Energy {
 
     /**
      * <code>double usage = 1;</code>
+     * @return The usage.
      */
     double getUsage();
 
     /**
      * <code>string timestamp = 2;</code>
+     * @return The timestamp.
      */
     java.lang.String getTimestamp();
     /**
      * <code>string timestamp = 2;</code>
+     * @return The bytes for timestamp.
      */
     com.google.protobuf.ByteString
         getTimestampBytes();
@@ -1905,8 +1972,14 @@ public final class Energy {
       super(builder);
     }
     private EnergyUsageResponse() {
-      usage_ = 0D;
       timestamp_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnergyUsageResponse();
     }
 
     @java.lang.Override
@@ -1922,7 +1995,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1945,7 +2017,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -1980,6 +2052,7 @@ public final class Energy {
     private double usage_;
     /**
      * <code>double usage = 1;</code>
+     * @return The usage.
      */
     public double getUsage() {
       return usage_;
@@ -1989,6 +2062,7 @@ public final class Energy {
     private volatile java.lang.Object timestamp_;
     /**
      * <code>string timestamp = 2;</code>
+     * @return The timestamp.
      */
     public java.lang.String getTimestamp() {
       java.lang.Object ref = timestamp_;
@@ -2004,6 +2078,7 @@ public final class Energy {
     }
     /**
      * <code>string timestamp = 2;</code>
+     * @return The bytes for timestamp.
      */
     public com.google.protobuf.ByteString
         getTimestampBytes() {
@@ -2070,15 +2145,13 @@ public final class Energy {
       }
       automation.Energy.EnergyUsageResponse other = (automation.Energy.EnergyUsageResponse) obj;
 
-      boolean result = true;
-      result = result && (
-          java.lang.Double.doubleToLongBits(getUsage())
-          == java.lang.Double.doubleToLongBits(
-              other.getUsage()));
-      result = result && getTimestamp()
-          .equals(other.getTimestamp());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (java.lang.Double.doubleToLongBits(getUsage())
+          != java.lang.Double.doubleToLongBits(
+              other.getUsage())) return false;
+      if (!getTimestamp()
+          .equals(other.getTimestamp())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2264,35 +2337,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2345,12 +2418,15 @@ public final class Energy {
       private double usage_ ;
       /**
        * <code>double usage = 1;</code>
+       * @return The usage.
        */
       public double getUsage() {
         return usage_;
       }
       /**
        * <code>double usage = 1;</code>
+       * @param value The usage to set.
+       * @return This builder for chaining.
        */
       public Builder setUsage(double value) {
         
@@ -2360,6 +2436,7 @@ public final class Energy {
       }
       /**
        * <code>double usage = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUsage() {
         
@@ -2371,6 +2448,7 @@ public final class Energy {
       private java.lang.Object timestamp_ = "";
       /**
        * <code>string timestamp = 2;</code>
+       * @return The timestamp.
        */
       public java.lang.String getTimestamp() {
         java.lang.Object ref = timestamp_;
@@ -2386,6 +2464,7 @@ public final class Energy {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @return The bytes for timestamp.
        */
       public com.google.protobuf.ByteString
           getTimestampBytes() {
@@ -2402,6 +2481,8 @@ public final class Energy {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @param value The timestamp to set.
+       * @return This builder for chaining.
        */
       public Builder setTimestamp(
           java.lang.String value) {
@@ -2415,6 +2496,7 @@ public final class Energy {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
         
@@ -2424,6 +2506,8 @@ public final class Energy {
       }
       /**
        * <code>string timestamp = 2;</code>
+       * @param value The bytes for timestamp to set.
+       * @return This builder for chaining.
        */
       public Builder setTimestampBytes(
           com.google.protobuf.ByteString value) {
@@ -2439,7 +2523,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2495,16 +2579,19 @@ public final class Energy {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>double energy_consumption = 2;</code>
+     * @return The energyConsumption.
      */
     double getEnergyConsumption();
   }
@@ -2526,7 +2613,13 @@ public final class Energy {
     }
     private EnergyData() {
       deviceId_ = "";
-      energyConsumption_ = 0D;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnergyData();
     }
 
     @java.lang.Override
@@ -2542,7 +2635,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2565,7 +2657,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2600,6 +2692,7 @@ public final class Energy {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -2615,6 +2708,7 @@ public final class Energy {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -2634,6 +2728,7 @@ public final class Energy {
     private double energyConsumption_;
     /**
      * <code>double energy_consumption = 2;</code>
+     * @return The energyConsumption.
      */
     public double getEnergyConsumption() {
       return energyConsumption_;
@@ -2690,15 +2785,13 @@ public final class Energy {
       }
       automation.Energy.EnergyData other = (automation.Energy.EnergyData) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && (
-          java.lang.Double.doubleToLongBits(getEnergyConsumption())
-          == java.lang.Double.doubleToLongBits(
-              other.getEnergyConsumption()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (java.lang.Double.doubleToLongBits(getEnergyConsumption())
+          != java.lang.Double.doubleToLongBits(
+              other.getEnergyConsumption())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2808,11 +2901,6 @@ public final class Energy {
       Builder builder = new Builder(parent);
       return builder;
     }
-
-    public double getConsumption() {
-        return 0;
-    }
-
     /**
      * <pre>
      * Client streaming
@@ -2893,35 +2981,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2974,6 +3062,7 @@ public final class Energy {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -2989,6 +3078,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -3005,6 +3095,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -3018,6 +3110,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -3027,6 +3120,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3043,12 +3138,15 @@ public final class Energy {
       private double energyConsumption_ ;
       /**
        * <code>double energy_consumption = 2;</code>
+       * @return The energyConsumption.
        */
       public double getEnergyConsumption() {
         return energyConsumption_;
       }
       /**
        * <code>double energy_consumption = 2;</code>
+       * @param value The energyConsumption to set.
+       * @return This builder for chaining.
        */
       public Builder setEnergyConsumption(double value) {
         
@@ -3058,6 +3156,7 @@ public final class Energy {
       }
       /**
        * <code>double energy_consumption = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnergyConsumption() {
         
@@ -3068,7 +3167,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3124,11 +3223,13 @@ public final class Energy {
 
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     boolean getSuccess();
 
     /**
      * <code>int32 data_points_received = 2;</code>
+     * @return The dataPointsReceived.
      */
     int getDataPointsReceived();
   }
@@ -3145,8 +3246,13 @@ public final class Energy {
       super(builder);
     }
     private EnergyDataSummaryResponse() {
-      success_ = false;
-      dataPointsReceived_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnergyDataSummaryResponse();
     }
 
     @java.lang.Override
@@ -3162,7 +3268,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3184,7 +3289,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3219,6 +3324,7 @@ public final class Energy {
     private boolean success_;
     /**
      * <code>bool success = 1;</code>
+     * @return The success.
      */
     public boolean getSuccess() {
       return success_;
@@ -3228,6 +3334,7 @@ public final class Energy {
     private int dataPointsReceived_;
     /**
      * <code>int32 data_points_received = 2;</code>
+     * @return The dataPointsReceived.
      */
     public int getDataPointsReceived() {
       return dataPointsReceived_;
@@ -3285,13 +3392,12 @@ public final class Energy {
       }
       automation.Energy.EnergyDataSummaryResponse other = (automation.Energy.EnergyDataSummaryResponse) obj;
 
-      boolean result = true;
-      result = result && (getSuccess()
-          == other.getSuccess());
-      result = result && (getDataPointsReceived()
-          == other.getDataPointsReceived());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (getDataPointsReceived()
+          != other.getDataPointsReceived()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3401,12 +3507,6 @@ public final class Energy {
       Builder builder = new Builder(parent);
       return builder;
     }
-
-    public Object getAverageConsumption() {
-        return null;
-    }
-
-
     /**
      * Protobuf type {@code automation.EnergyDataSummaryResponse}
      */
@@ -3483,35 +3583,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3563,12 +3663,15 @@ public final class Energy {
       private boolean success_ ;
       /**
        * <code>bool success = 1;</code>
+       * @return The success.
        */
       public boolean getSuccess() {
         return success_;
       }
       /**
        * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
        */
       public Builder setSuccess(boolean value) {
         
@@ -3578,6 +3681,7 @@ public final class Energy {
       }
       /**
        * <code>bool success = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuccess() {
         
@@ -3589,12 +3693,15 @@ public final class Energy {
       private int dataPointsReceived_ ;
       /**
        * <code>int32 data_points_received = 2;</code>
+       * @return The dataPointsReceived.
        */
       public int getDataPointsReceived() {
         return dataPointsReceived_;
       }
       /**
        * <code>int32 data_points_received = 2;</code>
+       * @param value The dataPointsReceived to set.
+       * @return This builder for chaining.
        */
       public Builder setDataPointsReceived(int value) {
         
@@ -3604,6 +3711,7 @@ public final class Energy {
       }
       /**
        * <code>int32 data_points_received = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDataPointsReceived() {
         
@@ -3614,17 +3722,13 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
-      }
-
-      public void setAverageConsumption(double average) {
-
       }
 
 
@@ -3674,20 +3778,24 @@ public final class Energy {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string action = 2;</code>
+     * @return The action.
      */
     java.lang.String getAction();
     /**
      * <code>string action = 2;</code>
+     * @return The bytes for action.
      */
     com.google.protobuf.ByteString
         getActionBytes();
@@ -3714,6 +3822,13 @@ public final class Energy {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnergyUpdateRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3726,7 +3841,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3750,7 +3864,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3785,6 +3899,7 @@ public final class Energy {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -3800,6 +3915,7 @@ public final class Energy {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -3819,6 +3935,7 @@ public final class Energy {
     private volatile java.lang.Object action_;
     /**
      * <code>string action = 2;</code>
+     * @return The action.
      */
     public java.lang.String getAction() {
       java.lang.Object ref = action_;
@@ -3834,6 +3951,7 @@ public final class Energy {
     }
     /**
      * <code>string action = 2;</code>
+     * @return The bytes for action.
      */
     public com.google.protobuf.ByteString
         getActionBytes() {
@@ -3899,13 +4017,12 @@ public final class Energy {
       }
       automation.Energy.EnergyUpdateRequest other = (automation.Energy.EnergyUpdateRequest) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getAction()
-          .equals(other.getAction());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getAction()
+          .equals(other.getAction())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4094,35 +4211,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4176,6 +4293,7 @@ public final class Energy {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -4191,6 +4309,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -4207,6 +4326,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -4220,6 +4341,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -4229,6 +4351,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4245,6 +4369,7 @@ public final class Energy {
       private java.lang.Object action_ = "";
       /**
        * <code>string action = 2;</code>
+       * @return The action.
        */
       public java.lang.String getAction() {
         java.lang.Object ref = action_;
@@ -4260,6 +4385,7 @@ public final class Energy {
       }
       /**
        * <code>string action = 2;</code>
+       * @return The bytes for action.
        */
       public com.google.protobuf.ByteString
           getActionBytes() {
@@ -4276,6 +4402,8 @@ public final class Energy {
       }
       /**
        * <code>string action = 2;</code>
+       * @param value The action to set.
+       * @return This builder for chaining.
        */
       public Builder setAction(
           java.lang.String value) {
@@ -4289,6 +4417,7 @@ public final class Energy {
       }
       /**
        * <code>string action = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAction() {
         
@@ -4298,6 +4427,8 @@ public final class Energy {
       }
       /**
        * <code>string action = 2;</code>
+       * @param value The bytes for action to set.
+       * @return This builder for chaining.
        */
       public Builder setActionBytes(
           com.google.protobuf.ByteString value) {
@@ -4313,7 +4444,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -4369,20 +4500,24 @@ public final class Energy {
 
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     java.lang.String getDeviceId();
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     com.google.protobuf.ByteString
         getDeviceIdBytes();
 
     /**
      * <code>string status = 2;</code>
+     * @return The status.
      */
     java.lang.String getStatus();
     /**
      * <code>string status = 2;</code>
+     * @return The bytes for status.
      */
     com.google.protobuf.ByteString
         getStatusBytes();
@@ -4405,6 +4540,13 @@ public final class Energy {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnergyUpdateResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4417,7 +4559,6 @@ public final class Energy {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4441,7 +4582,7 @@ public final class Energy {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -4476,6 +4617,7 @@ public final class Energy {
     private volatile java.lang.Object deviceId_;
     /**
      * <code>string device_id = 1;</code>
+     * @return The deviceId.
      */
     public java.lang.String getDeviceId() {
       java.lang.Object ref = deviceId_;
@@ -4491,6 +4633,7 @@ public final class Energy {
     }
     /**
      * <code>string device_id = 1;</code>
+     * @return The bytes for deviceId.
      */
     public com.google.protobuf.ByteString
         getDeviceIdBytes() {
@@ -4510,6 +4653,7 @@ public final class Energy {
     private volatile java.lang.Object status_;
     /**
      * <code>string status = 2;</code>
+     * @return The status.
      */
     public java.lang.String getStatus() {
       java.lang.Object ref = status_;
@@ -4525,6 +4669,7 @@ public final class Energy {
     }
     /**
      * <code>string status = 2;</code>
+     * @return The bytes for status.
      */
     public com.google.protobuf.ByteString
         getStatusBytes() {
@@ -4590,13 +4735,12 @@ public final class Energy {
       }
       automation.Energy.EnergyUpdateResponse other = (automation.Energy.EnergyUpdateResponse) obj;
 
-      boolean result = true;
-      result = result && getDeviceId()
-          .equals(other.getDeviceId());
-      result = result && getStatus()
-          .equals(other.getStatus());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeviceId()
+          .equals(other.getDeviceId())) return false;
+      if (!getStatus()
+          .equals(other.getStatus())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4781,35 +4925,35 @@ public final class Energy {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4863,6 +5007,7 @@ public final class Energy {
       private java.lang.Object deviceId_ = "";
       /**
        * <code>string device_id = 1;</code>
+       * @return The deviceId.
        */
       public java.lang.String getDeviceId() {
         java.lang.Object ref = deviceId_;
@@ -4878,6 +5023,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return The bytes for deviceId.
        */
       public com.google.protobuf.ByteString
           getDeviceIdBytes() {
@@ -4894,6 +5040,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceId(
           java.lang.String value) {
@@ -4907,6 +5055,7 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceId() {
         
@@ -4916,6 +5065,8 @@ public final class Energy {
       }
       /**
        * <code>string device_id = 1;</code>
+       * @param value The bytes for deviceId to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4932,6 +5083,7 @@ public final class Energy {
       private java.lang.Object status_ = "";
       /**
        * <code>string status = 2;</code>
+       * @return The status.
        */
       public java.lang.String getStatus() {
         java.lang.Object ref = status_;
@@ -4947,6 +5099,7 @@ public final class Energy {
       }
       /**
        * <code>string status = 2;</code>
+       * @return The bytes for status.
        */
       public com.google.protobuf.ByteString
           getStatusBytes() {
@@ -4963,6 +5116,8 @@ public final class Energy {
       }
       /**
        * <code>string status = 2;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(
           java.lang.String value) {
@@ -4976,6 +5131,7 @@ public final class Energy {
       }
       /**
        * <code>string status = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -4985,6 +5141,8 @@ public final class Energy {
       }
       /**
        * <code>string status = 2;</code>
+       * @param value The bytes for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusBytes(
           com.google.protobuf.ByteString value) {
@@ -5000,7 +5158,7 @@ public final class Energy {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5123,18 +5281,10 @@ public final class Energy {
       "st\032 .automation.EnergyUpdateResponse(\0010\001" +
       "b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_automation_OptimizeEnergyRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_automation_OptimizeEnergyRequest_fieldAccessorTable = new
@@ -5185,8 +5335,5 @@ public final class Energy {
         new java.lang.String[] { "DeviceId", "Status", });
   }
 
-    public static class EnergyDataSummary {
-    }
-
-    // @@protoc_insertion_point(outer_class_scope)
+  // @@protoc_insertion_point(outer_class_scope)
 }

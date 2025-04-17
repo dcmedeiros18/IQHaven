@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package IQHaven;
+
+service SecurityService {
+    rpc ToggleAlarm(ToggleAlarmRequest) returns (ToggleAlarmResponse);
+
+    // Data flow from the server: The server sends continuous updates on the alarm status
+    rpc MonitorAlarmStatus(AlarmStatusRequest) returns (stream AlarmStatusResponse);
+
+    // Bidirectional transmission: Continuous communication between client and server for security monitoring
+    rpc LiveSecurityFeed(stream SecurityEvent) returns (stream SecurityAlert);
+}
+
+message ToggleAlarmRequest {
+    bool activate = 1;
+}
+
+message ToggleAlarmResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+// Server flow
+message AlarmStatusRequest {}
+
+message AlarmStatusResponse {
+    string timestamp = 1;
+    string status = 2;
+}
+
+// Bidirectional flow
+message SecurityEvent {
+    string event_type = 1;
+    string details = 2;
+}
+
+message SecurityAlert {
+    string alert_level = 1;
+    string message = 2;
+}

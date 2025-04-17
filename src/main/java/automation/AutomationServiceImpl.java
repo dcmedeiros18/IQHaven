@@ -8,6 +8,7 @@ import io.grpc.stub.StreamObserver;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -85,7 +86,7 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
     @Override
     public void streamDeviceStatus(StreamDeviceStatusRequest request, StreamObserver<DeviceStatusResponse> responseObserver) {
         try {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 2; i++) {
                 // Verifica se o cliente cancelou a requisição
                 if (Context.current().isCancelled()) {
                     System.out.println("[CANCELLED] streamDeviceStatus was cancelled by client.");
@@ -248,4 +249,24 @@ public class AutomationServiceImpl extends AutomationServiceGrpc.AutomationServi
         System.out.println("[ACTION] " + type + " '" + deviceId + "' has been " + action);
         return true;
     }
+
+    /*public ToggleDeviceResponse toggleDevice(ToggleDeviceRequest roomLight) {
+        return null;
+    }
+
+    public SetScheduleResponse setSchedule(SetScheduleRequest roomLight) {
+        return null;
+    }
+
+    public Iterator<DeviceStatusResponse> streamDeviceStatus(StreamDeviceStatusRequest roomLight) {
+        return null;
+    }
+
+    public Energy.OptimizeEnergyResponse optimizeEnergy(Energy.OptimizeEnergyRequest build) {
+        return null;
+    }
+
+    public Security.ToggleAlarmResponse toggleAlarm(Security.ToggleAlarmRequest build) {
+        return null;
+    }*/
 }

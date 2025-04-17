@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package automation;
 
 
@@ -13,9 +8,7 @@ import com.google.protobuf.Timestamp;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import automation.Energy.EnergyUsageResponse;
-import automation.Energy.StreamEnergyUsageRequest;
-import automation.EnergyServiceGrpc;
+import automation.Energy.*;
 
 public class EnergyServiceImpl extends EnergyServiceGrpc.EnergyServiceImplBase {
 
@@ -62,6 +55,27 @@ public class EnergyServiceImpl extends EnergyServiceGrpc.EnergyServiceImplBase {
             // Handle any error that occurred during streaming
             logger.log(Level.SEVERE, "Error during energy usage streaming", e);
             responseObserver.onError(new StatusRuntimeException(Status.INTERNAL.withDescription("Error during streaming").withCause(e)));
+        }
+    }
+
+    @Override
+    public void optimizeEnergy(OptimizeEnergyRequest request, StreamObserver<OptimizeEnergyResponse> responseObserver) {
+        try {
+            logger.info("OptimizeEnergy called for device: " + request.getDeviceId());
+
+            // Simulate optimization logic
+            OptimizeEnergyResponse response = OptimizeEnergyResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Energy optimization completed successfully for device " + request.getDeviceId())
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            logger.info("Energy optimization completed successfully.");
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error during energy optimization", e);
+            responseObserver.onError(new StatusRuntimeException(Status.INTERNAL.withDescription("Error during optimization").withCause(e)));
         }
     }
 }

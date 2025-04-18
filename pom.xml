@@ -15,7 +15,7 @@
     </properties>
 
     <dependencies>
-        <!-- Dependências do Protocol Buffers -->
+        <!-- Protocol Buffers dependencies -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
@@ -27,7 +27,7 @@
             <version>${protobuf.version}</version>
         </dependency>
 
-        <!-- Dependências do gRPC -->
+        <!-- gRPC dependencies -->
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
@@ -44,7 +44,7 @@
             <version>${grpc.version}</version>
         </dependency>
 
-        <!-- Outras dependências -->
+        <!-- Other dependencies -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -65,8 +65,6 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.36</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>com.adobe.aem</groupId>
@@ -114,9 +112,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version> <!-- versão mais nova que lida melhor com JDK 21 -->
+                <version>3.11.0</version> <!-- newer version that handles JDK 21 better -->
                 <configuration>
-                    <release></release> <!-- Isso desativa o uso do release -->
+                    <release></release> <!-- This disables use of the release -->
                     <source>21</source>
                     <target>21</target>
                     <compilerArgs>
